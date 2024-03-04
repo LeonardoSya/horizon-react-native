@@ -21,5 +21,7 @@
     "isolatedModules": true,
     "noImplicitAny": false,
     "jsx": "react-native",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     },
 }
