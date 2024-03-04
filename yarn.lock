@@ -4465,7 +4465,7 @@ metro-transform-worker@0.80.6:
     metro-transform-plugins "0.80.6"
     nullthrows "^1.1.1"
 
-metro@0.80.6, metro@^0.80.3:
+metro@0.80.6, metro@^0.80.3, metro@^0.80.6:
   version "0.80.6"
   resolved "https://registry.npmmirror.com/metro/-/metro-0.80.6.tgz#11cf77700b8be767f6663c1d6f6ed287dd686535"
   integrity sha512-f6Nhnht9TxVRP6zdBq9J2jNdeDBxRmJFnjxhQS1GeCpokBvI6fTXq+wHTLz5jZA+75fwbkPSzBxBJzQa6xi0AQ==
