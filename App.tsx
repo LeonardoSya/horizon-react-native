@@ -6,8 +6,8 @@ import {
   createTheme,
   Button,
 } from '@rneui/themed';
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
-import HomeScreen from 'pages/home-screen';
+import HomeScreen from '@/pages/home-screen';
+import DetailsScreen from '@/pages/details-screen';
 import { theme as globalTheme } from '@/themes/global-themes';
 
 const Stack = createNativeStackNavigator();
@@ -16,8 +16,19 @@ const App = () => {
   return (
     <ThemeProvider theme={globalTheme}>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="home" component={HomeScreen} />
+        <Stack.Navigator initialRouteName='home'>
+          <Stack.Screen
+            name="home"
+            component={HomeScreen}
+            options={{ title: 'Home' }}
+          />
+          <Stack.Screen
+            name="details"
+            component={DetailsScreen}
+            //@ts-ignore
+            options={({ route }) => ({ title: route.params.username })}
+            initialParams={{ itemId: 0 }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>
