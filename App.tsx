@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   ThemeProvider,
   createTheme,
@@ -9,14 +10,19 @@ import {
 import HomeScreen from '@/pages/home-screen';
 import DetailsScreen from '@/pages/details-screen';
 import { theme as globalTheme } from '@/themes/global-themes';
+import { Home, MapContainer, User, Share, Record } from '@/pages/pages-router';
 
-const Stack = createNativeStackNavigator();
-
+const MapStack = createNativeStackNavigator();
+const RecordStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
+const ShareStack = createNativeStackNavigator();
+const UserStack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 const App = () => {
   return (
     <ThemeProvider theme={globalTheme}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='home'>
+        {/* <Stack.Navigator initialRouteName='home'>
           <Stack.Screen
             name="home"
             component={HomeScreen}
@@ -29,7 +35,59 @@ const App = () => {
             options={({ route }) => ({ title: route.params.username })}
             initialParams={{ itemId: 0 }}
           />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
+        <Tab.Navigator initialRouteName='home-container'>
+          <Tab.Screen name='map-container'>
+            {() => (
+              <MapStack.Navigator>
+                <MapStack.Screen
+                  name="map"
+                  component={MapContainer}
+                />
+              </MapStack.Navigator>
+            )}
+          </Tab.Screen>
+          <Tab.Screen name='record-container'>
+            {() => (
+              <RecordStack.Navigator>
+                <RecordStack.Screen
+                  name="record"
+                  component={Record}
+                />
+              </RecordStack.Navigator>
+            )}
+          </Tab.Screen>
+          <Tab.Screen name='home-container'>
+            {() => (
+              <HomeStack.Navigator>
+                <HomeStack.Screen
+                  name="home"
+                  component={Home}
+                />
+              </HomeStack.Navigator>
+            )}
+          </Tab.Screen>
+          <Tab.Screen name='share-container'>
+            {() => (
+              <ShareStack.Navigator>
+                <ShareStack.Screen
+                  name="share"
+                  component={Share}
+                />
+              </ShareStack.Navigator>
+            )}
+          </Tab.Screen>
+          <Tab.Screen name='user-container'>
+            {() => (
+              <UserStack.Navigator>
+                <UserStack.Screen
+                  name="user"
+                  component={User}
+                />
+              </UserStack.Navigator>
+            )}
+          </Tab.Screen>
+        </Tab.Navigator>
       </NavigationContainer>
     </ThemeProvider>
   );

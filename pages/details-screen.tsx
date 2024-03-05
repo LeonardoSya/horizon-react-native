@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { SafeAreaView } from "react-native";
+import { SafeAreaView,View } from "react-native";
 import { styles } from '@/assets/styles/global'
 import { Button, Text } from "@rneui/themed";
 
@@ -13,7 +13,7 @@ const DetailsScreen = ({ navigation, route }) => {
     }, [params?.post])
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Text>Hello, {username}</Text>
             <Text>{params?.post}</Text>
             <Text>{JSON.stringify(itemId)}</Text>
@@ -25,7 +25,7 @@ const DetailsScreen = ({ navigation, route }) => {
                 title='Go back'
                 onPress={() => navigation.goBack()}
             />
-        </SafeAreaView>
+        </View>
     );
 }
 
