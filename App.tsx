@@ -11,6 +11,9 @@ import HomeScreen from '@/pages/home-screen';
 import DetailsScreen from '@/pages/details-screen';
 import { theme as globalTheme } from '@/themes/global-themes';
 import { Home, MapContainer, User, Share, Record } from '@/pages/pages-router';
+import { Root } from './router/root';
+import { Screen1 } from './router/screen1';
+import { Screen2 } from './router/Screen2';
 
 const MapStack = createNativeStackNavigator();
 const RecordStack = createNativeStackNavigator();
@@ -18,10 +21,15 @@ const HomeStack = createNativeStackNavigator();
 const ShareStack = createNativeStackNavigator();
 const UserStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
 const App = () => {
   return (
     <ThemeProvider theme={globalTheme}>
-      <NavigationContainer>
+      <NavigationContainer> 
+          <Root.Navigator>
+            <Root.Screen name='Screen1' component={Screen1} />
+            <Root.Screen name='Screen2' component={Screen2} />
+          </Root.Navigator>
         {/* <Stack.Navigator initialRouteName='home'>
           <Stack.Screen
             name="home"
@@ -36,7 +44,7 @@ const App = () => {
             initialParams={{ itemId: 0 }}
           />
         </Stack.Navigator> */}
-        <Tab.Navigator initialRouteName='home-container'>
+        {/* <Tab.Navigator initialRouteName='home-container'>
           <Tab.Screen name='map-container'>
             {() => (
               <MapStack.Navigator>
@@ -87,7 +95,7 @@ const App = () => {
               </UserStack.Navigator>
             )}
           </Tab.Screen>
-        </Tab.Navigator>
+        </Tab.Navigator> */}
       </NavigationContainer>
     </ThemeProvider>
   );
