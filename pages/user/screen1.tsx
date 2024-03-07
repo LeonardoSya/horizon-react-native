@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { Text } from '@rneui/themed';
-import { RootParamList } from './root';
+import { RootParamList } from '../../router/root';
 import { Button } from '@rneui/themed'
 import { View } from 'react-native';
 
@@ -13,7 +13,7 @@ export const Screen1 = ({ navigation, route }: Screen1Props) => {
             <Button
                 onPress={() => { navigation.push('Screen2', { paramA: 'Hello, Screen2' }) }}
                 title="to Screen2"
-            ></Button>
+            />
         </View>
     );
 }

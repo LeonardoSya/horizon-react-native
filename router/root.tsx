@@ -3,7 +3,10 @@ import { createStackNavigator } from '@react-navigation/stack'
 export type RootParamList = {
     Screen1: undefined
     Screen2: { paramA: string }
-    Screen3: { ParamB: string; paramC: number }
+    User: undefined
+    MapContainer: undefined
+    Share: undefined
+    Home: undefined
 }
 
 export const Root = createStackNavigator<RootParamList>()

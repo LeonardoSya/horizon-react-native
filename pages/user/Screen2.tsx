@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { Text } from '@rneui/themed';
-import { RootParamList } from './root';
+import { RootParamList } from '../../router/root';
 
 type Screen2Props = StackScreenProps<RootParamList, 'Screen2'>;
 
