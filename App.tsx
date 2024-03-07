@@ -1,101 +1,58 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-  ThemeProvider,
-  createTheme,
-  Button,
-} from '@rneui/themed';
-import HomeScreen from '@/pages/home-screen';
-import DetailsScreen from '@/pages/details-screen';
+import { ThemeProvider } from '@rneui/themed';
 import { theme as globalTheme } from '@/themes/global-themes';
-import { Home, MapContainer, User, Share, Record } from '@/pages/pages-router';
+import { Home, MapContainer, User, Share, Screen1, Screen2 } from '@/pages/pages-router';
 import { Root } from './router/root';
-import { Screen1 } from './router/screen1';
-import { Screen2 } from './router/Screen2';
 
-const MapStack = createNativeStackNavigator();
-const RecordStack = createNativeStackNavigator();
-const HomeStack = createNativeStackNavigator();
-const ShareStack = createNativeStackNavigator();
-const UserStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const App = () => {
   return (
     <ThemeProvider theme={globalTheme}>
-      <NavigationContainer> 
-          <Root.Navigator>
-            <Root.Screen name='Screen1' component={Screen1} />
-            <Root.Screen name='Screen2' component={Screen2} />
-          </Root.Navigator>
-        {/* <Stack.Navigator initialRouteName='home'>
-          <Stack.Screen
-            name="home"
-            component={HomeScreen}
-            options={{ title: 'Home' }}
-          />
-          <Stack.Screen
-            name="details"
-            component={DetailsScreen}
-            //@ts-ignore
-            options={({ route }) => ({ title: route.params.username })}
-            initialParams={{ itemId: 0 }}
-          />
-        </Stack.Navigator> */}
-        {/* <Tab.Navigator initialRouteName='home-container'>
+      <NavigationContainer>
+        <Tab.Navigator initialRouteName='home-container'>
           <Tab.Screen name='map-container'>
             {() => (
-              <MapStack.Navigator>
-                <MapStack.Screen
-                  name="map"
+              <Root.Navigator>
+                <Root.Screen
+                  name="MapContainer"
                   component={MapContainer}
                 />
-              </MapStack.Navigator>
-            )}
-          </Tab.Screen>
-          <Tab.Screen name='record-container'>
-            {() => (
-              <RecordStack.Navigator>
-                <RecordStack.Screen
-                  name="record"
-                  component={Record}
-                />
-              </RecordStack.Navigator>
+              </Root.Navigator>
             )}
           </Tab.Screen>
           <Tab.Screen name='home-container'>
             {() => (
-              <HomeStack.Navigator>
-                <HomeStack.Screen
-                  name="home"
+              <Root.Navigator>
+                <Root.Screen
+                  name="Home"
                   component={Home}
                 />
-              </HomeStack.Navigator>
+              </Root.Navigator>
             )}
           </Tab.Screen>
           <Tab.Screen name='share-container'>
             {() => (
-              <ShareStack.Navigator>
-                <ShareStack.Screen
-                  name="share"
+              <Root.Navigator>
+                <Root.Screen
+                  name="Share"
                   component={Share}
                 />
-              </ShareStack.Navigator>
+              </Root.Navigator>
             )}
           </Tab.Screen>
           <Tab.Screen name='user-container'>
             {() => (
-              <UserStack.Navigator>
-                <UserStack.Screen
-                  name="user"
-                  component={User}
-                />
-              </UserStack.Navigator>
+              <Root.Navigator initialRouteName='User'>
+                <Root.Screen name='User' component={User} />
+                <Root.Screen name='Screen1' component={Screen1} />
+                <Root.Screen name='Screen2' component={Screen2} />
+              </Root.Navigator>
             )}
           </Tab.Screen>
-        </Tab.Navigator> */}
+        </Tab.Navigator>
       </NavigationContainer>
     </ThemeProvider>
   );

@@ -1,11 +1,16 @@
 import { useCallback } from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
 import { useFocusEffect } from '@react-navigation/native';
-import { Text, Avatar, Badge } from "@rneui/themed";
+import { RootParamList } from '../../router/root';
+import { Text, Avatar, Badge, Button } from "@rneui/themed";
 import { View, ScrollView } from 'react-native';
 import { styles } from '@/assets/styles/global';
+import { Screen1 } from './screen1';
 
-const User = () => {
-    //! 如果您想根据屏幕是否聚焦来渲染不同的内容，可以使用useIsFocused返回一个布尔值来指示屏幕是否聚焦的钩子。
+type UserProps = StackScreenProps<RootParamList, 'User'>;
+
+
+const User = ({ navigation, route }: UserProps) => {
 
     useFocusEffect(
         useCallback(() => {
@@ -36,8 +41,11 @@ const User = () => {
             <Text>
                 User
             </Text>
+            <Button
+                onPress={() => { navigation.push('Screen1',) }}
+                title='to Screen1'
+            />
         </View>
-
     );
 }
 
