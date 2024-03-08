@@ -18,7 +18,8 @@ const Map = () => {
                 region={region}
                 onRegionChangeComplete={onRegionChange}
                 style={styles.map}
-            />
+            >
+            </MapView>
         </View>
     );
 }
