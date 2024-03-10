@@ -1,3 +1,4 @@
+import { Marker } from 'react-native-maps';
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/app/store'
@@ -8,17 +9,43 @@ export interface Region {
     latitudeDelta: number
     longitudeDelta: number
 }
-export interface RegionState {
-    region: Region
+
+export interface Marker {
+    id: string
+    latitude: number
+    longitude: number
+    title?: string
+    description?: string
 }
 
-export const initialState: RegionState = {
+
+export interface MapState {
+    region: Region
+    markers: Marker[]
+}
+
+export interface MapEvent {
+    nativeEvent: {
+        coordinate: {
+            latitude: number;
+            longitude: number;
+        };
+        position: {
+            x: number;
+            y: number;
+        };
+    }
+}
+
+
+export const initialState: MapState = {
     region: {
         latitude: 37.78825,
         longitude: -122.4324,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
-    }
+    },
+    markers: [],
 }
 
 export const mapSlice = createSlice({
@@ -27,12 +54,22 @@ export const mapSlice = createSlice({
     reducers: {
         setRegion: (state, action: PayloadAction<Region>) => {
             state.region = action.payload
-        }
+        },
+        setMarkers: (state, action: PayloadAction<Marker[]>) => {
+            state.markers = action.payload
+        },
+        addMarker: (state, action: PayloadAction<Marker>) => {
+            state.markers.push(action.payload)
+        },
+        removeMarker: (state, action: PayloadAction<string>) => {
+            state.markers = state.markers.filter(marker => marker.id !== action.payload)  // 从markers[]中移除具有指定id的marker
+        },
     }
 })
 
-export const { setRegion } = mapSlice.actions
+export const { setRegion, setMarkers, addMarker, removeMarker } = mapSlice.actions
 
 export const selectRegion = (state: RootState) => state.map.region
+export const selectMarkers = (state: RootState) => state.map.markers
 
 export default mapSlice.reducer

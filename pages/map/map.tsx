@@ -1,24 +1,28 @@
 import { View, StyleSheet } from 'react-native'
 import React from 'react'
 import MapView, { Marker } from 'react-native-maps'
-import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
-import { Region, selectRegion, setRegion } from '@/features/map-slice'
+import useMap from '@/hooks/useMap'
 
 const Map = () => {
-    const dispatch = useAppDispatch()
-    const region = useAppSelector(selectRegion)
-
-    const onRegionChange = (newRegion: Region) => {
-        dispatch(setRegion(newRegion))
-    }
+    const { region, markers, onRegionChange, handleAddMarker, handleRemoveMarker } = useMap();
 
     return (
         <View style={styles.container}>
             <MapView
+                style={styles.map}
                 region={region}
                 onRegionChangeComplete={onRegionChange}
-                style={styles.map}
+                onLongPress={handleAddMarker}
             >
+                {markers.map((marker) => (
+                    <Marker
+                        key={marker.id}
+                        coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+                        title={marker.title}
+                        description={marker.description}
+                        onCalloutPress={() => handleRemoveMarker(marker.id)}
+                    />
+                ))}
             </MapView>
         </View>
     );
@@ -34,6 +38,5 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
     }
 })
-
 
 export default Map;
