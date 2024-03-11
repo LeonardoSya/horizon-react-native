@@ -40,8 +40,8 @@ export interface MapEvent {
 
 export const initialState: MapState = {
     region: {
-        latitude: 116.41667,
-        longitude: 39.91667,
+        latitude: 37.78825,
+        longitude: -122.4324,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     },
