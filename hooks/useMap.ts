@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { UserLocationChangeEvent } from 'react-native-maps'
-
 import {
     MapEvent,
     addMarker,
@@ -50,7 +49,7 @@ const useMap = () => {
             latitude: e.nativeEvent.coordinate!.latitude,
             longitude: e.nativeEvent.coordinate!.longitude,
         }
-        console.log(`"User's current location: ", ${newCoordinate.latitude}, ${newCoordinate.longitude}`)
+        console.log(`User's current location: [${newCoordinate.latitude}, ${newCoordinate.longitude}]`)
         dispatch(updateTrackCoordinates(newCoordinate))
     }
 

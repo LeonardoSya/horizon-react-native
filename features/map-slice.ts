@@ -1,14 +1,7 @@
-import { Marker } from 'react-native-maps';
+import { Marker,Region } from 'react-native-maps';
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/app/store'
-
-export interface Region {
-    latitude: number
-    longitude: number
-    latitudeDelta: number
-    longitudeDelta: number
-}
 
 export interface Coordinate {
     latitude: number;
