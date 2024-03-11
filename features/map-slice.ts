@@ -10,6 +10,11 @@ export interface Region {
     longitudeDelta: number
 }
 
+export interface Coordinate {
+    latitude: number;
+    longitude: number;
+}
+
 export interface Marker {
     id: string
     latitude: number
@@ -18,10 +23,11 @@ export interface Marker {
     description?: string
 }
 
-
 export interface MapState {
     region: Region
     markers: Marker[]
+    isTracking: boolean
+    trackCoordinates: Coordinate[]
 }
 
 export interface MapEvent {
@@ -40,21 +46,20 @@ export interface MapEvent {
 
 export const initialState: MapState = {
     region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: 40.0027,
+        longitude: 116.3539,
+        latitudeDelta: 0.00522,
+        longitudeDelta: 0.00221,
     },
     markers: [],
+    isTracking: false,
+    trackCoordinates: [],
 }
 
 export const mapSlice = createSlice({
     name: 'map',
     initialState,
     reducers: {
-        setRegion: (state, action: PayloadAction<Region>) => {
-            state.region = action.payload
-        },
         setMarkers: (state, action: PayloadAction<Marker[]>) => {
             state.markers = action.payload
         },
@@ -64,12 +69,31 @@ export const mapSlice = createSlice({
         removeMarker: (state, action: PayloadAction<string>) => {
             state.markers = state.markers.filter(marker => marker.id !== action.payload)  // 从markers[]中移除具有指定id的marker
         },
+
+        startTracking: (state) => {
+            state.isTracking = true
+        },
+        stopTracking: (state) => {
+            state.isTracking = false
+        },
+        updateTrackCoordinates: (state, action: PayloadAction<Coordinate>) => {
+            state.isTracking && state.trackCoordinates.push(action.payload)
+        }
     }
 })
 
-export const { setRegion, setMarkers, addMarker, removeMarker } = mapSlice.actions
+export const {
+    setMarkers,
+    addMarker,
+    removeMarker,
+    startTracking,
+    stopTracking,
+    updateTrackCoordinates,
+} = mapSlice.actions
 
 export const selectRegion = (state: RootState) => state.map.region
 export const selectMarkers = (state: RootState) => state.map.markers
+export const selectIsTracking = (state: RootState) => state.map.isTracking
+export const selectTrackCoordinates = (state: RootState) => state.map.trackCoordinates
 
 export default mapSlice.reducer

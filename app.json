@@ -14,6 +14,20 @@
 		"assetBundlePatterns": [
 			"**/*"
 		],
+		"plugins": [
+			[
+				"react-native-permissions",
+				{
+					"iosPermissions": [
+						"AppTrackingTransparency",
+						"Bluetooth",
+						"CalendarsWriteOnly",
+						"Notifications",
+						"SpeechRecognition"
+					]
+				}
+			]
+		],
 		"ios": {
 			"supportsTablet": true,
 			"infoPlist": {

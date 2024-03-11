@@ -1,23 +1,26 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
+import { UserLocationChangeEvent } from 'react-native-maps'
+
 import {
     MapEvent,
     addMarker,
     removeMarker,
-    setRegion,
+    startTracking,
+    stopTracking,
     selectRegion,
     selectMarkers,
-    Region,
+    selectIsTracking,
+    selectTrackCoordinates,
+    updateTrackCoordinates,
 } from '@/features/map-slice'
 
 const useMap = () => {
     const dispatch = useAppDispatch()
     const markers = useAppSelector(selectMarkers)
     const region = useAppSelector(selectRegion)
-
-    const onRegionChange = (newRegion: Region) => {
-        dispatch(setRegion(newRegion))
-    }
+    const isTracking = useAppSelector(selectIsTracking)
+    const trackCoordinates = useAppSelector(selectTrackCoordinates)
 
     const handleAddMarker = useCallback((e: MapEvent) => {
         const newMarker = {
@@ -34,12 +37,33 @@ const useMap = () => {
         dispatch(removeMarker(markerId))
     }
 
+    const handleStartTracking = () => {
+        dispatch(startTracking())
+    }
+
+    const handleStopTracking = () => {
+        dispatch(stopTracking())
+    }
+
+    const handleUpdateTrackCoordinates = (e: UserLocationChangeEvent) => {
+        const newCoordinate = {
+            latitude: e.nativeEvent.coordinate!.latitude,
+            longitude: e.nativeEvent.coordinate!.longitude,
+        }
+        console.log(`"User's current location: ", ${newCoordinate.latitude}, ${newCoordinate.longitude}`)
+        dispatch(updateTrackCoordinates(newCoordinate))
+    }
+
     return {
-        onRegionChange,
+        region,
+        markers,
+        isTracking,
+        trackCoordinates,
         handleAddMarker,
         handleRemoveMarker,
-        region,
-        markers
+        handleStartTracking,
+        handleStopTracking,
+        handleUpdateTrackCoordinates,
     }
 }
 

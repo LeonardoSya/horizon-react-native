@@ -1,28 +1,31 @@
 import { View, StyleSheet } from 'react-native'
 import React from 'react'
-import MapView, { Marker } from 'react-native-maps'
+import MapView, { Marker, Polyline } from 'react-native-maps'
 import useMap from '@/hooks/useMap'
+import { Button } from '@rneui/themed'
 
-
-const Map = () => {
-    const { region, markers, onRegionChange, handleAddMarker, handleRemoveMarker } = useMap()
+const Map: React.FC = () => {
+    const {
+        region,
+        markers,
+        handleAddMarker,
+        handleRemoveMarker,
+        isTracking,
+        trackCoordinates,
+        handleStartTracking,
+        handleStopTracking,
+        handleUpdateTrackCoordinates,
+    } = useMap()
 
     return (
         <View style={styles.container}>
             <MapView
                 style={styles.map}
-                initialRegion={region}
-                onRegionChange={onRegionChange}
+                region={region}
                 onLongPress={handleAddMarker}
+                onUserLocationChange={isTracking ? handleUpdateTrackCoordinates : undefined}
                 showsUserLocation={true}
-                showsMyLocationButton={true}
                 showsTraffic={true}
-                showsPointsOfInterest={true}
-                scrollEnabled={true}
-                pitchEnabled={true}
-                // followsUserLocation={true}
-                loadingEnabled={true}
-                mapType='standard'
             >
                 {markers.map((marker) => (
                     <Marker
@@ -33,10 +36,22 @@ const Map = () => {
                         onCalloutPress={() => handleRemoveMarker(marker.id)}
                     />
                 ))}
+                {isTracking && (
+                    <Polyline
+                        coordinates={trackCoordinates}
+                        strokeColor='#000'
+                        strokeWidth={4}
+                    />
+                )}
             </MapView>
+            <Button
+                title={isTracking ? 'Stop Tracking' : 'Start Tracking'}
+                onPress={isTracking ? handleStopTracking : handleStartTracking}
+            />
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
