@@ -5,7 +5,6 @@ import { RootParamList } from '../../router/root';
 import { Text, Avatar, Badge, Button } from "@rneui/themed";
 import { View, ScrollView } from 'react-native';
 import { styles } from '@/assets/styles/global';
-import { Screen1 } from './screen1';
 
 type UserProps = StackScreenProps<RootParamList, 'User'>;
 
