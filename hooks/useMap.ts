@@ -12,12 +12,12 @@ import {
 
 const useMap = () => {
     const dispatch = useAppDispatch()
-    const region = useAppSelector(selectRegion)
     const markers = useAppSelector(selectMarkers)
+    const region = useAppSelector(selectRegion)
 
-    const onRegionChange = useCallback((newRegion: Region) => {
+    const onRegionChange = (newRegion: Region) => {
         dispatch(setRegion(newRegion))
-    }, [dispatch])
+    }
 
     const handleAddMarker = useCallback((e: MapEvent) => {
         const newMarker = {

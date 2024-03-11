@@ -3,16 +3,26 @@ import React from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import useMap from '@/hooks/useMap'
 
+
 const Map = () => {
-    const { region, markers, onRegionChange, handleAddMarker, handleRemoveMarker } = useMap();
+    const { region, markers, onRegionChange, handleAddMarker, handleRemoveMarker } = useMap()
 
     return (
         <View style={styles.container}>
             <MapView
                 style={styles.map}
-                region={region}
-                onRegionChangeComplete={onRegionChange}
+                initialRegion={region}
+                onRegionChange={onRegionChange}
                 onLongPress={handleAddMarker}
+                showsUserLocation={true}
+                showsMyLocationButton={true}
+                showsTraffic={true}
+                showsPointsOfInterest={true}
+                scrollEnabled={true}
+                pitchEnabled={true}
+                // followsUserLocation={true}
+                loadingEnabled={true}
+                mapType='standard'
             >
                 {markers.map((marker) => (
                     <Marker
