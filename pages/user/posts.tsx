@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useTransition } from 'react'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { ActivityIndicator, FlatList, View } from 'react-native'
 import { Text } from '@rneui/themed'
@@ -9,12 +9,16 @@ import { styles } from '@/assets/styles/global'
 export default function PostContainer() {
     const dispatch = useAppDispatch()
     const { posts, loading, error } = useAppSelector((state) => state.posts)
+    const [isPending, startTransition] = useTransition()
+    const isLoading = isPending || loading
 
     useEffect(() => {
-        dispatch(fetchPosts())
+        startTransition(() => {
+            dispatch(fetchPosts())
+        })
     }, [dispatch])
 
-    return loading ? (
+    return isLoading ? (
         <View style={styles.container}>
             <ActivityIndicator animating={true} />
         </View>
