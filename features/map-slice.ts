@@ -1,11 +1,12 @@
-import { Marker,Region } from 'react-native-maps';
+import { Marker, Region } from 'react-native-maps'
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/app/store'
 
 export interface Coordinate {
-    latitude: number;
-    longitude: number;
+    latitude: number
+    longitude: number
+    timestamp: number
 }
 
 export interface Marker {
@@ -16,37 +17,45 @@ export interface Marker {
     description?: string
 }
 
-export interface MapState {
-    region: Region
-    markers: Marker[]
-    isTracking: boolean
-    trackCoordinates: Coordinate[]
-}
 
 export interface MapEvent {
     nativeEvent: {
         coordinate: {
-            latitude: number;
-            longitude: number;
-        };
+            latitude: number
+            longitude: number
+        }
         position: {
-            x: number;
-            y: number;
-        };
+            x: number
+            y: number
+        }
     }
 }
 
+export interface TrackItem {
+    id: string | number[]
+    data: number[][]
+}
+
+export interface MapState {
+    region: Region
+    markers?: Marker[]
+    isTracking: boolean
+    currentId?: string | null
+    trackCoordinates: Coordinate[]
+    trackData?: TrackItem[]
+}
 
 export const initialState: MapState = {
     region: {
         latitude: 40.0027,
-        longitude: 116.3539,
+        longitude: 116.3479,
         latitudeDelta: 0.00522,
         longitudeDelta: 0.00221,
     },
     markers: [],
     isTracking: false,
     trackCoordinates: [],
+    trackData: [],
 }
 
 export const mapSlice = createSlice({
@@ -57,21 +66,23 @@ export const mapSlice = createSlice({
             state.markers = action.payload
         },
         addMarker: (state, action: PayloadAction<Marker>) => {
-            state.markers.push(action.payload)
+            state.markers!.push(action.payload)
         },
         removeMarker: (state, action: PayloadAction<string>) => {
-            state.markers = state.markers.filter(marker => marker.id !== action.payload)  // 从markers[]中移除具有指定id的marker
+            state.markers = state.markers!.filter(marker => marker.id !== action.payload) 
         },
 
         startTracking: (state) => {
             state.isTracking = true
+            state.trackCoordinates = []
         },
-        stopTracking: (state) => {
+        stopTracking: (state,action: PayloadAction<TrackItem>) => {
             state.isTracking = false
+            state.trackData?.push(action.payload)
         },
         updateTrackCoordinates: (state, action: PayloadAction<Coordinate>) => {
             state.isTracking && state.trackCoordinates.push(action.payload)
-        }
+        },
     }
 })
 
@@ -88,5 +99,6 @@ export const selectRegion = (state: RootState) => state.map.region
 export const selectMarkers = (state: RootState) => state.map.markers
 export const selectIsTracking = (state: RootState) => state.map.isTracking
 export const selectTrackCoordinates = (state: RootState) => state.map.trackCoordinates
+export const selectTrackData = (state: RootState) => state.map.trackData
 
 export default mapSlice.reducer

@@ -27,7 +27,7 @@ const Map: React.FC = () => {
                 showsUserLocation={true}
                 showsTraffic={true}
             >
-                {markers.map((marker) => (
+                {markers!.map((marker) => (
                     <Marker
                         key={marker.id}
                         coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}

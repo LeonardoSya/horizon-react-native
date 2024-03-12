@@ -1,8 +1,10 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { UserLocationChangeEvent } from 'react-native-maps'
+import uuid from 'react-native-uuid'
 import {
     MapEvent,
+    TrackItem,
     addMarker,
     removeMarker,
     startTracking,
@@ -12,6 +14,7 @@ import {
     selectIsTracking,
     selectTrackCoordinates,
     updateTrackCoordinates,
+    selectTrackData,
 } from '@/features/map-slice'
 
 const useMap = () => {
@@ -20,6 +23,7 @@ const useMap = () => {
     const region = useAppSelector(selectRegion)
     const isTracking = useAppSelector(selectIsTracking)
     const trackCoordinates = useAppSelector(selectTrackCoordinates)
+    const trackData = useAppSelector(selectTrackData)
 
     const handleAddMarker = useCallback((e: MapEvent) => {
         const newMarker = {
@@ -37,19 +41,26 @@ const useMap = () => {
     }
 
     const handleStartTracking = () => {
+        console.log('Start!')
         dispatch(startTracking())
     }
 
     const handleStopTracking = () => {
-        dispatch(stopTracking())
+        const newTrackItem: TrackItem = {
+            id: uuid.v4(),
+            data: trackCoordinates.map(coord => [coord.latitude, coord.longitude, coord.timestamp]),
+        }
+        console.log('Stop!')
+        dispatch(stopTracking(newTrackItem))
+        console.log(trackData)
     }
 
     const handleUpdateTrackCoordinates = (e: UserLocationChangeEvent) => {
         const newCoordinate = {
             latitude: e.nativeEvent.coordinate!.latitude,
             longitude: e.nativeEvent.coordinate!.longitude,
+            timestamp: new Date().getTime(),
         }
-        console.log(`User's current location: [${newCoordinate.latitude}, ${newCoordinate.longitude}]`)
         dispatch(updateTrackCoordinates(newCoordinate))
     }
 
@@ -58,6 +69,7 @@ const useMap = () => {
         markers,
         isTracking,
         trackCoordinates,
+        trackData,
         handleAddMarker,
         handleRemoveMarker,
         handleStartTracking,
