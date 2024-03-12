@@ -3,48 +3,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/app/store'
 
-export interface Coordinate {
-    latitude: number
-    longitude: number
-    timestamp: number
-}
-
-export interface Marker {
-    id: string
-    latitude: number
-    longitude: number
-    title?: string
-    description?: string
-}
-
-
-export interface MapEvent {
-    nativeEvent: {
-        coordinate: {
-            latitude: number
-            longitude: number
-        }
-        position: {
-            x: number
-            y: number
-        }
-    }
-}
-
-export interface TrackItem {
-    id: string | number[]
-    data: number[][]
-}
-
-export interface MapState {
-    region: Region
-    markers?: Marker[]
-    isTracking: boolean
-    currentId?: string | null
-    trackCoordinates: Coordinate[]
-    trackData?: TrackItem[]
-}
-
 export const initialState: MapState = {
     region: {
         latitude: 40.0027,

@@ -3,8 +3,6 @@ import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { UserLocationChangeEvent } from 'react-native-maps'
 import uuid from 'react-native-uuid'
 import {
-    MapEvent,
-    TrackItem,
     addMarker,
     removeMarker,
     startTracking,
