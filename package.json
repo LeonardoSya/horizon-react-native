@@ -22,10 +22,12 @@
     "@rneui/base": "^4.0.0-rc.8",
     "@rneui/themed": "^4.0.0-rc.8",
     "@types/uuid": "^9.0.8",
+    "axios": "^1.6.7",
     "expo": "~50.0.8",
     "expo-file-system": "^16.0.8",
     "expo-font": "^11.10.3",
     "expo-status-bar": "~1.11.1",
+    "formik": "^2.4.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.73.4",
@@ -38,7 +40,8 @@
     "react-native-vector-icons": "^10.0.3",
     "react-native-web": "^0.19.10",
     "react-native-webview": "^13.8.1",
-    "react-redux": "^9.1.0"
+    "react-redux": "^9.1.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

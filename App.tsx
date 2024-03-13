@@ -51,8 +51,8 @@ const App = () => {
                 {() => (
                   <Root.Navigator initialRouteName='User'>
                     <Root.Screen name='User' component={User} />
-                    <Root.Screen name='Screen1' component={Screen1} />
-                    <Root.Screen name='Screen2' component={Screen2} />
+                    {/* <Root.Screen name='Screen1' component={Screen1} />
+                    <Root.Screen name='Screen2' component={Screen2} /> */}
                   </Root.Navigator>
                 )}
               </Tab.Screen>
