@@ -11,10 +11,11 @@ export const theme = createTheme({
 
         Button: {
             raised: true,
-            radius: 7,
+            radius: 15,
             buttonStyle: {
-                borderRadius: 7,
+                borderRadius: 15,
                 padding: 10,
+                paddingHorizontal: 20,
             },
             containerStyle: {
                 marginTop: 10,
