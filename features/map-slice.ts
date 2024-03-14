@@ -1,4 +1,3 @@
-import { Marker, Region } from 'react-native-maps'
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/app/store'

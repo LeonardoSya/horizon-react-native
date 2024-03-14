@@ -3,9 +3,10 @@ import { View, TextInput, ActivityIndicator, Alert } from 'react-native'
 import { Text, Button } from '@rneui/themed'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { registerUser } from '@/services/user-services'
 import { styles } from '@/assets/styles/global'
 import { userStyles } from '@/assets/styles/user-styles'
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
+import { UserData, register } from '@/features/user-slice'
 
 // 表单校验
 const RegisterSchema = Yup.object().shape({
@@ -15,22 +16,14 @@ const RegisterSchema = Yup.object().shape({
 })
 
 const RegisterComponent = () => {
-    const [loading, setLoading] = useState(false)
+    const dispatch = useAppDispatch()
+    const { isLoading, error } = useAppSelector((state) => state.user)
 
-    const handleRegistration = (values: any) => {
-        setLoading(true)
-        registerUser(values)
-            .then(() => {
-                Alert.alert("注册成功")
-                setLoading(false)
-            })
-            .catch((error) => {
-                Alert.alert("注册失败", error.message)
-                setLoading(false)
-            })
+    const handleRegistration = (values: UserData) => {
+        dispatch(register(values))
     }
 
-    if (loading) {
+    if (isLoading) {
         return <ActivityIndicator size="large" />
     }
 
@@ -73,7 +66,7 @@ const RegisterComponent = () => {
                     {touched.password && errors.password && <Text>{errors.password}</Text>}
 
                     <Button
-                        onPress={handleSubmit}
+                        onPress={() => handleSubmit()}
                         title="立即注册"
                     />
                 </View>
