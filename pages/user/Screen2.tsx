@@ -7,6 +7,7 @@ type Screen2Props = StackScreenProps<RootParamList, 'Screen2'>;
 
 export const Screen2 = ({ navigation, route }: Screen2Props) => {
     return (
-        <PostContainer />
+        // <PostContainer />
+        <Text>test</Text>
     );
 }

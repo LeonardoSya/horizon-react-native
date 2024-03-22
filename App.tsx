@@ -5,7 +5,7 @@ import { ThemeProvider } from '@rneui/themed';
 import { store } from '@/app/store'
 import { Provider } from 'react-redux'
 import { theme as globalTheme } from '@/themes/global-themes';
-import { Home, MapContainer, User, Share, Screen1, Screen2 } from '@/pages/pages-router';
+import { Home, MapContainer, User, Share, Login, Register, } from '@/pages/pages-router';
 import { Entypo, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { Root } from './router/root';
 
@@ -57,6 +57,7 @@ const App = () => {
                   </Root.Navigator>
                 )}
               </Tab.Screen>
+
               <Tab.Screen
                 name='home-container'
                 options={{
@@ -74,6 +75,7 @@ const App = () => {
                   </Root.Navigator>
                 )}
               </Tab.Screen>
+
               <Tab.Screen
                 name='user-container'
                 options={{
@@ -83,14 +85,20 @@ const App = () => {
                 }}
               >
                 {() => (
-                  <Root.Navigator initialRouteName='User'>
+                  <Root.Navigator initialRouteName='Register'>
                     <Root.Screen
                       name='User'
                       component={User}
                       options={{ headerShown: false }}
                     />
-                    {/* <Root.Screen name='Screen1' component={Screen1} />
-                    <Root.Screen name='Screen2' component={Screen2} /> */}
+                    <Root.Screen
+                      name='Register'
+                      component={Register}
+                    />
+                    <Root.Screen
+                      name='Login'
+                      component={Login}
+                    />
                   </Root.Navigator>
                 )}
               </Tab.Screen>

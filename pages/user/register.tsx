@@ -7,6 +7,8 @@ import { styles } from '@/assets/styles/global'
 import { userStyles } from '@/assets/styles/user-styles'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { UserData, register } from '@/features/user-slice'
+import { StackScreenProps } from '@react-navigation/stack'
+import { RootParamList } from '@/router/root'
 
 // 表单校验
 const RegisterSchema = Yup.object().shape({
@@ -15,7 +17,9 @@ const RegisterSchema = Yup.object().shape({
     password: Yup.string().min(6, '密码应长于6个字符').required('密码为必填'),
 })
 
-const RegisterComponent = () => {
+type RegisterProps = StackScreenProps<RootParamList, 'Register'>;
+
+const Register = ({ navigation }: RegisterProps) => {
     const dispatch = useAppDispatch()
     const { isLoading, error } = useAppSelector((state) => state.user)
 
@@ -69,11 +73,15 @@ const RegisterComponent = () => {
                         onPress={() => handleSubmit()}
                         title="立即注册"
                     />
+                    <Button
+                        onPress={() => { navigation.navigate('Login') }}
+                        title="已有账号 去登录"
+                    />
                 </View>
             )}
         </Formik>
     )
 }
 
-export default RegisterComponent
+export default Register
 
