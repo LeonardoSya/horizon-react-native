@@ -7,6 +7,8 @@ export type RootParamList = {
     MapContainer: undefined
     Share: undefined
     Home: undefined
+    Login: undefined
+    Register: undefined
 }
 
 export const Root = createStackNavigator<RootParamList>()

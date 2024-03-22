@@ -1,9 +1,8 @@
 import RegisterComponent from "./register"
 
-
-const User = () => {
+const User = ({ navigation }) => {
     return (
-        <RegisterComponent />
+        <RegisterComponent navigation={undefined} />
     )
 }
 
