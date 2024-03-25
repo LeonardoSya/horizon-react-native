@@ -1,5 +1,5 @@
 import { Button, Text } from "@rneui/themed";
-import { View } from 'react-native';
+import { View, Vibration, } from 'react-native';
 import { styles } from '@/assets/styles/global'
 const Home = () => {
     return (
@@ -9,6 +9,7 @@ const Home = () => {
             </Text>
             <Button
                 title="Home"
+                onPress={() => { Vibration.vibrate() }}
             />
         </View>
     );

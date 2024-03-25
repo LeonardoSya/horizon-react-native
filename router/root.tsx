@@ -5,7 +5,7 @@ export type RootParamList = {
     Screen2: { paramA: string }
     User: undefined
     MapContainer: undefined
-    Share: undefined
+    Community: undefined
     Home: undefined
     Login: undefined
     Register: undefined

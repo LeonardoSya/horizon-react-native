@@ -1,4 +1,5 @@
 import { createTheme } from '@rneui/themed';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 
 const spacing = {
     sm: 1,
@@ -37,12 +38,25 @@ export const theme = createTheme({
     },
 
     lightColors: {
-        primary: '#002c8c',
+        primary: '#135200',
     },
     darkColors: {
-        primary: '#fafafa',
+        primary: '#fff',
     },
     mode: 'light',
 });
+
+export const RNETheme = {
+    dark: false,
+    colors: {
+        ...DefaultTheme,
+        primary: '#237804',
+        background: 'rgb(248,244,235)',
+        text: '#237804',
+        card: '#fff',
+        border: '#f0f0f0',
+        notification: '#135200',
+    }
+}
 
 

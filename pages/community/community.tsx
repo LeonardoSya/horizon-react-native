@@ -1,6 +1,6 @@
 import { Text } from "@rneui/themed";
 
-const Share = () => {
+const Community = () => {
     return (
         <Text>
             Share
@@ -8,4 +8,4 @@ const Share = () => {
     );
 }
 
-export default Share;
+export default Community;

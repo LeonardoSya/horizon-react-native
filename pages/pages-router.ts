@@ -1,14 +1,14 @@
 import Home from '@/pages/home/home'
 import Map from '@/pages/map/map'
-import Share from '@/pages/share/share'
+import Community from '@/router/community-root'
 import User from '@/pages/user/user'
-import Login from '@/pages/user/login'
-import Register from '@/pages/user/registration'
+import Login from '@/pages/user/login/login'
+import Register from '@/pages/user/registration/registration'
 
 export {
     Home,
     Map as MapContainer,
-    Share,
+    Community,
     User,
     Register,
     Login,

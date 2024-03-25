@@ -1,24 +1,27 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { useColorScheme } from 'react-native';
+import { DarkTheme, NavigationContainer, } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ThemeProvider } from '@rneui/themed';
 import { store } from '@/app/store'
 import { Provider } from 'react-redux'
-import { theme as globalTheme } from '@/themes/global-themes';
-import { Home, MapContainer, User, Share, Login, Register, } from '@/pages/pages-router';
+import { RNETheme, theme as globalTheme } from '@/themes/global-themes';
+import { Home, MapContainer, User, Community, Login, Register, } from '@/pages/pages-router';
 import { Entypo, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { Root } from './router/root';
 
 const Tab = createBottomTabNavigator();
 
 const App = () => {
+  const scheme = useColorScheme();
+
   return (
     <React.StrictMode>
       <Provider store={store}>
         <ThemeProvider theme={globalTheme}>
-          <NavigationContainer>
+          <NavigationContainer theme={scheme === 'dark' ? DarkTheme : RNETheme as any}>
             <Tab.Navigator
-              initialRouteName='home-container'
+              initialRouteName='map-container'
               screenOptions={{ headerShown: false, tabBarShowLabel: false }}
             >
               <Tab.Screen
@@ -32,8 +35,8 @@ const App = () => {
                 {() => (
                   <Root.Navigator>
                     <Root.Screen
-                      name="Share"
-                      component={Share}
+                      name="Community"
+                      component={Community}
                     />
                   </Root.Navigator>
                 )}
@@ -107,20 +110,7 @@ const App = () => {
         </ThemeProvider>
       </Provider>
     </React.StrictMode>
-
   );
 }
-
-<style type="text/css">{`
-  @font-face {
-    font-family: 'MaterialIcons';
-    src: url(${require('react-native-vector-icons/Fonts/MaterialIcons.ttf')}) format('truetype');
-  }
-
-  @font-face {
-    font-family: 'FontAwesome';
-    src: url(${require('react-native-vector-icons/Fonts/FontAwesome.ttf')}) format('truetype');
-  }
-`}</style>
 
 export default App;
