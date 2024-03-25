@@ -85,7 +85,7 @@ const App = () => {
                 }}
               >
                 {() => (
-                  <Root.Navigator initialRouteName='Register'>
+                  <Root.Navigator initialRouteName='Login'>
                     <Root.Screen
                       name='User'
                       component={User}

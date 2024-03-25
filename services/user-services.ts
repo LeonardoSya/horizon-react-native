@@ -1,50 +1,11 @@
 import axios, { AxiosError } from 'axios'
 
-const API_BASE_URL = 'http://127.0.0.1:8081'
-
-// // 创建axios实例
-// const apiClient = axios.create({
-//     baseURL: API_BASE_URL,
-//     headers: {
-//         'Content-Type': 'application/json',
-//         'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
-//     }
-// })
-
-// // 定义请求的数据类型
-// interface UserCredentials {
-//     email?: string
-//     username: string
-//     password: string
-// }
-
-// // 注册用户的服务函数
-// export const registerUser = async (userData: UserCredentials) => {
-//     try {
-//         const response = await apiClient.post('/user/register', userData)
-//         return response.data
-//     } catch (error) {
-//         axios.isAxiosError(error) ? console.error('注册失败: ', error.response?.data) : console.error('意外错误: ', error)
-//         return null
-//     }
-// };
-
-// export const loginUser = async (UserData: UserCredentials) => {
-//     try {
-//         const response = await apiClient.post('/user/login', UserData)
-//         console.log(response.data)
-//         return response.data
-//     } catch (error) {
-//         axios.isAxiosError(error) ? console.error('登录失败: ', error.response?.data) : console.error('意外错误: ', error)
-//         return null
-//     }
-// }
-
+const API_BASE_URL = 'https://app.apifox.com/link/project/4025612/apis/api-151739110'
 
 export const registerUser = async (userData: any) => {
-    var data = JSON.stringify(userData);
+    const data = JSON.stringify(userData);
 
-    var config = {
+    const config = {
         method: 'post',
         url: `${API_BASE_URL}/user/register`,
         headers: {
@@ -61,14 +22,12 @@ export const registerUser = async (userData: any) => {
     }
 };
 
-
-
 export const loginUser = async (userData: any) => {
     const data = JSON.stringify(userData);
 
     const config = {
         method: 'post',
-        url: 'https://app.apifox.com/link/project/4025612/apis/api-151739111/user/login',
+        url: `${API_BASE_URL}/user/login`,
         headers: {
             'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
             'Content-Type': 'application/json'

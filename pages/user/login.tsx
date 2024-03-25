@@ -2,10 +2,11 @@ import { ActivityIndicator, View, TextInput, } from 'react-native'
 import { Text, Button } from '@rneui/themed'
 import * as Yup from 'yup'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
-import { UserData, login } from '@/features/user-slice'
+import { UserData, loginFail, loginStart, loginSuccess } from '@/features/user-slice'
 import { Formik } from 'formik'
 import { styles } from '@/assets/styles/global'
 import { userStyles } from '@/assets/styles/user-styles'
+import { loginUser } from '@/services/user-services'
 
 // 表单校验
 const LoginSchema = Yup.object().shape({
@@ -17,8 +18,16 @@ const Login = ({ navigation }) => {
     const dispatch = useAppDispatch()
     const { isLoading, error } = useAppSelector((state) => state.user)
 
-    const handleLogin = (values: UserData) => {
-        dispatch(login(values))
+    const handleLogin = async (values: UserData) => {
+        dispatch(loginStart())
+        try {
+        const userData = await loginUser(values)
+            dispatch(loginSuccess(userData))
+            // ? change here
+            navigation.navigate('Home')
+        } catch (error: any) {
+            dispatch(loginFail(error.response.data))
+        }
     }
 
     if (isLoading) {

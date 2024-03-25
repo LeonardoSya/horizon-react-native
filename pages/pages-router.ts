@@ -3,7 +3,7 @@ import Map from '@/pages/map/map'
 import Share from '@/pages/share/share'
 import User from '@/pages/user/user'
 import Login from '@/pages/user/login'
-import Register from '@/pages/user/register'
+import Register from '@/pages/user/registration'
 
 export {
     Home,

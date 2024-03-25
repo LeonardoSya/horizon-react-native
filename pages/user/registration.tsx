@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { View, TextInput, ActivityIndicator, Alert } from 'react-native'
+import React from 'react'
+import { View, TextInput, ActivityIndicator} from 'react-native'
 import { Text, Button } from '@rneui/themed'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { styles } from '@/assets/styles/global'
 import { userStyles } from '@/assets/styles/user-styles'
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
-import { UserData, register } from '@/features/user-slice'
+import { UserData, registerFail, registerStart, registerSuccess } from '@/features/user-slice'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootParamList } from '@/router/root'
+import { registerUser } from '@/services/user-services'
 
 // 表单校验
 const RegisterSchema = Yup.object().shape({
@@ -23,8 +24,15 @@ const Register = ({ navigation }: RegisterProps) => {
     const dispatch = useAppDispatch()
     const { isLoading, error } = useAppSelector((state) => state.user)
 
-    const handleRegistration = (values: UserData) => {
-        dispatch(register(values))
+    const handleRegistration = async(values:UserData) => {
+        dispatch(registerStart())
+        try {
+            const response = await registerUser(values)
+            dispatch(registerSuccess(response.data))
+            navigation.navigate('Login')
+        } catch (error: any) {
+            dispatch(registerFail(error.response.data))
+        }
     }
 
     if (isLoading) {
