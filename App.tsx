@@ -7,7 +7,7 @@ import { store } from '@/app/store'
 import { Provider } from 'react-redux'
 import { RNETheme, theme as globalTheme } from '@/themes/global-themes';
 import { Home, MapContainer, User, Community, Login, Register, } from '@/pages/pages-router';
-import { Entypo, Ionicons, FontAwesome5 } from '@expo/vector-icons'
+import { Entypo, Ionicons, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Root } from './router/root';
 
 const Tab = createBottomTabNavigator();
@@ -21,14 +21,14 @@ const App = () => {
         <ThemeProvider theme={globalTheme}>
           <NavigationContainer theme={scheme === 'dark' ? DarkTheme : RNETheme as any}>
             <Tab.Navigator
-              initialRouteName='map-container'
+              initialRouteName='community-container'
               screenOptions={{ headerShown: false, tabBarShowLabel: false }}
             >
               <Tab.Screen
-                name='share-container'
+                name='community-container'
                 options={{
                   tabBarIcon: ({ color }) => (
-                    <Entypo name="paper-plane" size={24} color={color} />
+                    <MaterialCommunityIcons name="nature-people" size={28} color={color} />
                   )
                 }}
               >

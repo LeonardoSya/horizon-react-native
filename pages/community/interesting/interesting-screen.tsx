@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView, FlatList, } from 'react-native'
 import { Text, SearchBar } from '@rneui/themed'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import CardComponent from '@/components/card';
 
 const InterestingScreen: React.FC = () => {
     const [searchValue, setSearchValue] = useState('')
@@ -19,7 +20,7 @@ const InterestingScreen: React.FC = () => {
                     borderColor: "transparent",
                     borderWidth: 0,
                     padding: 10,
-                    margin:5,
+                    margin: 5,
                     borderStyle: "dashed",
                 }}
                 searchIcon={<MaterialCommunityIcons
@@ -37,8 +38,44 @@ const InterestingScreen: React.FC = () => {
                     paddingLeft: 5,
                 }}
             />
+            <FlatList
+                data={cardData}
+                renderItem={({ item }) => (
+                    <CardComponent item={item} />
+                )}
+                keyExtractor={item => item.id}
+                contentContainerStyle={{ flexGrow: 1, }}
+            />
         </SafeAreaView>
     )
 }
+
+const cardData = [
+    // 示例数据，你需要替换为实际的数据
+    {
+        id: '1',
+        avatarUri: 'https://randomuser.me/api/portraits/men/36.jpg',
+        name: 'Leonard Zhang',
+        date: 'Mar 25',
+        imageUri: 'https://picsum.photos/300',
+        activity: 'Afternoon hike at Old Summer Palace Lake Loop',
+        location: 'Old Summer Palace Lake Loop · Beijing',
+        length: '6.68 km',
+        time: '1h 38min',
+        comment: 'A big park. Some roads look like you can get through but actually you cannot. Better just follow the route!',
+    },
+    {
+        id: '2',
+        avatarUri: 'https://randomuser.me/api/portraits/men/36.jpg',
+        name: 'Leonard Zhang',
+        date: 'Mar 25',
+        imageUri: 'https://picsum.photos/300',
+        activity: 'Afternoon hike at Old Summer Palace Lake Loop',
+        location: 'Old Summer Palace Lake Loop · Beijing',
+        length: '6.68 km',
+        time: '1h 38min',
+        comment: 'A big park. Some roads look like you can get through but actually you cannot. Better just follow the route.',
+    },
+];
 
 export default InterestingScreen
