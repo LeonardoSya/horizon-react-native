@@ -2,3 +2,15 @@
 build
 coverage
 node_modules
+.gitignore
+.husky
+babel.config.js
+package-lock.json
+.prettierrc
+.prettierignore
+app.json
+assets
+.vscode
+.expo
+package.json
+tsconfig.json
