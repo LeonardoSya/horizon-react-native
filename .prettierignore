@@ -9,8 +9,9 @@ package-lock.json
 .prettierrc
 .prettierignore
 app.json
-assets
 .vscode
 .expo
 package.json
 tsconfig.json
+yarn.lock
+assets

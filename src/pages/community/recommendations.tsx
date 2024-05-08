@@ -2,7 +2,6 @@ import { View, FlatList, SafeAreaView, StyleSheet } from 'react-native'
 import { Avatar, Card, Text, Divider } from '@rneui/themed'
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 import { MySearchBar as SearchBar } from '@/components/search-bar'
-import { useState } from 'react'
 
 const Recommendations = () => {
   return (
@@ -136,6 +135,8 @@ const cardStyles = StyleSheet.create({
     marginHorizontal: 10,
   },
 })
+
+export default Recommendations
 
 const cardData = [
   // sample data
