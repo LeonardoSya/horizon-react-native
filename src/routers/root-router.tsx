@@ -23,12 +23,7 @@ const HomeStackScreen = () => {
 
 const UserStackScreen = () => {
   return (
-    <UserStack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: '#1f3037' },
-        headerTitleStyle: { color: '#fff' },
-      }}
-    >
+    <UserStack.Navigator>
       <UserStack.Screen name='分享社区' component={Community} />
       {/* <UserStack.Screen name='Register' component={Register} /> */}
       {/* <UserStack.Screen name='Register' component={Login} /> */}
@@ -42,9 +37,6 @@ const RootRouter = () => {
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
-          tabBarStyle: {
-            backgroundColor: '#1f3037',
-          },
           tabBarActiveTintColor: '#fff',
           tabBarInactiveTintColor: '#4c827d',
         }}
