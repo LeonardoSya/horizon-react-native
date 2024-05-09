@@ -1,7 +1,12 @@
 import axios from 'axios'
-import { UserData } from '@/features/user-slice'
 
-export const registerUser = async (userData: UserData): Promise<{ status: number }> => {
+export interface RegisterUserData {
+  username: string
+  password: string
+  email: string
+}
+
+export const registerUser = async (userData: RegisterUserData): Promise<{ status: number }> => {
   const data = JSON.stringify(userData)
 
   const config = {
@@ -30,7 +35,7 @@ export const registerUser = async (userData: UserData): Promise<{ status: number
         status: error.response?.status || 500,
       }
     } else {
-      console.log('An unexpected error occurred: ', error)
+      console.error('An unexpected error occurred: ', error)
       return {
         status: 500,
       }

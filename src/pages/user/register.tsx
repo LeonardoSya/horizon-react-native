@@ -1,24 +1,24 @@
 import React from 'react'
 import { Pressable, StyleSheet } from 'react-native'
 import { View, TextInput, ActivityIndicator } from 'react-native'
-import { Text, Button } from '@rneui/themed'
+import { Text } from '@rneui/themed'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hooks'
-import { UserData, registerFail, registerStart, registerSuccess } from '@/features/user-slice'
-import { registerUser } from '@/api/register-service'
+import { registerStart, registerSuccess, registerFail } from '@/features/user-slice'
+import { registerUser, RegisterUserData } from '@/api/register-service'
 
 const schema = Yup.object().shape({
-  // username: Yup.string().required('账号不能为空'),
-  // email: Yup.string().email('邮箱格式不合法').required('邮箱不能为空'),
-  // password: Yup.string().min(6, '密码应长于6个字符').required('密码不能为空'),
+  username: Yup.string().required('账号不能为空'),
+  email: Yup.string().email('邮箱格式不合法').required('邮箱不能为空'),
+  password: Yup.string().min(6, '密码应长于6个字符').required('密码不能为空'),
 })
 
 const Register = ({ navigation }) => {
   const dispatch = useAppDispatch()
   const { isLoading, error } = useAppSelector(state => state.user)
 
-  const handleRegister = async (values: UserData) => {
+  const handleRegister = async (values: RegisterUserData) => {
     dispatch(registerStart())
     try {
       const response = await registerUser(values)

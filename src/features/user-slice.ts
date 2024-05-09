@@ -29,25 +29,25 @@ const userSlice = createSlice({
     registerSuccess: (state, action: PayloadAction<UserData>) => {
       state.isLoading = false
       state.user = action.payload
-      alert('注册成功')
+      console.log('注册成功')
     },
     registerFail: (state, action: PayloadAction<string>) => {
       state.isLoading = false
       state.error = action.payload
       alert('注册失败')
     },
-
     loginStart: state => {
       state.isLoading = true
     },
     loginSuccess: (state, action: PayloadAction<UserData>) => {
       state.isLoading = false
       state.user = action.payload
-      // state.error = null
+      console.log('登录成功')
     },
     loginFail: (state, action: PayloadAction<string>) => {
       state.isLoading = false
       state.error = action.payload
+      alert('登录失败')
     },
   },
 })
