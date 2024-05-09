@@ -3,11 +3,10 @@ import { Avatar, Card, Text, Divider } from '@rneui/themed'
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 import { MySearchBar as SearchBar } from '@/components/search-bar'
 
-const Recommendations = () => {
+const Trends = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <FlatList
-        style={{ padding: 8 }}
         data={cardData}
         renderItem={({ item }) => <CardComponent item={item} />}
         keyExtractor={item => item.id}
@@ -16,11 +15,14 @@ const Recommendations = () => {
             <Text h2 style={{ flex: 0, left: 10, top: 20, color: '#8c8c8c' }}>
               Latest
             </Text>
-            <Text h2 style={{ flex: 0, left: 10, marginTop: 20, color: '#fff' }}>
+            <Text h2 style={{ flex: 0, left: 10, marginTop: 20 }}>
               nearby
             </Text>
             <SearchBar placeholder={'探索·发现·分享'} />
           </View>
+        )}
+        ItemSeparatorComponent={() => (
+          <Divider style={{ height: 10, width: '80%', left: '10%', alignItems: 'center' }} />
         )}
         contentContainerStyle={{ flexGrow: 1 }}
         ListFooterComponent={() => (
@@ -48,25 +50,23 @@ const CardComponent = ({ item }) => {
         </Text>
       </View>
       <Card.Image source={{ uri: item.imageUri }} />
-      <View style={{ paddingHorizontal: 5 }}>
-        <Text style={cardStyles.text_lev1}>{item.title}</Text>
-        <Text>{item.location}</Text>
-        <View style={cardStyles.explorationInfo}>
-          <Text style={cardStyles.text_lev3}>探索距离</Text>
-          <Text>{item.length}</Text>
-          <Text style={cardStyles.text_lev3}>运动时长</Text>
-          <Text>{item.time}</Text>
-        </View>
-        <Text>{item.content}</Text>
+      <Text style={cardStyles.text_lev1}>{item.title}</Text>
+      <Text>{item.location}</Text>
+      <View style={cardStyles.explorationInfo}>
+        <Text style={cardStyles.text_lev3}>Length</Text>
+        <Text>{item.length}</Text>
+        <Text style={cardStyles.text_lev3}>Time</Text>
+        <Text>{item.time}</Text>
       </View>
+      <Text>{item.content}</Text>
       <View style={cardStyles.likeAndComment}>
         <View style={cardStyles.cardIcon}>
           <MaterialCommunityIcons name='cards-heart-outline' size={24} color='#237804' />
-          <Text style={cardStyles.cardIconNumber}>{item.likes}</Text>
+          <Text>{item.likes}</Text>
         </View>
         <View style={cardStyles.cardIcon}>
-          <MaterialCommunityIcons name='comment-text-outline' size={24} color='#237804' />
-          <Text style={cardStyles.cardIconNumber}>{item.comments}</Text>
+          <FontAwesome5 name='comment' size={20} color='#237804' />
+          <Text>{item.comments}</Text>
         </View>
       </View>
     </Card>
@@ -77,7 +77,6 @@ const cardStyles = StyleSheet.create({
   text_lev1: {
     fontSize: 20,
     fontWeight: '600',
-    marginVertical: 5,
   },
 
   text_lev2: {
@@ -92,9 +91,9 @@ const cardStyles = StyleSheet.create({
   },
 
   cardContainer: {
-    marginVertical: 20,
+    marginVertical: 10,
     marginHorizontal: 10,
-    backgroundColor: '#fafafa',
+    backgroundColor: '#fff',
     borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: {
@@ -107,13 +106,12 @@ const cardStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    marginVertical: 15,
   },
 
   cardUserInfo: {
     flexDirection: 'column',
     width: 220,
-    marginLeft: -10,
   },
 
   cardExtension: {
@@ -128,49 +126,41 @@ const cardStyles = StyleSheet.create({
 
   likeAndComment: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 20,
   },
 
   cardIcon: {
     flex: 0,
     flexDirection: 'row',
-    marginHorizontal: 5,
-  },
-
-  cardIconNumber: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#8c8c8c',
-    paddingTop: 3,
-    paddingLeft: 3,
+    marginHorizontal: 10,
   },
 })
 
-export default Recommendations
+export default Trends
 
 const cardData = [
   // sample data
   {
     id: '1',
-    avatarUri: 'https://randomuser.me/api/portraits/men/2.jpg',
-    name: '张先生',
+    avatarUri: 'https://randomuser.me/api/portraits/men/36.jpg',
+    name: 'Leonar Zhang',
     date: 'Mar 25',
-    imageUri: 'https://picsum.photos/199',
-    title: '野鸭湖周边徒步',
-    location: '野鸭湖湿地公园 · 北京',
+    imageUri: 'https://picsum.photos/300',
+    title: 'Afternoon hike at Old Summer Palace Lake Loop',
+    location: 'Old Summer Palace Lake Loop · Beijing',
     length: '6.68 km',
     time: '1h 38min',
     content:
-      '天气很不错，用这个软件内置相机识别出了好几种不认识的鸟，感觉大模型的物种识别功能还是相当好用的',
-    likes: '27',
-    comments: '5',
+      'A big park. Some roads look like you can get through but actually you cannot. Better just follow the route!',
+    likes: '12',
+    comments: '2',
   },
   {
     id: '2',
     avatarUri: 'https://randomuser.me/api/portraits/men/36.jpg',
     name: 'Leonard Zhang',
     date: 'Mar 25',
-    imageUri: 'https://picsum.photos/302',
+    imageUri: 'https://picsum.photos/300',
     title: 'Afternoon hike at Old Summer Palace Lake Loop',
     location: 'Old Summer Palace Lake Loop · Beijing',
     length: '6.68 km',
@@ -185,7 +175,7 @@ const cardData = [
     avatarUri: 'https://randomuser.me/api/portraits/men/36.jpg',
     name: 'Leonard Zhang',
     date: 'Mar 25',
-    imageUri: 'https://picsum.photos/298',
+    imageUri: 'https://picsum.photos/300',
     title: 'Afternoon hike at Old Summer Palace Lake Loop',
     location: 'Old Summer Palace Lake Loop · Beijing',
     length: '6.68 km',

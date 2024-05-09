@@ -22,7 +22,7 @@ export const MySearchBar = ({ placeholder }) => {
         <MaterialCommunityIcons name='map-search-outline' size={24} color='#8c8c8c' left={10} />
       }
       inputContainerStyle={{
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#fafafa',
         borderRadius: 25,
       }}
       inputStyle={{
