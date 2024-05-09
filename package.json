@@ -21,6 +21,7 @@
     "@reduxjs/toolkit": "^2.2.3",
     "@rneui/base": "^4.0.0-rc.8",
     "@rneui/themed": "^4.0.0-rc.8",
+    "axios": "^1.6.8",
     "expo": "~50.0.17",
     "expo-camera": "~14.1.3",
     "expo-image-picker": "~14.7.1",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/axios": "^0.14.0",
     "@types/haversine": "^1.1.8",
     "@types/react": "~18.2.45",
     "@types/react-native": "^0.73.0",

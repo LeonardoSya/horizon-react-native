@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Community, Identify, MapPage, Home } from '@/routers/pages-router'
+import { Community, Identify, MapPage, Home, Register } from '@/routers/pages-router'
 import { AntDesign, Feather } from '@expo/vector-icons'
 import { NavigationContainerGlobalTheme } from 'global-style'
 
@@ -24,8 +24,7 @@ const HomeStackScreen = () => {
 const UserStackScreen = () => {
   return (
     <UserStack.Navigator>
-      <UserStack.Screen name='分享社区' component={Community} />
-      {/* <UserStack.Screen name='Register' component={Register} /> */}
+      <UserStack.Screen name='Register' component={Register} />
       {/* <UserStack.Screen name='Register' component={Login} /> */}
     </UserStack.Navigator>
   )

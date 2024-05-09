@@ -19,34 +19,6 @@ const initialState: UserState = {
   error: null,
 }
 
-// export const register = createAsyncThunk(
-//     'user/register',
-//     async (userData: UserData, { rejectWithValue }) => {
-//         try {
-//             const response = await registerUser(userData)
-//             alert("注册成功")
-//             return response.data
-//         } catch (error: any) {
-//             alert("注册失败")
-//             return rejectWithValue(error.response.data)
-//         }
-//     }
-// );
-
-// export const login = createAsyncThunk(
-//     'user/login',
-//     async (userData: UserData, { rejectWithValue }) => {
-//         try {
-//             const response = await loginUser(userData)
-//             alert("登录成功")
-//             return response.data
-//         } catch (error: any) {
-//             alert("登录失败")
-//             return rejectWithValue(error.response.data)
-//         }
-//     }
-// )
-
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -57,12 +29,11 @@ const userSlice = createSlice({
     registerSuccess: (state, action: PayloadAction<UserData>) => {
       state.isLoading = false
       state.user = action.payload
-      state.error = null
       alert('注册成功')
     },
-    registerFail: state => {
+    registerFail: (state, action: PayloadAction<string>) => {
       state.isLoading = false
-      // state.error = action.payload
+      state.error = action.payload
       alert('注册失败')
     },
 
@@ -72,13 +43,11 @@ const userSlice = createSlice({
     loginSuccess: (state, action: PayloadAction<UserData>) => {
       state.isLoading = false
       state.user = action.payload
-      state.error = null
-      alert('登录成功')
+      // state.error = null
     },
     loginFail: (state, action: PayloadAction<string>) => {
       state.isLoading = false
       state.error = action.payload
-      alert('登录失败')
     },
   },
 })

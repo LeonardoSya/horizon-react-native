@@ -1,5 +1,3 @@
-<p align="center"><img alt="logo" src="/assets/logo.png"></p>
-
 <p align="center">
   <strong>🪶 Horizion View, A Intelligent Science Popularization App based on react native</strong><br/>
   <strong>😻 湿地探索导览 · 物种智能识别</strong>
