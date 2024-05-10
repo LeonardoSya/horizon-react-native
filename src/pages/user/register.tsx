@@ -5,24 +5,27 @@ import { Text } from '@rneui/themed'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hooks'
-import { registerStart, registerSuccess, registerFail } from '@/features/user-slice'
+import { registerStart, registerSuccess, registerFail } from '@/features/register-slice'
 import { registerUser, RegisterUserData } from '@/api/register-service'
 
 const schema = Yup.object().shape({
   username: Yup.string().required('账号不能为空'),
   email: Yup.string().email('邮箱格式不合法').required('邮箱不能为空'),
-  password: Yup.string().min(6, '密码应长于6个字符').required('密码不能为空'),
+  password: Yup.string()
+    .min(6, '密码应长于6个字符')
+    .max(20, '密码不应超过20个字符')
+    .required('密码不能为空'),
 })
 
 const Register = ({ navigation }) => {
   const dispatch = useAppDispatch()
-  const { isLoading, error } = useAppSelector(state => state.user)
+  const { isLoading, error } = useAppSelector(state => state.register)
 
   const handleRegister = async (values: RegisterUserData) => {
     dispatch(registerStart())
     try {
-      const response = await registerUser(values)
-      response.status === 200
+      const res = await registerUser(values)
+      res.status === 200
         ? dispatch(registerSuccess(values))
         : dispatch(registerFail(error as string))
     } catch (error) {
@@ -32,11 +35,9 @@ const Register = ({ navigation }) => {
     }
   }
 
-  if (isLoading) {
-    return <ActivityIndicator size='large' />
-  }
-
-  return (
+  return isLoading ? (
+    <ActivityIndicator size='large' />
+  ) : (
     <Formik
       initialValues={{
         username: '',
@@ -49,7 +50,6 @@ const Register = ({ navigation }) => {
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
         <View style={styles.container}>
           <Text style={styles.title}>探索之旅，从这里启程</Text>
-
           <TextInput
             style={styles.textInput}
             onChangeText={handleChange('email')}
@@ -60,20 +60,17 @@ const Register = ({ navigation }) => {
             keyboardType='email-address'
           />
           {touched.email && errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
-
           <TextInput
             style={styles.textInput}
             onChangeText={handleChange('username')} // 当username输入框内容变化时候，handleChange函数调用  handleChange函数用于更新username值
             onBlur={handleBlur('username')} // 输入框失去焦点时 handleBlur调用(通常处理表单验证)
-            value={values.username} // 输入框的值绑定到 Formik的username
+            value={values.username}
             placeholder='Username'
             placeholderTextColor='rgb(124,145,146)'
           />
-          {/* 如果username字段已被触摸过(失焦)并存在验证错误 就显示错误信息 */}
           {touched.username && errors.username && (
             <Text style={styles.errorText}>{errors.username}</Text>
           )}
-
           <TextInput
             style={styles.textInput}
             onChangeText={handleChange('password')}
@@ -86,7 +83,6 @@ const Register = ({ navigation }) => {
           {touched.password && errors.password && (
             <Text style={styles.errorText}>{errors.password}</Text>
           )}
-
           <Pressable style={styles.button} onPress={() => handleSubmit()}>
             <Text style={styles.registerText}>立即注册</Text>
           </Pressable>

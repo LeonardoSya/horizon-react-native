@@ -24,7 +24,11 @@ const HomeStackScreen = () => {
 const UserStackScreen = () => {
   return (
     <UserStack.Navigator>
-      <UserStack.Screen name='Register' component={Register} />
+      <UserStack.Screen
+        name='Register'
+        component={Register}
+        options={{ headerBackTitleVisible: false }}
+      />
       <UserStack.Screen
         name='Login'
         component={Login}

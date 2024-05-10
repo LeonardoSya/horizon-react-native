@@ -1,7 +1,6 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
-import { Alert } from 'react-native'
 
 export const loginUser = async (
   username: string,
@@ -41,7 +40,7 @@ export const loginUser = async (
         await SecureStore.setItem('refreshToken', response.data.data.refresh)
       } catch (storageError) {
         console.error('Failed to store tokens:', storageError)
-        Alert.alert('Error', ' ⚠ Failed to store tokens.')
+        alert('Error: ⚠ Failed to store tokens.')
       }
     }
 

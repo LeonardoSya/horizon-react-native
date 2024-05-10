@@ -1,69 +1,114 @@
 import React, { useState } from 'react'
-import { Alert, Button, Pressable, StyleSheet } from 'react-native'
+import { Pressable, StyleSheet } from 'react-native'
 import { View, TextInput, ActivityIndicator } from 'react-native'
 import { Text } from '@rneui/themed'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hooks'
-import { UserData, loginStart, loginSuccess, loginFail } from '@/features/user-slice'
-import { loginUser } from '@/api/login-service'
-
-const schema = Yup.object().shape({
-  username: Yup.string().required('账号不能为空'),
-})
+import { loginFeature, selectAuth } from '@/features/auth-slice'
 
 const Login = ({ navigation }) => {
+  const dispatch = useAppDispatch()
+  const { isLoading } = useAppSelector(selectAuth)
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const handleLogin = async () => {
-    if (username && password) {
-      try {
-        const res = await loginUser(username, password)
-        switch (res.code) {
-          case 200:
-            console.log('handleLogin() has got `200` and will navigate to `Register`')
-            navigation.navigate('Register')
-            break
-          case 404:
-            Alert.alert('用户名或密码错误', res.msg)
-            alert('用户名或密码错误')
-            break
-          default:
-            Alert.alert(`Login error: ${res.code}`, res.msg)
-            alert(`Login error: ${res.code}`)
-            break
-        }
-      } catch (error) {
-        console.error('Login error:', error)
-        Alert.alert('Login error', 'An unexpected error occurred.')
-      }
+    const actionResult = await dispatch(loginFeature({ username, password }))
+    if (loginFeature.fulfilled.match(actionResult)) {
+      navigation.navigate('Register')
     } else {
-      Alert.alert('用户名或密码不能为空')
+      alert(actionResult.payload || '登录失败，未知错误')
     }
   }
 
-  return (
+  return isLoading ? (
+    <ActivityIndicator size='large' />
+  ) : (
     <View style={styles.container}>
-      <TextInput style={styles.input} value={username} onChangeText={setUsername} />
-      <TextInput style={styles.input} value={password} onChangeText={setPassword} />
-      <Button title='Sign in' onPress={handleLogin} />
+      <Text style={styles.title}>探寻，比憧憬更有意义</Text>
+      <TextInput
+        style={styles.textInput}
+        value={username}
+        onChangeText={setUsername}
+        placeholder='Username'
+        placeholderTextColor='rgb(124,145,146)'
+      />
+      <TextInput
+        style={styles.textInput}
+        value={password}
+        onChangeText={setPassword}
+        placeholder='Password'
+        placeholderTextColor='rgb(124,145,146)'
+        secureTextEntry
+      />
+      <Pressable style={styles.button} onPress={handleLogin}>
+        <Text style={styles.loginText}>立即登录</Text>
+      </Pressable>
+      <View style={styles.toRegisterContainer}>
+        <Text style={styles.toRegisterText}>没有账号?</Text>
+        <Pressable onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.toRegisterButton}>去注册</Text>
+        </Pressable>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 6,
+    maxHeight: '100%',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#fff',
+    marginBottom: '15%',
+    marginTop: '-5%',
+  },
+  textInput: {
+    width: '80%',
+    height: 50,
+    borderBottomWidth: 1,
+    borderColor: 'rgb(124,145,146)',
+    margin: 10,
+    padding: 5,
+    borderRadius: 5,
+    color: '#fff',
+    fontSize: 20,
+  },
+  button: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  input: {
-    borderBottomWidth: 1,
-    borderColor: '#fff',
+    paddingVertical: 17,
     margin: 20,
+    width: '80%',
+    backgroundColor: 'rgb(124,145,146)',
+    borderRadius: 8,
+  },
+  loginText: {
     color: '#fff',
-    width: 200,
+    fontSize: 18,
+    fontWeight: '600',
+    letterSpacing: 1,
+  },
+  toRegisterContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  toRegisterText: {
+    color: 'rgb(124,145,146)',
+    fontSize: 18,
+  },
+  toRegisterButton: {
+    color: '#fff',
+    fontSize: 18,
+    marginLeft: 8,
   },
 })
 

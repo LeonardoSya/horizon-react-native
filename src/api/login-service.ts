@@ -1,13 +1,11 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
-import { Alert } from 'react-native'
 
 // Create Axios Instance
 export const api = axios.create({
   baseURL: 'http://127.0.0.1:8000',
   headers: {
-    'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
     'Content-Type': 'application/json',
     Accept: '*/*',
   },
@@ -51,7 +49,7 @@ api.interceptors.response.use(
             return Promise.reject(res)
           })
           .catch(refreshError => {
-            Alert.alert('Error', ' ⚠ Failed to refresh tokens.')
+            alert('Error: ⚠ Failed to refresh tokens.')
             return Promise.reject(refreshError) // 刷新令牌过程中错误
           })
       }
@@ -78,7 +76,7 @@ export const loginUser = async (
         await SecureStore.setItemAsync('refreshToken', response.data.data.refresh)
       } catch (storageError) {
         console.error('Failed to store tokens:', storageError)
-        Alert.alert('Error', '⚠ Failed to store tokens.')
+        alert('Error: ⚠ Failed to store tokens.')
       }
     }
 
