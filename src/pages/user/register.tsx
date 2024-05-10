@@ -59,7 +59,7 @@ const Register = ({ navigation }) => {
             placeholderTextColor='rgb(124,145,146)'
             keyboardType='email-address'
           />
-          {touched.email && errors.email && <Text>{errors.email}</Text>}
+          {touched.email && errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
           <TextInput
             style={styles.textInput}
@@ -70,7 +70,9 @@ const Register = ({ navigation }) => {
             placeholderTextColor='rgb(124,145,146)'
           />
           {/* 如果username字段已被触摸过(失焦)并存在验证错误 就显示错误信息 */}
-          {touched.username && errors.username && <Text>{errors.username}</Text>}
+          {touched.username && errors.username && (
+            <Text style={styles.errorText}>{errors.username}</Text>
+          )}
 
           <TextInput
             style={styles.textInput}
@@ -81,7 +83,9 @@ const Register = ({ navigation }) => {
             placeholderTextColor='rgb(124,145,146)'
             secureTextEntry
           />
-          {touched.password && errors.password && <Text>{errors.password}</Text>}
+          {touched.password && errors.password && (
+            <Text style={styles.errorText}>{errors.password}</Text>
+          )}
 
           <Pressable style={styles.button} onPress={() => handleSubmit()}>
             <Text style={styles.registerText}>立即注册</Text>
@@ -111,6 +115,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#fff',
     marginBottom: '15%',
+    marginTop: '-5%',
   },
   textInput: {
     width: '80%',
@@ -152,6 +157,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     marginLeft: 8,
+  },
+  errorText: {
+    color: '#fff',
+    letterSpacing: 1,
   },
 })
 

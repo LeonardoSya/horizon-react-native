@@ -11,12 +11,14 @@ export interface UserState {
   user: UserData | null
   isLoading: boolean
   error: string | null
+  token: string | null
 }
 
 const initialState: UserState = {
   user: null,
   isLoading: false,
   error: null,
+  token: null,
 }
 
 const userSlice = createSlice({
@@ -39,21 +41,35 @@ const userSlice = createSlice({
     loginStart: state => {
       state.isLoading = true
     },
-    loginSuccess: (state, action: PayloadAction<UserData>) => {
+    loginSuccess: (state, action: PayloadAction<UserData & string>) => {
       state.isLoading = false
       state.user = action.payload
+      state.token = action.payload
       console.log('登录成功')
     },
     loginFail: (state, action: PayloadAction<string>) => {
       state.isLoading = false
       state.error = action.payload
+      state.token = null
       alert('登录失败')
+    },
+    logout: (state, action: PayloadAction<UserState>) => {
+      state.isLoading = false
+      state.error = null
+      state.token = null
     },
   },
 })
 
-export const { registerStart, registerSuccess, registerFail, loginStart, loginSuccess, loginFail } =
-  userSlice.actions
+export const {
+  registerStart,
+  registerSuccess,
+  registerFail,
+  loginStart,
+  loginSuccess,
+  loginFail,
+  logout,
+} = userSlice.actions
 
 export const selectUser = (state: RootState) => state.user
 
