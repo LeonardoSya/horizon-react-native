@@ -42,6 +42,14 @@
       "supportsTablet": true,
       "config": {
         "usesNonExemptEncryption": false
+      },
+      "privacyManifests": {
+        "NSPrivacyAccessedAPITypes": [
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+            "NSPrivacyAccessedAPITypeReasons": [ "CA92.1" ]
+          }
+        ]
       }
     },
     "android": {
