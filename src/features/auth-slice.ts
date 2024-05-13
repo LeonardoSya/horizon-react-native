@@ -8,6 +8,7 @@ interface AuthState {
   refreshToken: string | null
   isLoading: boolean
   error: string | null
+  isAuthenticated: boolean
 }
 
 const initialState: AuthState = {
@@ -16,6 +17,7 @@ const initialState: AuthState = {
   refreshToken: null,
   isLoading: false,
   error: null,
+  isAuthenticated: false,
 }
 
 export const loginFeature = createAsyncThunk(
@@ -42,6 +44,7 @@ const authSlice = createSlice({
       state.isLoggedIn = false
       state.accessToken = null
       state.refreshToken = null
+      state.isAuthenticated = false
     },
   },
   extraReducers: builder => {
@@ -58,6 +61,7 @@ const authSlice = createSlice({
           state.refreshToken = action.payload.refresh
           state.isLoading = false
           state.error = null
+          state.isAuthenticated = true
         }
       },
     )
@@ -65,6 +69,7 @@ const authSlice = createSlice({
       state.isLoggedIn = false
       state.isLoading = false
       state.error = action.payload
+      state.isAuthenticated = false
     })
   },
 })

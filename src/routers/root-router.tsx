@@ -1,9 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Community, Identify, MapPage, Home, Register, Login } from '@/routers/pages-router'
-import { AntDesign, Feather } from '@expo/vector-icons'
 import { NavigationContainerGlobalTheme } from 'global-style'
+import { AntDesign, Feather } from '@expo/vector-icons'
+import { Community, Identify, MapPage, Home, Register, Login } from '@/routers/pages-router'
+import { useAppSelector } from '@/hooks/redux-hooks'
+import { selectAuth } from '@/features/auth-slice'
 
 const Tab = createBottomTabNavigator()
 const HomeStack = createNativeStackNavigator()
@@ -11,7 +13,7 @@ const UserStack = createNativeStackNavigator()
 
 const HomeStackScreen = () => {
   return (
-    <HomeStack.Navigator initialRouteName='Identify'>
+    <HomeStack.Navigator initialRouteName='Community'>
       <HomeStack.Screen name='Home' component={Home} options={{ headerShown: false }} />
       <HomeStack.Screen name='Identify' component={Identify} options={{}} />
       <HomeStack.Screen name='MapPage' component={MapPage} options={{ headerShown: false }} />
@@ -22,8 +24,12 @@ const HomeStackScreen = () => {
 }
 
 const UserStackScreen = () => {
+  const IsAuthenticated = useAppSelector(selectAuth)
+  const initialRoute = IsAuthenticated ? 'Login' : 'Home'
+
   return (
-    <UserStack.Navigator>
+    <UserStack.Navigator initialRouteName={'Login'}>
+      <UserStack.Screen name='Home' component={Home} options={{ headerShown: false }} />
       <UserStack.Screen
         name='Register'
         component={Register}
