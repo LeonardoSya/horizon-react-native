@@ -1,6 +1,7 @@
 import React from 'react'
-import { Pressable, StyleSheet } from 'react-native'
+import { Platform, Pressable, StyleSheet } from 'react-native'
 import { View, TextInput, ActivityIndicator } from 'react-native'
+import { Link } from '@react-navigation/native'
 import { Text } from '@rneui/themed'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -20,6 +21,7 @@ const schema = Yup.object().shape({
 const Register = ({ navigation }) => {
   const dispatch = useAppDispatch()
   const { isLoading, error } = useAppSelector(state => state.register)
+  const isWeb = Platform.OS === 'web'
 
   const handleRegister = async (values: RegisterUserData) => {
     dispatch(registerStart())
@@ -88,8 +90,14 @@ const Register = ({ navigation }) => {
           </Pressable>
           <View style={styles.toLoginContainer}>
             <Text style={styles.toLoginText}>已有账号?</Text>
-            <Pressable onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.toLoginButton}>去登陆</Text>
+            <Pressable onPress={() => navigation.navigate('login')}>
+              {isWeb ? (
+                <Link to='/register'>
+                  <Text style={styles.toLoginButton}>去登陆</Text>
+                </Link>
+              ) : (
+                <Text style={styles.toLoginButton}>去登陆</Text>
+              )}
             </Pressable>
           </View>
         </View>

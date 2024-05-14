@@ -1,22 +1,28 @@
 import React, { useState } from 'react'
-import { Pressable, StyleSheet } from 'react-native'
-import { View, TextInput, ActivityIndicator } from 'react-native'
+import { View, TextInput, ActivityIndicator, Platform, Pressable, StyleSheet } from 'react-native'
 import { Text } from '@rneui/themed'
+import { Link } from '@react-navigation/native'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hooks'
 import { loginFeature, selectAuth } from '@/features/auth-slice'
+import { useAuthInterceptor } from '@/api/login-service'
 
 const Login = ({ navigation }) => {
-  const dispatch = useAppDispatch()
-  const { isLoading, isAuthenticated } = useAppSelector(selectAuth)
-
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const dispatch = useAppDispatch()
+  const { isLoading, isAuthenticated } = useAppSelector(selectAuth)
+  useAuthInterceptor()
+
+  const isWeb = Platform.OS === 'web'
 
   const handleLogin = async () => {
     const actionResult = await dispatch(loginFeature({ username, password }))
     if (loginFeature.fulfilled.match(actionResult) && isAuthenticated) {
-      alert('login successfully and navigate to homepage then!')
-      navigation.navigate('Home')
+      if (isWeb) {
+        window.location.href = '/identify'
+      } else {
+        navigation.navigate('identify')
+      }
     } else {
       alert(actionResult.payload || '登录失败，未知错误')
     }
@@ -47,7 +53,12 @@ const Login = ({ navigation }) => {
       </Pressable>
       <View style={styles.toRegisterContainer}>
         <Text style={styles.toRegisterText}>没有账号?</Text>
-        <Pressable onPress={() => navigation.navigate('Home')}>
+
+        <Pressable
+          onPress={() =>
+            isWeb ? (window.location.href = '/user/register') : navigation.navigate('register')
+          }
+        >
           <Text style={styles.toRegisterButton}>去注册</Text>
         </Pressable>
       </View>

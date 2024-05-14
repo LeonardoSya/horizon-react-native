@@ -13,11 +13,11 @@ const UserStack = createNativeStackNavigator()
 
 const HomeStackScreen = () => {
   return (
-    <HomeStack.Navigator initialRouteName='Community'>
-      <HomeStack.Screen name='Home' component={Home} options={{ headerShown: false }} />
-      <HomeStack.Screen name='Identify' component={Identify} options={{}} />
-      <HomeStack.Screen name='MapPage' component={MapPage} options={{ headerShown: false }} />
-      <HomeStack.Screen name='Community' component={Community} />
+    <HomeStack.Navigator initialRouteName='community'>
+      <HomeStack.Screen name='home' component={Home} options={{ headerShown: false }} />
+      <HomeStack.Screen name='identify' component={Identify} options={{}} />
+      <HomeStack.Screen name='mapPage' component={MapPage} options={{ headerShown: false }} />
+      <HomeStack.Screen name='community' component={Community} />
       {/* <Stack.Screen name='Like' component={Like} /> */}
     </HomeStack.Navigator>
   )
@@ -25,18 +25,18 @@ const HomeStackScreen = () => {
 
 const UserStackScreen = () => {
   const IsAuthenticated = useAppSelector(selectAuth)
-  const initialRoute = IsAuthenticated ? 'Login' : 'Home'
+  const initialRoute = IsAuthenticated ? 'login' : 'home'
 
   return (
-    <UserStack.Navigator initialRouteName={'Login'}>
-      <UserStack.Screen name='Home' component={Home} options={{ headerShown: false }} />
+    <UserStack.Navigator initialRouteName={'login'}>
+      <UserStack.Screen name='home' component={Home} options={{ headerShown: false }} />
       <UserStack.Screen
-        name='Register'
+        name='register'
         component={Register}
         options={{ headerBackTitleVisible: false }}
       />
       <UserStack.Screen
-        name='Login'
+        name='login'
         component={Login}
         options={{ headerBackTitleVisible: false }}
       />
@@ -45,8 +45,22 @@ const UserStackScreen = () => {
 }
 
 const RootRouter = () => {
+  const linking = {
+    prefixes: ['http://127.0.0.1:8081'],
+    config: {
+      screens: {
+        Home: '/',
+        Identify: 'identify',
+        MapPage: 'map',
+        Community: 'community',
+        Register: 'register',
+        Login: 'login',
+      },
+    },
+  }
+
   return (
-    <NavigationContainer theme={NavigationContainerGlobalTheme}>
+    <NavigationContainer theme={NavigationContainerGlobalTheme} linking={linking}>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -55,24 +69,27 @@ const RootRouter = () => {
         }}
       >
         <Tab.Screen
-          name='首页'
+          name='home'
           component={HomeStackScreen}
           options={{
             tabBarIcon: ({ color }) => <AntDesign name='home' size={24} color={color} />,
+            title: '首页',
           }}
         />
         <Tab.Screen
-          name='探索'
+          name='explore'
           component={HomeStackScreen}
           options={{
             tabBarIcon: ({ color }) => <Feather name='compass' size={24} color={color} />,
+            title: '探索',
           }}
         />
         <Tab.Screen
-          name='我的'
+          name='user'
           component={UserStackScreen}
           options={{
             tabBarIcon: ({ color }) => <Feather name='user' size={24} color={color} />,
+            title: '我的',
           }}
         />
       </Tab.Navigator>

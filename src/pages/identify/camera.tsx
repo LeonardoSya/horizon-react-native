@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ImageBackground, Linking, Pressable, StyleSheet, Text, View } from 'react-native'
 import { Camera, CameraType } from 'expo-camera'
+import { CameraViewRef } from 'expo-camera/build/Camera.types'
 import AnimatedWrapper from '@/components/animated-wrapper'
 import { MaterialIcons, Octicons } from '@expo/vector-icons'
 import { captureRef } from 'react-native-view-shot'
@@ -13,8 +14,7 @@ const zoomButtons = [
 ]
 
 export const CameraPage = ({ navigation }) => {
-  const cameraRef = useRef<Camera>(null)
-  const [type, setType] = useState(CameraType.back)
+  const cameraRef = useRef<CameraViewRef>(null)
   const [permission, requestPermission] = Camera.useCameraPermissions()
   const [previewVisible, setPreviewVisible] = useState(false)
   const [capturedImage, setCapturedImage] = useState<any>(null)
@@ -39,10 +39,6 @@ export const CameraPage = ({ navigation }) => {
     } else {
       console.error('Unable tpo open settings')
     }
-  }
-
-  const toggleCameraType = () => {
-    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back))
   }
 
   const takePicture = async () => {
@@ -103,7 +99,6 @@ export const CameraPage = ({ navigation }) => {
         <Camera
           ref={cameraRef}
           style={styles.camera}
-          type={type}
           zoom={zoom}
           focusDepth={focusDepth}
           // autoFocus={Camera.Constants.AutoFocus}

@@ -3222,10 +3222,10 @@ expo-asset@~10.0.6:
     invariant "^2.2.4"
     md5-file "^3.2.3"
 
-expo-camera@^15.0.6:
-  version "15.0.6"
-  resolved "https://registry.npmmirror.com/expo-camera/-/expo-camera-15.0.6.tgz#cc84bbb466ad0ae89fdf2720e69aeeef4c673d3c"
-  integrity sha512-UtCCiHSHHjyapF0M3iPyVpj6aP60UNEJQs1lLStCz/Zhgs99SrDurhC9TxhsZC81EnV0aT5PmcXu/GTY8tcftg==
+expo-camera@^15.0.5:
+  version "15.0.5"
+  resolved "https://registry.npmmirror.com/expo-camera/-/expo-camera-15.0.5.tgz#a1fc3132b83fe3c0eae070f8ec82d231fac7acbd"
+  integrity sha512-XQWV64KAd14Z1NMg+8JwegFgtc4e8xGhUMD1CvJFAADVqeXa4Ch5HKrK5dZbyE4eWzP8sph93WcG894oxvAqZg==
   dependencies:
     invariant "^2.2.4"
 

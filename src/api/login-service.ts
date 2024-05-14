@@ -1,11 +1,13 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
+import { useEffect } from 'react'
+import { Platform } from 'react-native'
 
-const isWeb = () => typeof window !== 'undefined' && typeof window.document !== 'undefined'
+const isWeb = Platform.OS === 'web'
 
 // Create Axios Instance
-export const api = axios.create({
+const api = axios.create({
   baseURL: 'http://127.0.0.1:8000',
   headers: {
     'Content-Type': 'application/json',
@@ -13,62 +15,70 @@ export const api = axios.create({
   },
 })
 
-// Configure axios Intercepor
-// 请求拦截器：发送请求前如果accessToken存储在AsyncStorage中，则将其添加到请求头中，确保每个请求都具备访问权限
-api.interceptors.request.use(
-  async config => {
-    const accessToken = isWeb()
-      ? localStorage.getItem('accessToken')
-      : await AsyncStorage.getItem('accessToken')
-    if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`
-    }
-    return config
-  },
-  error => Promise.reject(error),
-)
+export const useAuthInterceptor = () => {
+  useEffect(() => {
+    // 请求拦截器：发送请求前如果accessToken存储在AsyncStorage中，则将其添加到请求头中，确保每个请求都具备访问权限
+    const requestInterceptor = api.interceptors.request.use(
+      async config => {
+        const accessToken = isWeb
+          ? localStorage.getItem('accessToken')
+          : await AsyncStorage.getItem('accessToken')
+        if (accessToken) {
+          config.headers['Authorization'] = `Bearer ${accessToken}`
+        }
+        return config
+      },
+      error => Promise.reject(error),
+    )
 
-// 响应拦截器：特别处理401的响应(这意味着accessToken无效或过期)并重新发送原始请求
-api.interceptors.response.use(
-  response => response, // 如果响应是成功就直接返回响应
-  async error => {
-    const originalRequest = error.config // error.config能够访问失败请求的所有配置信息
-    // 检查响应状态码是否为401并且这个请求还没有进行重新测试
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true // 标记此请求已尝试使用新的token重新发起请求
-      const refreshToken = isWeb()
-        ? localStorage.getItem('refreshToken')
-        : await SecureStore.getItemAsync('refreshToken')
-      if (refreshToken) {
-        // 尝试使用refreshToken获取新的accessToken
-        return api
-          .post('/refresh-token', { refreshToken })
-          .then(async res => {
-            if (res.status === 200) {
-              const { access, refresh } = res.data.data
-              if (isWeb()) {
-                localStorage.setItem('accessToken', access)
-                localStorage.setItem('refreshToken', refresh)
-              } else {
-                await AsyncStorage.setItem('accessToken', access)
-                await SecureStore.setItemAsync('refreshToken', refresh)
-              }
-              originalRequest.headers['Authorization'] = `Bearer ${access}` // 更新原请求的访问令牌
-              return api(originalRequest) // 重新发起失败的请求
-            }
-            // 如果响应码不是200（刷新令牌请求未成功）就拒绝(reject)当前Promise，使Promise链进入错误处理流程
-            // res(从refreshToken获取的accessToken)被用作拒绝Promise的理由，错误处理函数就可以访问到这个res错误响应对象
-            return Promise.reject(res)
-          })
-          .catch(refreshError => {
-            alert('Error: ⚠ Failed to refresh tokens.')
-            return Promise.reject(refreshError) // 刷新令牌过程中错误
-          })
-      }
+    // 响应拦截器：特别处理401的响应(这意味着accessToken无效或过期)并重新发送原始请求
+    const responseInterceptor = api.interceptors.response.use(
+      response => response, // 如果响应是成功就直接返回响应
+      async error => {
+        const originalRequest = error.config // error.config能够访问失败请求的所有配置信息
+        // 检查响应状态码是否为401并且这个请求还没有进行重新测试
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true // 标记此请求已尝试使用新的token重新发起请求
+          const refreshToken = isWeb
+            ? localStorage.getItem('refreshToken')
+            : await SecureStore.getItemAsync('refreshToken')
+          if (refreshToken) {
+            // 尝试使用refreshToken获取新的accessToken
+            return api
+              .post('/refresh-token', { refreshToken })
+              .then(async res => {
+                if (res.status === 200) {
+                  const { access, refresh } = res.data.data
+                  if (isWeb) {
+                    localStorage.setItem('accessToken', access)
+                    localStorage.setItem('refreshToken', refresh)
+                  } else {
+                    await AsyncStorage.setItem('accessToken', access)
+                    await SecureStore.setItemAsync('refreshToken', refresh)
+                  }
+                  originalRequest.headers['Authorization'] = `Bearer ${access}` // 更新原请求的访问令牌
+                  return api(originalRequest) // 重新发起失败的请求
+                }
+                // 如果响应码不是200（刷新令牌请求未成功）就拒绝(reject)当前Promise，使Promise链进入错误处理流程
+                // res(从refreshToken获取的accessToken)被用作拒绝Promise的理由，错误处理函数就可以访问到这个res错误响应对象
+                return Promise.reject(res)
+              })
+              .catch(refreshError => {
+                alert('Error: ⚠ Failed to refresh tokens.')
+                return Promise.reject(refreshError) // 刷新令牌过程中错误
+              })
+          }
+        }
+        return Promise.reject(error) // 不是401错误或没有刷新令牌，就直接返回错误
+      },
+    )
+
+    return () => {
+      api.interceptors.request.eject(requestInterceptor)
+      api.interceptors.response.eject(responseInterceptor)
     }
-    return Promise.reject(error) // 不是401错误或没有刷新令牌，就直接返回错误
-  },
-)
+  }, [isWeb])
+}
 
 export const loginUser = async (
   username: string,
@@ -87,7 +97,7 @@ export const loginUser = async (
       let accessTokenStored = false,
         refreshTokenStored = false
       try {
-        if (isWeb()) {
+        if (isWeb) {
           try {
             localStorage.setItem('accessToken', response.data.data.access)
             localStorage.setItem('refreshToken', response.data.data.refresh)
