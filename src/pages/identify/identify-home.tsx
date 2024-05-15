@@ -27,7 +27,7 @@ const IdentifyHome = ({ navigation }) => {
       const newSelectedImage = result.assets[0].uri
       setSelectedImage(newSelectedImage)
       setHasUpload(true)
-      navigation.push('IdentifyResult', { image: newSelectedImage })
+      navigation.push('identifyResult', { image: newSelectedImage })
     }
   }
 
@@ -42,7 +42,7 @@ const IdentifyHome = ({ navigation }) => {
       <SearchBar placeholder={'Identifying with AI'} />
       <View style={styles.cards}>
         <HomeCard
-          onPress={() => navigation.navigate('Camera')}
+          onPress={() => navigation.navigate('camera')}
           icon={<FontAwesome5 name='camera-retro' size={30} color='#008077' />}
           title='SHOOT'
           text='Take a photo and recognize it'

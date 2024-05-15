@@ -6,13 +6,13 @@ import RootRouter from '@/routers/root-router'
 
 const App = () => {
   return (
-    <React.StrictMode>
-      <Provider store={store}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <RootRouter />
-        </GestureHandlerRootView>
-      </Provider>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <Provider store={store}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <RootRouter />
+      </GestureHandlerRootView>
+    </Provider>
+    // </React.StrictMode>
   )
 }
 

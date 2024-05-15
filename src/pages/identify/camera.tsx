@@ -53,7 +53,7 @@ export const CameraPage = ({ navigation }) => {
   }
 
   const uploadPicture = async () => {
-    capturedImage && navigation.push('IdentifyResult', { image: capturedImage })
+    capturedImage && navigation.push('identifyResult', { image: capturedImage })
   }
 
   const savePicture = async () => {

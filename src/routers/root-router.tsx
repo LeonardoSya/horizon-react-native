@@ -13,7 +13,7 @@ const UserStack = createNativeStackNavigator()
 
 const HomeStackScreen = () => {
   return (
-    <HomeStack.Navigator initialRouteName='community'>
+    <HomeStack.Navigator initialRouteName='home'>
       <HomeStack.Screen name='home' component={Home} options={{ headerShown: false }} />
       <HomeStack.Screen name='identify' component={Identify} options={{}} />
       <HomeStack.Screen name='mapPage' component={MapPage} options={{ headerShown: false }} />
@@ -28,7 +28,7 @@ const UserStackScreen = () => {
   const initialRoute = IsAuthenticated ? 'login' : 'home'
 
   return (
-    <UserStack.Navigator initialRouteName={'login'}>
+    <UserStack.Navigator initialRouteName={initialRoute}>
       <UserStack.Screen name='home' component={Home} options={{ headerShown: false }} />
       <UserStack.Screen
         name='register'
@@ -49,7 +49,7 @@ const RootRouter = () => {
     prefixes: ['http://127.0.0.1:8081'],
     config: {
       screens: {
-        Home: '/',
+        Home: 'home',
         Identify: 'identify',
         MapPage: 'map',
         Community: 'community',
@@ -69,7 +69,7 @@ const RootRouter = () => {
         }}
       >
         <Tab.Screen
-          name='home'
+          name='homepage'
           component={HomeStackScreen}
           options={{
             tabBarIcon: ({ color }) => <AntDesign name='home' size={24} color={color} />,
@@ -78,7 +78,7 @@ const RootRouter = () => {
         />
         <Tab.Screen
           name='explore'
-          component={HomeStackScreen}
+          component={Identify}
           options={{
             tabBarIcon: ({ color }) => <Feather name='compass' size={24} color={color} />,
             title: '探索',
