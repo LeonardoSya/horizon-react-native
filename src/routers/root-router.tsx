@@ -3,7 +3,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainerGlobalTheme } from 'global-style'
 import { AntDesign, Feather } from '@expo/vector-icons'
-import { Community, Identify, MapPage, Home, Register, Login } from '@/routers/pages-router'
+import {
+  Community,
+  Identify,
+  MapPage,
+  Home,
+  Register,
+  Login,
+  Explore,
+} from '@/routers/pages-router'
 import { useAppSelector } from '@/hooks/redux-hooks'
 import { selectAuth } from '@/features/auth-slice'
 
@@ -15,7 +23,7 @@ const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator initialRouteName='home'>
       <HomeStack.Screen name='home' component={Home} options={{ headerShown: false }} />
-      <HomeStack.Screen name='identify' component={Identify} options={{}} />
+      <HomeStack.Screen name='explore' component={Explore} options={{}} />
       <HomeStack.Screen name='mapPage' component={MapPage} options={{ headerShown: false }} />
       <HomeStack.Screen name='community' component={Community} />
       {/* <Stack.Screen name='Like' component={Like} /> */}
@@ -77,7 +85,7 @@ const RootRouter = () => {
           }}
         />
         <Tab.Screen
-          name='explore'
+          name='identify'
           component={Identify}
           options={{
             tabBarIcon: ({ color }) => <Feather name='compass' size={24} color={color} />,

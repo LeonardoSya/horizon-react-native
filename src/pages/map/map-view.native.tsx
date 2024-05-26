@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Image } from 'react-native'
 import MapView, { MapType, Marker, Polyline } from 'react-native-maps'
 import { useAppSelector } from '@/hooks/redux-hooks'
 import { selectLocation } from '@/features/location-slice'
@@ -19,10 +19,16 @@ const MyMapView: React.FC<MyMapViewProps> = ({ mapType }) => {
         style={styles.map}
         initialRegion={region}
         showsUserLocation={true}
-        followsUserLocation={true}
+        // followsUserLocation={true}
         mapType={mapType}
       >
         <Marker coordinate={startLocation} pinColor='#237804' />
+        <Marker coordinate={{ latitude: 40.41025, longitude: 115.8477 }}>
+          <Image
+            source={require('../../../assets/images/野鸭湖手绘图.png')}
+            style={styles.chartingMap}
+          />
+        </Marker>
         <Polyline
           coordinates={traces.map(trace => ({
             latitude: trace[1],
@@ -39,6 +45,11 @@ const MyMapView: React.FC<MyMapViewProps> = ({ mapType }) => {
 const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
+  },
+  chartingMap: {
+    width: 400,
+    height: 400,
+    resizeMode: 'contain',
   },
 })
 

@@ -4,11 +4,11 @@ import { Feather } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const background = require('../../../assets/images/home-bg.jpg')
-
-const img1 = require('../../../assets/app-icon.png')
+const img1 = require('../../../assets/images/東方白鸛.jpg')
+const img2 = require('../../../assets/images/白尾海雕.jpg')
 
 const circleButtons = [
-  { link: 'identify', icon: 'map-pin' },
+  { link: 'explore', icon: 'map-pin' },
   { link: 'mapPage', icon: 'map' },
   { link: 'community', icon: 'edit-3' },
   { link: 'register', icon: 'thumbs-up' },
@@ -97,13 +97,13 @@ const Home = ({ navigation }) => {
             >
               <Image source={img1} style={{ width: 50, height: 50, borderRadius: 5 }} />
               <View style={{ marginHorizontal: 10, justifyContent: 'center' }}>
-                <Text style={{ fontSize: 15, fontWeight: 600, color: '#ffffffd9' }}>视界日帖</Text>
+                <Text style={{ fontSize: 15, fontWeight: 600, color: '#ffffffd9' }}>東方白鸛</Text>
                 <Text
                   style={{ fontSize: 10, color: '#bfbfbf', maxWidth: 200, marginVertical: 5 }}
                   numberOfLines={1}
                   ellipsizeMode='tail'
                 >
-                  在此处写详细介绍，在此处写详细介绍，在此处写详细介绍
+                  东方白鹳是一种大型涉禽，属于鹳科鹳属。与白鹳是近亲，但比白鹳更大，体长1.29米，体重4.4千克，翼宽2.22米[3][4]。与白鹳不同的是，除了翅膀为黑色外，东方白鹳的眼睛周围还有一块红色的皮肤。虹膜为白色，喙部黑色。
                 </Text>
               </View>
               <Pressable
@@ -130,15 +130,15 @@ const Home = ({ navigation }) => {
                 padding: 10,
               }}
             >
-              <Image source={img1} style={{ width: 50, height: 50, borderRadius: 5 }} />
+              <Image source={img2} style={{ width: 50, height: 50, borderRadius: 5 }} />
               <View style={{ marginHorizontal: 10, justifyContent: 'center' }}>
-                <Text style={{ fontSize: 15, fontWeight: 600, color: '#ffffffd9' }}>视界日帖</Text>
+                <Text style={{ fontSize: 15, fontWeight: 600, color: '#ffffffd9' }}>白尾海雕</Text>
                 <Text
                   style={{ fontSize: 10, color: '#bfbfbf', maxWidth: 200, marginVertical: 5 }}
                   numberOfLines={1}
                   ellipsizeMode='tail'
                 >
-                  在此处写详细介绍，在此处写详细介绍，在此处写详细介绍
+                  白尾海雕是鹰科中一种非常大型的猛禽。很多人认为它们是美国白头海雕的近亲，并深信它们在旧大陆居住在同一个生态位。{' '}
                 </Text>
               </View>
               <Pressable

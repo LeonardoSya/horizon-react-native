@@ -4,6 +4,7 @@ import CommunityRouter from '@/routers/community-router'
 import IdentifyRouter from '@/routers/identify-router'
 import Register from '@/pages/user/register'
 import Login from '@/pages/user/login'
+import Explore from '@/pages/explore/explore-view'
 
 export {
   CommunityRouter as Community,
@@ -12,4 +13,5 @@ export {
   Home,
   Register,
   Login,
+  Explore,
 }
