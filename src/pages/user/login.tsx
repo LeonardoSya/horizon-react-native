@@ -21,7 +21,7 @@ const Login = ({ navigation }) => {
       if (isWeb) {
         window.location.href = '/identify'
       } else {
-        navigation.navigate('identify')
+        navigation.navigate('智能识别')
       }
     } else {
       alert(actionResult.payload || '登录失败，未知错误')
@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
 
         <Pressable
           onPress={() =>
-            isWeb ? (window.location.href = '/user/register') : navigation.navigate('register')
+            isWeb ? (window.location.href = '/user/register') : navigation.navigate('用户注册')
           }
         >
           <Text style={styles.toRegisterButton}>去注册</Text>

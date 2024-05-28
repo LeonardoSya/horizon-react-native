@@ -90,7 +90,7 @@ const Register = ({ navigation }) => {
           </Pressable>
           <View style={styles.toLoginContainer}>
             <Text style={styles.toLoginText}>已有账号?</Text>
-            <Pressable onPress={() => navigation.navigate('login')}>
+            <Pressable onPress={() => navigation.navigate('用户登录')}>
               {isWeb ? (
                 <Link to='/register'>
                   <Text style={styles.toLoginButton}>去登陆</Text>

@@ -1,14 +1,15 @@
 import React, { useMemo, useRef } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Pressable } from 'react-native'
 import BottomSheet, { BottomSheetView, BottomSheetModal } from '@gorhom/bottom-sheet'
-import { Text, Button } from '@rneui/themed'
+import { Text } from '@rneui/themed'
 import useLocation from '@/hooks/useLocation'
 import { useAppSelector } from '@/hooks/redux-hooks'
 import { selectLocation } from '@/features/location-slice'
+import AnimatedPressable from '@/components/animated-pressable'
 
 const MapBottomSheet = () => {
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['28%', '65%'], [])
+  const snapPoints = useMemo(() => ['32%', '65%'], [])
   const { startTime, avgPace, energy, isActive, location, length, totalTime, altitude } =
     useAppSelector(selectLocation)
   const { handleStart, handlePause, formatTime } = useLocation()
@@ -24,6 +25,7 @@ const MapBottomSheet = () => {
       snapPoints={snapPoints}
       index={0}
       detached={false}
+      backgroundStyle={{ backgroundColor: '#fafafa' }}
       enableDynamicSizing={true}
       handleIndicatorStyle={{ backgroundColor: '#d9d9d9' }}
       style={{ borderRadius: 28, shadowOpacity: 0.2 }}
@@ -56,13 +58,7 @@ const MapBottomSheet = () => {
             <Text style={styles.cellDiscription}>Calories</Text>
           </View>
         </View>
-        <View style={styles.buttonView}>
-          <Button
-            title={isActive ? 'Pause' : 'Start'}
-            onPress={isActive ? handlePause : handleStart}
-          />
-        </View>
-        <Text>{locationMsg}</Text>
+        {/* <Text>{locationMsg}</Text> */}
         <View style={styles.cells}>
           <View>
             <Text h4>1</Text>
@@ -82,6 +78,15 @@ const MapBottomSheet = () => {
             <Text style={styles.cellDiscription}>Temper</Text>
           </View>
         </View>
+        <AnimatedPressable
+          style={styles.buttonView}
+          onPress={isActive ? handlePause : handleStart}
+          size={0.95}
+        >
+          <Text style={{ color: '#fafafa', fontSize: 18, letterSpacing: 1, fontWeight: '600' }}>
+            {isActive ? 'Pause' : 'Start'}
+          </Text>
+        </AnimatedPressable>
       </BottomSheetView>
     </BottomSheet>
   )
@@ -93,6 +98,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: 10,
     paddingTop: 5,
+    backgroundColor: '#fafafa',
   },
   showKm: {
     flexDirection: 'row',
@@ -115,6 +121,16 @@ const styles = StyleSheet.create({
   buttonView: {
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
+    width: 100,
+    height: 45,
+    margin: 10,
+    backgroundColor: '#315c59',
+    borderRadius: 12,
+    shadowColor: '#171717',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.7,
+    shadowRadius: 4,
   },
 })
 

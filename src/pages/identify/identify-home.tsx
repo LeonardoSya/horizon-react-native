@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, SafeAreaView } from 'react-native'
 import { Text } from '@rneui/themed'
 import { StatusBar } from 'expo-status-bar'
 import * as ImagePicker from 'expo-image-picker'
@@ -32,7 +32,7 @@ const IdentifyHome = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text h2 style={{ flex: 0, left: 10, top: 20, color: '#8c8c8c' }}>
         AI-Enhanced
       </Text>
@@ -67,7 +67,7 @@ const IdentifyHome = ({ navigation }) => {
         />
       </View>
       <StatusBar style='auto' />
-    </View>
+    </SafeAreaView>
   )
 }
 
