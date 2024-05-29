@@ -6,6 +6,7 @@ import Register from '@/pages/user/register'
 import Login from '@/pages/user/login'
 import Explore from '@/pages/explore/explore-view'
 import User from '@/pages/user/user'
+import Daialy from '@/pages/user/daialy'
 
 export {
   CommunityRouter as Community,
@@ -16,4 +17,5 @@ export {
   Login,
   Explore,
   User,
+  Daialy,
 }

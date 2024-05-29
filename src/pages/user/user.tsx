@@ -29,9 +29,9 @@ const User = ({ navigation }) => {
       >
         <View style={{ marginVertical: 5 }}>
           <Text h3 style={{ color: '#bcd7d8', fontWeight: '600', marginTop: 10, marginBottom: 3 }}>
-            视野护林员
+            旅行者小张
           </Text>
-          <Text style={{ color: '#7a9596' }}>与“视野”相遇的第{21}天</Text>
+          <Text style={{ color: '#7a9596' }}>与“水天翼色”相遇的第{21}天</Text>
         </View>
         <Image
           source={require('../../../assets/images/avatar.png')}
@@ -48,7 +48,7 @@ const User = ({ navigation }) => {
         }}
       >
         {[
-          { name: 'heart', label: '我的收藏', screen: '用户登录' },
+          { name: 'heart', label: '我的收藏', screen: '发现图鉴' },
           { name: 'chat', label: '我的帖子', screen: '社区视野' },
           { name: 'flag', label: '我的足迹', screen: '探索地图' },
         ].map((item, index) => (
@@ -132,7 +132,7 @@ const User = ({ navigation }) => {
           styles.whiteCard,
           { marginHorizontal: 3, borderRadius: 18, paddingTop: 10, paddingBottom: 5 },
         ]}
-        onPress={() => navigation.navigate('探索地图')}
+        onPress={() => navigation.navigate('发现图鉴')}
       >
         <View
           style={{

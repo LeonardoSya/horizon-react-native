@@ -12,6 +12,7 @@ import {
   Login,
   Explore,
   User,
+  Daialy,
 } from '@/routers/pages-router'
 import { useAppSelector } from '@/hooks/redux-hooks'
 import { selectAuth } from '@/features/auth-slice'
@@ -27,7 +28,7 @@ const HomeStackScreen = () => {
       <HomeStack.Screen name='园区趣味导览' component={Explore} options={{}} />
       <HomeStack.Screen name='探索地图' component={MapPage} options={{ headerShown: false }} />
       <HomeStack.Screen name='社区视野' component={Community} />
-      {/* <Stack.Screen name='Like' component={Like} /> */}
+      <HomeStack.Screen name='发现图鉴' component={Daialy} />
     </HomeStack.Navigator>
   )
 }
@@ -52,6 +53,7 @@ const UserStackScreen = () => {
       <UserStack.Screen name='探索地图' component={MapPage} />
       <UserStack.Screen name='社区视野' component={Community} />
       <UserStack.Screen name='智能识别' component={Identify} />
+      <HomeStack.Screen name='发现图鉴' component={Daialy} />
     </UserStack.Navigator>
   )
 }

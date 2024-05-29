@@ -152,10 +152,10 @@ const cardData = [
   // sample data
   {
     id: '1',
-    avatarUri: 'https://randomuser.me/api/portraits/men/2.jpg',
+    avatarUri: 'https://randomuser.me/api/portraits/men/1.jpg',
     name: '张先生',
     date: 'Mar 25',
-    imageUri: 'https://picsum.photos/199',
+    imageUri: 'https://picsum.photos/120',
     title: '野鸭湖周边徒步',
     location: '野鸭湖湿地公园 · 北京',
     length: '6.68 km',

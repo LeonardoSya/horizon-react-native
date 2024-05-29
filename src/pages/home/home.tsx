@@ -13,7 +13,7 @@ const dailyPostItems = [
   {
     id: 1,
     imgSrc: img1,
-    title: '東方白鸛',
+    title: '东方白鸛',
     description:
       '东方白鹳是一种大型涉禽，属于鹳科鹳属。与白鹳是近亲，但比白鹳更大，体长1.29米，体重4.4千克，翼宽2.22米。与白鹳不同的是，除了翅膀为黑色外，东方白鹳的眼睛周围还有一块红色的皮肤。虹膜为白色，喙部黑色。',
   },
@@ -82,7 +82,7 @@ const Home = ({ navigation }) => {
               { link: '园区趣味导览', icon: 'map-pin' },
               { link: '探索地图', icon: 'map' },
               { link: '社区视野', icon: 'edit-3' },
-              { link: 'register', icon: 'thumbs-up' },
+              { link: '发现图鉴', icon: 'thumbs-up' },
             ].map((button, index) => (
               <AnimatedPressable
                 size={0.9}
@@ -113,11 +113,16 @@ const Home = ({ navigation }) => {
           {/* 视界日帖 */}
           <View style={{ marginVertical: 10 }}>
             {dailyPostItems.map(item => (
-              <AnimatedPressable key={item.id} size={0.95} style={styles.animatedPressable}>
+              <AnimatedPressable
+                key={item.id}
+                size={0.95}
+                style={styles.animatedPressable}
+                onPress={() => navigation.navigate('发现图鉴')}
+              >
                 <Image source={item.imgSrc} style={styles.image} />
                 <View style={styles.textContainer}>
                   <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.description} numberOfLines={1} ellipsizeMode='tail'>
+                  <Text style={styles.description} numberOfLines={2} ellipsizeMode='tail'>
                     {item.description}
                   </Text>
                 </View>
