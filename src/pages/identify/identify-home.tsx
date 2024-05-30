@@ -33,37 +33,47 @@ const IdentifyHome = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text h2 style={{ flex: 0, left: 10, top: 20, color: '#8c8c8c' }}>
-        AI-Enhanced
+      <Text h3 style={{ flex: 0, left: 20, top: 30, color: '#f5f5f5', fontWeight: '500' }}>
+        多模态增强
       </Text>
-      <Text h2 style={{ flex: 0, left: 10, marginTop: 20 }}>
-        Biometrics
+      <Text
+        h3
+        style={{
+          flex: 0,
+          left: 20,
+          marginTop: 37,
+          fontWeight: '600',
+          marginBottom: 10,
+          color: '#62a09a',
+        }}
+      >
+        物种智能识别
       </Text>
       <SearchBar placeholder={'Identifying with AI'} />
       <View style={styles.cards}>
         <HomeCard
           onPress={() => navigation.navigate('camera')}
           icon={<FontAwesome5 name='camera-retro' size={30} color='#008077' />}
-          title='SHOOT'
-          text='Take a photo and recognize it'
+          title='拍摄'
+          text='利用水天翼色内置相机进行拍摄与识别'
         />
         <HomeCard
           onPress={uploadImage}
           icon={<Fontisto name='photograph' size={30} color='#008077' />}
-          title='PHOTO'
-          text='Upload a photo or video'
+          title='上传影像'
+          text='多模态技术同时支持图片或视频的识别'
         />
         <HomeCard
           onPress={() => {}}
           icon={<MaterialIcons name='audio-file' size={32} color='#008077' />}
-          title='AUDIO'
-          text='Upload a auiod and recognize it'
+          title='上传音频'
+          text='自由录制鸟鸣声精准识别分析'
         />
         <HomeCard
           onPress={() => {}}
           icon={<Entypo name='github' size={32} color='#008077' />}
-          title='TAP'
-          text='I just want to tap it'
+          title='敬请期待'
+          text='更快更准的模型正在研发中...'
         />
       </View>
       <StatusBar style='auto' />
@@ -75,7 +85,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#fff',
+    backgroundColor: '#1f3037',
     padding: 6,
   },
   cards: {
@@ -105,23 +115,23 @@ const HomeCard = ({ icon, title, text, onPress }) => {
 const cardStyles = StyleSheet.create({
   container: {
     width: '40%',
-    marginVertical: 10,
+    marginVertical: 18,
     marginHorizontal: 10,
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#1f3037',
   },
   items: {
     height: 200,
-    borderWidth: 2,
+    borderWidth: 3,
     borderRadius: 18,
     borderColor: '#008077',
-    shadowColor: '#000',
+    shadowColor: '#fff',
     shadowOffset: {
       width: 0,
-      height: 6,
+      height: 5,
     },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.6,
     shadowRadius: 5,
     justifyContent: 'space-evenly',
     alignItems: 'center',
@@ -130,11 +140,13 @@ const cardStyles = StyleSheet.create({
   icon: {},
   title: {
     marginVertical: 10,
+    fontWeight: '500',
   },
   text: {
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
+    fontWeight: '600',
   },
 })
 

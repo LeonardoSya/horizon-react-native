@@ -1,21 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { ImageBackground, Linking, Pressable, StyleSheet, Text, View } from 'react-native'
-import { Camera, CameraType } from 'expo-camera'
+import { Camera, CameraView, useCameraPermissions } from 'expo-camera'
 import { CameraViewRef } from 'expo-camera/build/Camera.types'
-import AnimatedWrapper from '@/components/animated-wrapper'
 import { MaterialIcons, Octicons } from '@expo/vector-icons'
 import { captureRef } from 'react-native-view-shot'
 import * as MediaLibrary from 'expo-media-library'
-
-const zoomButtons = [
-  { display: 1, value: 1 },
-  { display: 3, value: 10 },
-  { display: 5, value: 25 },
-]
+import AnimatedWrapper from '@/components/animated-wrapper'
 
 export const CameraPage = ({ navigation }) => {
   const cameraRef = useRef<CameraViewRef>(null)
-  const [permission, requestPermission] = Camera.useCameraPermissions()
+  const [permission, requestPermission] = useCameraPermissions()
   const [previewVisible, setPreviewVisible] = useState(false)
   const [capturedImage, setCapturedImage] = useState<any>(null)
   const [zoom, setZoom] = useState(0.001)
@@ -43,6 +37,7 @@ export const CameraPage = ({ navigation }) => {
 
   const takePicture = async () => {
     if (cameraRef.current) {
+      // @ts-ignore
       const photo = await cameraRef.current.takePictureAsync()
       console.log(photo)
       setPreviewVisible(true)
@@ -68,11 +63,6 @@ export const CameraPage = ({ navigation }) => {
     }
   }
 
-  const handleZoomAdd = () => {
-    setFocusDepth(prev => (prev < 1 ? prev + 0.33 : 0))
-    console.log('add:', focusDepth)
-  }
-
   const handleZoomSub = () => {
     setFocusDepth(prev => (prev > 0 ? prev - 0.33 : 0))
     console.log('sub:', focusDepth)
@@ -96,23 +86,14 @@ export const CameraPage = ({ navigation }) => {
           </AnimatedWrapper>
         </View>
       ) : (
-        <Camera
-          ref={cameraRef}
-          style={styles.camera}
-          zoom={zoom}
-          focusDepth={focusDepth}
-          // autoFocus={Camera.Constants.AutoFocus}
-        >
-          <View style={styles.focusButtonsContainer}>
-            <Pressable style={styles.focusButton} onPress={handleZoomSub}>
-              <Text style={styles.focusIcon}>-</Text>
-            </Pressable>
-            <Pressable style={styles.focusButton} onPress={handleZoomAdd}>
-              <Text style={styles.focusIcon}>+</Text>
-            </Pressable>
-          </View>
+        // @ts-ignore
+        <CameraView ref={cameraRef} style={styles.camera} zoom={zoom} autoFocus='on'>
           <View style={styles.zoomButtonsContainer}>
-            {zoomButtons.map((zoom, i) => (
+            {[
+              { display: 1, value: 1 },
+              { display: 3, value: 10 },
+              { display: 5, value: 25 },
+            ].map((zoom, i) => (
               <Pressable
                 key={i}
                 style={styles.zoomButton}
@@ -135,7 +116,7 @@ export const CameraPage = ({ navigation }) => {
               </Pressable>
             </View>
           </AnimatedWrapper>
-        </Camera>
+        </CameraView>
       )}
     </View>
   )

@@ -24,7 +24,7 @@
     "@rneui/themed": "^4.0.0-rc.8",
     "axios": "^1.6.8",
     "expo": "~51.0.8",
-    "expo-camera": "~15.0.9",
+    "expo-camera": "~15.0.10",
     "expo-image-picker": "~15.0.5",
     "expo-location": "^17.0.1",
     "expo-media-library": "^16.0.3",
