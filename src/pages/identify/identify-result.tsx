@@ -7,7 +7,8 @@ import BottomSheet, { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bott
 
 const placeholderImage = require('../../../assets/adaptive-icon.png')
 
-const text = '猫猫是来自北京林业大学的锅炉房的猫猫，有虎皮猫大橘猫猫猫猫'
+const text =
+  '鸳鸯，学名Aix galericulata，是雁形目鸭科的一种鸟类，属于中型水禽。雄鸟具有极为鲜明的黑白红色调，而雌鸟则色彩较为柔和。鸳鸯多栖息于湖泊、河流或池塘等清澈水域，主要以水生植物、小鱼和昆虫为食。在中国传统文化中，鸳鸯常被视为夫妻恩爱的象征。'
 
 //!! useTransition 过渡任务
 
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     alignSelf: 'center',
-    margin: 20,
+    margin: 15,
   },
 })
 

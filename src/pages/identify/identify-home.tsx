@@ -27,7 +27,7 @@ const IdentifyHome = ({ navigation }) => {
       const newSelectedImage = result.assets[0].uri
       setSelectedImage(newSelectedImage)
       setHasUpload(true)
-      navigation.push('identifyResult', { image: newSelectedImage })
+      navigation.push('物种智能识别', { image: newSelectedImage })
     }
   }
 
@@ -52,7 +52,7 @@ const IdentifyHome = ({ navigation }) => {
       <SearchBar placeholder={'Identifying with AI'} />
       <View style={styles.cards}>
         <HomeCard
-          onPress={() => navigation.navigate('camera')}
+          onPress={() => navigation.navigate('内置相机')}
           icon={<FontAwesome5 name='camera-retro' size={30} color='#008077' />}
           title='拍摄'
           text='利用水天翼色内置相机进行拍摄与识别'

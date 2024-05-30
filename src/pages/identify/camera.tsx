@@ -48,7 +48,7 @@ export const CameraPage = ({ navigation }) => {
   }
 
   const uploadPicture = async () => {
-    capturedImage && navigation.push('identifyResult', { image: capturedImage })
+    capturedImage && navigation.push('物种智能识别', { image: capturedImage })
   }
 
   const savePicture = async () => {
@@ -97,9 +97,7 @@ export const CameraPage = ({ navigation }) => {
               <Pressable
                 key={i}
                 style={styles.zoomButton}
-                onPress={() => {
-                  setZoom(zoom.value / 1000)
-                }}
+                onPress={() => setZoom(zoom.value / 1000)}
               >
                 <Text style={styles.zoomText}>{zoom.display}</Text>
               </Pressable>
