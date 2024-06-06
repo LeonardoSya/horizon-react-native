@@ -10,8 +10,6 @@ import { MySearchBar as SearchBar } from '@/components/search-bar'
 import { uploadImage as uploadToServer } from '@/api/upload-image-service'
 
 const IdentifyHome = ({ navigation }) => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [hasUpload, setHasUpload] = useState<boolean>(false)
   const [status, requestPermission] = MediaLibrary.usePermissions()
 
   if (status === null) requestPermission()
@@ -25,11 +23,10 @@ const IdentifyHome = ({ navigation }) => {
     })
 
     if (!result.canceled) {
-      const asset = result.assets[0]
-      setSelectedImage(asset.uri)
-      setHasUpload(true)
-      const res = await uploadToServer(asset.uri)
-      res.success ? navigation.push('物种智能识别', { image: asset.uri }) : alert(res.msg)
+      const uri = result.assets[0].uri
+      const res = await uploadToServer(uri)
+      const mediaID = res.mediaID
+      res.success ? navigation.push('物种智能识别', { image: uri, mediaID }) : alert(res.msg)
     }
   }
 
@@ -72,7 +69,13 @@ const IdentifyHome = ({ navigation }) => {
           text='自由录制鸟鸣声精准识别分析'
         />
         <HomeCard
-          onPress={() => {}}
+          // !! 仅供测试
+          onPress={() =>
+            navigation.push('物种智能识别', {
+              image: require('../../../assets/images/小天鹅.jpg'),
+              mediaID: 24,
+            })
+          }
           icon={<Entypo name='github' size={32} color='#008077' />}
           title='敬请期待'
           text='更快更准的模型正在研发中...'

@@ -16,6 +16,7 @@ import {
 } from '@/routers/pages-router'
 import { useAppSelector } from '@/hooks/redux-hooks'
 import { selectAuth } from '@/features/auth-slice'
+import BASE_URL from '@/api/config'
 
 const Tab = createBottomTabNavigator()
 const HomeStack = createNativeStackNavigator()
@@ -60,7 +61,7 @@ const UserStackScreen = () => {
 
 const RootRouter = () => {
   const linking = {
-    prefixes: ['http://127.0.0.1:8081'],
+    prefixes: [BASE_URL],
     config: {
       screens: {
         Home: 'home',

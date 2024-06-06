@@ -1,4 +1,5 @@
 import axios from 'axios'
+import BASE_URL from './config'
 
 export const uploadImage = async (uri: string) => {
   try {
@@ -6,7 +7,7 @@ export const uploadImage = async (uri: string) => {
       image: uri,
     }
 
-    const response = await axios.post('http://127.0.0.1:8000/image', data, {
+    const res = await axios.post(`${BASE_URL}/image`, data, {
       headers: {
         'Content-Type': 'application/json',
         //! token需更改
@@ -15,9 +16,9 @@ export const uploadImage = async (uri: string) => {
       },
     })
 
-    if (response.status === 200) {
-      console.log('Upload successful', response.data)
-      return { success: true, msg: 'Upload successful' }
+    if (res.status === 200) {
+      console.log(`Upload successful, mediaID:${res.data.data.mediaID} `, res.data)
+      return { success: true, mediaID: res.data.data.mediaID }
     } else {
       return { success: false, msg: 'Upload failed' }
     }

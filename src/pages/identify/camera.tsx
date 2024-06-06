@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { ImageBackground, Linking, Pressable, StyleSheet, View } from 'react-native'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { ImageBackground, Pressable, StyleSheet, View } from 'react-native'
 import * as MediaLibrary from 'expo-media-library'
 import { Text } from '@rneui/themed'
 import { Camera, CameraView, useCameraPermissions, CameraViewRef } from 'expo-camera'
@@ -7,12 +7,13 @@ import { Entypo, AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector
 import { captureRef } from 'react-native-view-shot'
 import AnimatedWrapper from '@/components/animated-wrapper'
 import { uploadImage as uploadToServer } from '@/api/upload-image-service'
+import openSettings from '@/utils/open-settings'
 
 export const CameraPage = ({ navigation }) => {
   const cameraRef = useRef<CameraViewRef>(null)
   const [permission, requestPermission] = useCameraPermissions()
   const [previewVisible, setPreviewVisible] = useState(false)
-  const [capturedImage, setCapturedImage] = useState<any>(null)
+  const [capturedImage, setCapturedImage] = useState<string | null>(null)
   const [zoom, setZoom] = useState(0.001)
 
   useEffect(() => {
@@ -26,16 +27,7 @@ export const CameraPage = ({ navigation }) => {
     })()
   }, [permission])
 
-  const openSettings = async () => {
-    const canOpen = await Linking.canOpenURL('app-settings:')
-    if (canOpen) {
-      await Linking.openURL('app-settings:')
-    } else {
-      console.error('Unable tpo open settings')
-    }
-  }
-
-  const takePicture = async () => {
+  const takePicture = useCallback(async () => {
     if (cameraRef.current) {
       // @ts-ignore
       const photo = await cameraRef.current.takePictureAsync()
@@ -45,88 +37,47 @@ export const CameraPage = ({ navigation }) => {
     } else {
       console.error('Camera not ready')
     }
-  }
+  }, [])
 
-  const uploadImage = async () => {
+  const uploadImage = useCallback(async () => {
     if (capturedImage) {
-      const uri = capturedImage
-      const res = await uploadToServer(uri)
-      res.success ? navigation.push('物种智能识别', { image: uri }) : alert(res.msg)
-    }
-  }
-
-  const savePicture = async () => {
-    if (capturedImage.uri) {
       try {
-        const localUri = await captureRef(capturedImage, { quality: 1 })
-        await MediaLibrary.saveToLibraryAsync(localUri)
-        localUri && alert('Image saved to gallery')
+        const res = await uploadToServer(capturedImage)
+        const mediaID = res.mediaID
+        res.success
+          ? navigation.push('物种智能识别', { image: capturedImage, mediaID })
+          : alert(res.msg)
       } catch (error) {
-        console.error(error)
+        console.error('Failed to upload image', error)
       }
     }
-  }
+  }, [capturedImage, navigation])
+
+  // const savePicture = async () => {
+  //   if (capturedImage.uri) {
+  //     try {
+  //       const localUri = await captureRef(capturedImage, { quality: 1 })
+  //       await MediaLibrary.saveToLibraryAsync(localUri)
+  //       localUri && alert('Image saved to gallery')
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  // }
 
   return (
     <View style={styles.container}>
       {previewVisible && capturedImage ? (
         <View style={styles.cameraPreview}>
           <ImageBackground source={{ uri: capturedImage && capturedImage }} style={{ flex: 1 }} />
-          <Pressable style={styles.closeButton}>
+          <Pressable style={styles.closeButton} onPress={() => navigation.pop()}>
             <AntDesign name='close' size={24} color='#ffffffd9' />
           </Pressable>
           <Text style={styles.title}>智能相机</Text>
-          <Pressable style={styles.settingsButton}>
+          <Pressable style={styles.settingsButton} onPress={openSettings}>
             <MaterialCommunityIcons name='dots-vertical' size={24} color='#ffffffd9' />
           </Pressable>
-          <View
-            style={[
-              styles.cameraBorder,
-              {
-                top: 160,
-                left: 25,
-                borderTopWidth: 8,
-                borderLeftWidth: 8,
-                borderTopLeftRadius: 35,
-              },
-            ]}
-          />
-          <View
-            style={[
-              styles.cameraBorder,
-              {
-                top: 160,
-                right: 25,
-                borderTopWidth: 8,
-                borderRightWidth: 8,
-                borderTopRightRadius: 35,
-              },
-            ]}
-          />
-          <View
-            style={[
-              styles.cameraBorder,
-              {
-                bottom: 260,
-                left: 25,
-                borderBottomWidth: 8,
-                borderLeftWidth: 8,
-                borderBottomLeftRadius: 35,
-              },
-            ]}
-          />
-          <View
-            style={[
-              styles.cameraBorder,
-              {
-                bottom: 260,
-                right: 25,
-                borderBottomWidth: 8,
-                borderRightWidth: 8,
-                borderBottomRightRadius: 35,
-              },
-            ]}
-          />
+          <UIComponent />
           <View style={styles.zoomButtonsContainer}>
             {[
               { display: 1, value: 1 },
@@ -157,61 +108,14 @@ export const CameraPage = ({ navigation }) => {
       ) : (
         // @ts-ignore
         <CameraView ref={cameraRef} style={styles.camera} zoom={zoom} autoFocus='on'>
-          <Pressable style={styles.closeButton}>
+          <Pressable style={styles.closeButton} onPress={() => navigation.pop()}>
             <AntDesign name='close' size={24} color='#ffffffd9' />
           </Pressable>
           <Text style={styles.title}>智能相机</Text>
-          <Pressable style={styles.settingsButton}>
+          <Pressable style={styles.settingsButton} onPress={openSettings}>
             <MaterialCommunityIcons name='dots-vertical' size={24} color='#ffffffd9' />
           </Pressable>
-          <View
-            style={[
-              styles.cameraBorder,
-              {
-                top: 160,
-                left: 25,
-                borderTopWidth: 8,
-                borderLeftWidth: 8,
-                borderTopLeftRadius: 35,
-              },
-            ]}
-          />
-          <View
-            style={[
-              styles.cameraBorder,
-              {
-                top: 160,
-                right: 25,
-                borderTopWidth: 8,
-                borderRightWidth: 8,
-                borderTopRightRadius: 35,
-              },
-            ]}
-          />
-          <View
-            style={[
-              styles.cameraBorder,
-              {
-                bottom: 260,
-                left: 25,
-                borderBottomWidth: 8,
-                borderLeftWidth: 8,
-                borderBottomLeftRadius: 35,
-              },
-            ]}
-          />
-          <View
-            style={[
-              styles.cameraBorder,
-              {
-                bottom: 260,
-                right: 25,
-                borderBottomWidth: 8,
-                borderRightWidth: 8,
-                borderBottomRightRadius: 35,
-              },
-            ]}
-          />
+          <UIComponent />
           <View style={styles.zoomButtonsContainer}>
             {[
               { display: 1, value: 1 },
@@ -243,6 +147,59 @@ export const CameraPage = ({ navigation }) => {
     </View>
   )
 }
+
+const UIComponent = () => (
+  <>
+    <View
+      style={[
+        styles.cameraBorder,
+        {
+          top: 160,
+          left: 25,
+          borderTopWidth: 8,
+          borderLeftWidth: 8,
+          borderTopLeftRadius: 35,
+        },
+      ]}
+    />
+    <View
+      style={[
+        styles.cameraBorder,
+        {
+          top: 160,
+          right: 25,
+          borderTopWidth: 8,
+          borderRightWidth: 8,
+          borderTopRightRadius: 35,
+        },
+      ]}
+    />
+    <View
+      style={[
+        styles.cameraBorder,
+        {
+          bottom: 260,
+          left: 25,
+          borderBottomWidth: 8,
+          borderLeftWidth: 8,
+          borderBottomLeftRadius: 35,
+        },
+      ]}
+    />
+    <View
+      style={[
+        styles.cameraBorder,
+        {
+          bottom: 260,
+          right: 25,
+          borderBottomWidth: 8,
+          borderRightWidth: 8,
+          borderBottomRightRadius: 35,
+        },
+      ]}
+    />
+  </>
+)
 
 const styles = StyleSheet.create({
   container: {

@@ -1,8 +1,8 @@
 import { View, StyleSheet, Pressable, Image } from 'react-native'
 import { Feather, Ionicons, AntDesign, Entypo } from '@expo/vector-icons'
 import { Divider, Text } from '@rneui/themed'
-import AppSettingsPressable from '@/components/open-app-settings'
 import AnimatedPressable from '@/components/animated-pressable'
+import openSettings from '@/utils/open-settings'
 
 const User = ({ navigation }) => {
   return (
@@ -12,9 +12,9 @@ const User = ({ navigation }) => {
         <Pressable>
           <Feather name='mail' size={28} color='#bcd7d8' />
         </Pressable>
-        <AppSettingsPressable>
+        <Pressable onPress={openSettings}>
           <Ionicons name='settings-outline' size={28} color='#bcd7d8' />
-        </AppSettingsPressable>
+        </Pressable>
       </View>
       {/* user */}
       <View

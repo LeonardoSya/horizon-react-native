@@ -3,12 +3,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
 import { useEffect } from 'react'
 import { Platform } from 'react-native'
+import BASE_URL from './config'
 
 const isWeb = Platform.OS === 'web'
 
 // Create Axios Instance
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
     Accept: '*/*',

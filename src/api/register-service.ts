@@ -1,4 +1,5 @@
 import axios from 'axios'
+import BASE_URL from './config'
 
 export interface RegisterUserData {
   username: string
@@ -11,12 +12,12 @@ export const registerUser = async (userData: RegisterUserData): Promise<{ status
 
   const config = {
     method: 'post',
-    url: 'http://127.0.0.1:8000/user/register',
+    url: `${BASE_URL}/user/register`,
     headers: {
       'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
       'Content-Type': 'application/json',
       Accept: '*/*',
-      Host: '127.0.0.1:8000',
+      Host: BASE_URL,
       Connection: 'keep-alive',
     },
     data: data,

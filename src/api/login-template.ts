@@ -1,6 +1,7 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
+import BASE_URL from './config'
 
 export const loginUser = async (
   username: string,
@@ -19,12 +20,12 @@ export const loginUser = async (
 
   const config = {
     method: 'post',
-    url: 'http://127.0.0.1:8000/user/login',
+    url: `${BASE_URL}/user/login`,
     headers: {
       'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
       'Content-Type': 'application/json',
       Accept: '*/*',
-      Host: '127.0.0.1:8000',
+      Host: BASE_URL,
       Connection: 'keep-alive',
     },
     data: data,
