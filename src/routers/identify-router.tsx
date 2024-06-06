@@ -7,10 +7,14 @@ const Stack = createNativeStackNavigator()
 
 const IdentifyRouter = () => {
   return (
-    <Stack.Navigator initialRouteName='identifyHome'>
-      <Stack.Screen name='identifyHome' component={IdentifyHome} />
+    <Stack.Navigator initialRouteName='识别首页'>
+      <Stack.Screen name='识别首页' component={IdentifyHome} options={{ headerShown: false }} />
       <Stack.Screen name='内置相机' component={Camera} options={{ headerShown: false }} />
-      <Stack.Screen name='物种智能识别' component={IdentifyResult} />
+      <Stack.Screen
+        name='物种智能识别'
+        component={IdentifyResult}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   )
 }

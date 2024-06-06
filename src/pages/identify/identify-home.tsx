@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { View, StyleSheet, SafeAreaView } from 'react-native'
-import { Text } from '@rneui/themed'
-import { StatusBar } from 'expo-status-bar'
 import * as ImagePicker from 'expo-image-picker'
 import * as MediaLibrary from 'expo-media-library'
+import { Text } from '@rneui/themed'
+import { StatusBar } from 'expo-status-bar'
 import { MaterialIcons, FontAwesome5, Entypo, Fontisto } from '@expo/vector-icons'
-import { MySearchBar as SearchBar } from '@/components/search-bar'
 import AnimatedWrapper from '@/components/animated-wrapper'
+import { MySearchBar as SearchBar } from '@/components/search-bar'
+import { uploadImage as uploadToServer } from '@/api/upload-image-service'
 
 const IdentifyHome = ({ navigation }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -17,17 +18,18 @@ const IdentifyHome = ({ navigation }) => {
 
   const uploadImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     })
 
-    if (!result.canceled && result.assets[0]) {
-      const newSelectedImage = result.assets[0].uri
-      setSelectedImage(newSelectedImage)
+    if (!result.canceled) {
+      const asset = result.assets[0]
+      setSelectedImage(asset.uri)
       setHasUpload(true)
-      navigation.push('物种智能识别', { image: newSelectedImage })
+      const res = await uploadToServer(asset.uri)
+      res.success ? navigation.push('物种智能识别', { image: asset.uri }) : alert(res.msg)
     }
   }
 

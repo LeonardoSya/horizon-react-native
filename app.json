@@ -36,6 +36,13 @@
         {
           "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Selecct and upload images.",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+        }
       ]
     ],
     "ios": {

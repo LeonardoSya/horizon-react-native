@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { ImageBackground, Linking, Pressable, StyleSheet, Text, View } from 'react-native'
-import { Camera, CameraView, useCameraPermissions } from 'expo-camera'
-import { CameraViewRef } from 'expo-camera/build/Camera.types'
-import { MaterialIcons, Octicons } from '@expo/vector-icons'
-import { captureRef } from 'react-native-view-shot'
+import { ImageBackground, Linking, Pressable, StyleSheet, View } from 'react-native'
 import * as MediaLibrary from 'expo-media-library'
+import { Text } from '@rneui/themed'
+import { Camera, CameraView, useCameraPermissions, CameraViewRef } from 'expo-camera'
+import { Entypo, AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons'
+import { captureRef } from 'react-native-view-shot'
 import AnimatedWrapper from '@/components/animated-wrapper'
+import { uploadImage as uploadToServer } from '@/api/upload-image-service'
 
 export const CameraPage = ({ navigation }) => {
   const cameraRef = useRef<CameraViewRef>(null)
@@ -13,7 +14,6 @@ export const CameraPage = ({ navigation }) => {
   const [previewVisible, setPreviewVisible] = useState(false)
   const [capturedImage, setCapturedImage] = useState<any>(null)
   const [zoom, setZoom] = useState(0.001)
-  const [focusDepth, setFocusDepth] = useState(0)
 
   useEffect(() => {
     ;(async () => {
@@ -47,8 +47,12 @@ export const CameraPage = ({ navigation }) => {
     }
   }
 
-  const uploadPicture = async () => {
-    capturedImage && navigation.push('物种智能识别', { image: capturedImage })
+  const uploadImage = async () => {
+    if (capturedImage) {
+      const uri = capturedImage
+      const res = await uploadToServer(uri)
+      res.success ? navigation.push('物种智能识别', { image: uri }) : alert(res.msg)
+    }
   }
 
   const savePicture = async () => {
@@ -63,24 +67,89 @@ export const CameraPage = ({ navigation }) => {
     }
   }
 
-  const handleZoomSub = () => {
-    setFocusDepth(prev => (prev > 0 ? prev - 0.33 : 0))
-    console.log('sub:', focusDepth)
-  }
-
   return (
     <View style={styles.container}>
       {previewVisible && capturedImage ? (
         <View style={styles.cameraPreview}>
           <ImageBackground source={{ uri: capturedImage && capturedImage }} style={{ flex: 1 }} />
+          <Pressable style={styles.closeButton}>
+            <AntDesign name='close' size={24} color='#ffffffd9' />
+          </Pressable>
+          <Text style={styles.title}>智能相机</Text>
+          <Pressable style={styles.settingsButton}>
+            <MaterialCommunityIcons name='dots-vertical' size={24} color='#ffffffd9' />
+          </Pressable>
+          <View
+            style={[
+              styles.cameraBorder,
+              {
+                top: 160,
+                left: 25,
+                borderTopWidth: 8,
+                borderLeftWidth: 8,
+                borderTopLeftRadius: 35,
+              },
+            ]}
+          />
+          <View
+            style={[
+              styles.cameraBorder,
+              {
+                top: 160,
+                right: 25,
+                borderTopWidth: 8,
+                borderRightWidth: 8,
+                borderTopRightRadius: 35,
+              },
+            ]}
+          />
+          <View
+            style={[
+              styles.cameraBorder,
+              {
+                bottom: 260,
+                left: 25,
+                borderBottomWidth: 8,
+                borderLeftWidth: 8,
+                borderBottomLeftRadius: 35,
+              },
+            ]}
+          />
+          <View
+            style={[
+              styles.cameraBorder,
+              {
+                bottom: 260,
+                right: 25,
+                borderBottomWidth: 8,
+                borderRightWidth: 8,
+                borderBottomRightRadius: 35,
+              },
+            ]}
+          />
+          <View style={styles.zoomButtonsContainer}>
+            {[
+              { display: 1, value: 1 },
+              { display: 3, value: 10 },
+              { display: 5, value: 25 },
+            ].map((zoom, i) => (
+              <Pressable
+                key={i}
+                style={styles.zoomButton}
+                onPress={() => setZoom(zoom.value / 1000)}
+              >
+                <Text style={styles.zoomText}>{zoom.display}</Text>
+              </Pressable>
+            ))}
+          </View>
           <AnimatedWrapper
             onPress={null}
             containerStyle={styles.cameraButtonWrapper}
             itemsStyle={styles.cameraButtonContainer}
           >
             <View style={styles.cameraButton}>
-              <Pressable onPress={uploadPicture}>
-                <Octicons name='check' size={50} color='#008077' />
+              <Pressable onPress={uploadImage}>
+                <Entypo name='fingerprint' size={35} color='#407f79' />
               </Pressable>
             </View>
           </AnimatedWrapper>
@@ -88,6 +157,61 @@ export const CameraPage = ({ navigation }) => {
       ) : (
         // @ts-ignore
         <CameraView ref={cameraRef} style={styles.camera} zoom={zoom} autoFocus='on'>
+          <Pressable style={styles.closeButton}>
+            <AntDesign name='close' size={24} color='#ffffffd9' />
+          </Pressable>
+          <Text style={styles.title}>智能相机</Text>
+          <Pressable style={styles.settingsButton}>
+            <MaterialCommunityIcons name='dots-vertical' size={24} color='#ffffffd9' />
+          </Pressable>
+          <View
+            style={[
+              styles.cameraBorder,
+              {
+                top: 160,
+                left: 25,
+                borderTopWidth: 8,
+                borderLeftWidth: 8,
+                borderTopLeftRadius: 35,
+              },
+            ]}
+          />
+          <View
+            style={[
+              styles.cameraBorder,
+              {
+                top: 160,
+                right: 25,
+                borderTopWidth: 8,
+                borderRightWidth: 8,
+                borderTopRightRadius: 35,
+              },
+            ]}
+          />
+          <View
+            style={[
+              styles.cameraBorder,
+              {
+                bottom: 260,
+                left: 25,
+                borderBottomWidth: 8,
+                borderLeftWidth: 8,
+                borderBottomLeftRadius: 35,
+              },
+            ]}
+          />
+          <View
+            style={[
+              styles.cameraBorder,
+              {
+                bottom: 260,
+                right: 25,
+                borderBottomWidth: 8,
+                borderRightWidth: 8,
+                borderBottomRightRadius: 35,
+              },
+            ]}
+          />
           <View style={styles.zoomButtonsContainer}>
             {[
               { display: 1, value: 1 },
@@ -110,7 +234,7 @@ export const CameraPage = ({ navigation }) => {
           >
             <View style={styles.cameraButton}>
               <Pressable onPress={takePicture}>
-                <MaterialIcons name='camera' size={50} color='#008077' />
+                <Feather name='camera' size={30} color='#315c59' />
               </Pressable>
             </View>
           </AnimatedWrapper>
@@ -135,23 +259,25 @@ const styles = StyleSheet.create({
   },
   cameraButtonWrapper: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 35,
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
   cameraButtonContainer: {
-    width: 70,
-    height: 70,
+    width: 75,
+    height: 75,
     borderWidth: 4,
-    borderColor: '#008077',
+    borderColor: '#315c59',
     borderRadius: 42,
+    padding: 3,
   },
   cameraButton: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 42,
+    backgroundColor: '#f0f0f0',
   },
   cameraPreview: {
     backgroundColor: 'transparent',
@@ -206,5 +332,29 @@ const styles = StyleSheet.create({
   },
   focusIcon: {
     color: '#fff',
+  },
+  closeButton: {
+    position: 'absolute',
+    left: 20,
+    top: 60,
+  },
+  settingsButton: {
+    position: 'absolute',
+    right: 20,
+    top: 60,
+  },
+  title: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 60,
+    color: '#ffffffd9',
+    fontWeight: 500,
+    fontSize: 20,
+  },
+  cameraBorder: {
+    position: 'absolute',
+    borderColor: '#ffffffa8',
+    width: 35,
+    height: 35,
   },
 })

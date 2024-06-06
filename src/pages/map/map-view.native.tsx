@@ -19,7 +19,7 @@ const MyMapView: React.FC<MyMapViewProps> = ({ mapType }) => {
         style={styles.map}
         initialRegion={region}
         showsUserLocation={true}
-        // followsUserLocation={true}
+        followsUserLocation={true}
         mapType={mapType}
       >
         <Marker coordinate={startLocation} pinColor='#237804' />

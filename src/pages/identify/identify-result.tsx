@@ -1,86 +1,80 @@
-import { useRef, useState, useMemo } from 'react'
-import { View, StyleSheet } from 'react-native'
-import { Text, Image } from '@rneui/themed'
-import ImageViewer from '@/components/image-viewer'
-import CircleButton from '@/components/circle-button'
+import { useRef, useState, useMemo, useEffect } from 'react'
+import { View, StyleSheet, Image, Pressable, ImageBackground } from 'react-native'
+import { Text } from '@rneui/themed'
 import BottomSheet, { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet'
+import { Entypo } from '@expo/vector-icons'
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  withDelay,
+} from 'react-native-reanimated'
 
-const placeholderImage = require('../../../assets/adaptive-icon.png')
-
-const text =
-  '鸳鸯，学名Aix galericulata，是雁形目鸭科的一种鸟类，属于中型水禽。雄鸟具有极为鲜明的黑白红色调，而雌鸟则色彩较为柔和。鸳鸯多栖息于湖泊、河流或池塘等清澈水域，主要以水生植物、小鱼和昆虫为食。在中国传统文化中，鸳鸯常被视为夫妻恩爱的象征。'
-
-//!! useTransition 过渡任务
+const background = require('../../../assets/images/identify-bg.png')
 
 const IdentifyResult = ({ route }) => {
   const { image } = route.params
-  const imageRef = useRef(null)
-  const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const [selectedImage, setSelectedImage] = useState<string | null>(image)
-  const snapPoints = useMemo(() => ['35%'], [])
+  const scale = useSharedValue(1)
+  const translateX = useSharedValue(0)
+  const translateY = useSharedValue(150)
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: translateX.value },
+        { translateY: translateY.value },
+        { scale: scale.value },
+      ],
+    }
+  })
 
-  const handleOpenBottomSheet = () => {
-    bottomSheetRef.current?.expand()
+  const startAnimation = () => {
+    scale.value = withDelay(
+      50,
+      withTiming(0.4, {
+        duration: 400,
+        easing: Easing.bezier(0.25, 0.46, 0.45, 0.94),
+      }),
+    )
+    translateX.value = withDelay(
+      50,
+      withTiming(-90, {
+        duration: 400,
+        easing: Easing.bezier(0.25, 0.46, 0.45, 0.94),
+      }),
+    )
+    translateY.value = withDelay(
+      50,
+      withTiming(-50, {
+        duration: 400,
+        easing: Easing.bezier(0.25, 0.46, 0.45, 0.94),
+      }),
+    )
   }
+  useEffect(() => {
+    startAnimation()
+  }, [])
 
   return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer} ref={imageRef}>
-        <ImageViewer selectedImage={selectedImage} placeholderImageSource={placeholderImage} />
-        <CircleButton onPress={handleOpenBottomSheet} />
+    <ImageBackground source={background} style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Animated.Image source={{ uri: image }} style={[styles.uploadImage, animatedStyle]} />
+        <Text></Text>
       </View>
-      <BottomSheet
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        index={-1}
-        enablePanDownToClose={true}
-        style={{ borderRadius: 30, shadowOpacity: 0.2 }}
-        handleIndicatorStyle={{ backgroundColor: '#292e20' }}
-        backdropComponent={props => (
-          <BottomSheetBackdrop {...props} opacity={0.5} appearsOnIndex={0} disappearsOnIndex={-1} />
-        )}
-      >
-        <View style={styles.contentContainer}>
-          <Image source={{ uri: selectedImage as string }} style={styles.bottomSheetImage} />
-          <Text style={styles.text}>{text}</Text>
-        </View>
-      </BottomSheet>
-    </View>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    padding: 6,
+    marginHorizontal: '4%',
+    backgroundColor: 'rgba(0,0,0,.3)',
   },
-  imageContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  contentContainer: {
-    flexDirection: 'row',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 6,
-  },
-  bottomSheetImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 18,
-    margin: 20,
-  },
-  text: {
-    flex: 1,
-    alignItems: 'center',
-    alignSelf: 'center',
-    margin: 15,
+  uploadImage: {
+    width: '100%',
+    height: '50%',
+    borderRadius: 10,
   },
 })
 

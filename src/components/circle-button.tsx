@@ -1,17 +1,14 @@
 import { View, Pressable, StyleSheet } from 'react-native'
-import { Entypo } from '@expo/vector-icons'
 import AnimatedWrapper from '@/components/animated-wrapper'
 
-export default function CircleButton({ onPress }) {
+export default function CircleButton({ onPress, children }) {
   return (
     <AnimatedWrapper
       onPress={onPress}
       containerStyle={null}
       itemsStyle={styles.circleButtonContainer}
     >
-      <View style={styles.circleButton}>
-        <Entypo name='fingerprint' size={38} color='#008077' />
-      </View>
+      <View style={styles.circleButton}>{children}</View>
     </AnimatedWrapper>
   )
 }
