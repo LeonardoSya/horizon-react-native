@@ -19,6 +19,7 @@ export const recognizeImage = async (mediaID: number) => {
       return {
         name: res.data.data[0][0],
         prediction: res.data.data[0][1],
+        time: res.data.time,
       }
     } else {
       return {
