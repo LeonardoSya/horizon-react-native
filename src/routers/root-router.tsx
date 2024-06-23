@@ -13,10 +13,11 @@ import {
   Explore,
   User,
   Daialy,
+  Lake,
 } from '@/routers/pages-router'
 import { useAppSelector } from '@/hooks/redux-hooks'
 import { selectAuth } from '@/features/auth-slice'
-import BASE_URL from '@/api/config'
+import { BASE_URL } from '@/api/config'
 
 const Tab = createBottomTabNavigator()
 const HomeStack = createNativeStackNavigator()
@@ -27,6 +28,7 @@ const HomeStackScreen = () => {
     <HomeStack.Navigator initialRouteName='home'>
       <HomeStack.Screen name='首页' component={Home} options={{ headerShown: false }} />
       <HomeStack.Screen name='园区趣味导览' component={Explore} options={{}} />
+      <HomeStack.Screen name='野鸭湖' component={Lake} options={{ headerShown: false }} />
       <HomeStack.Screen name='探索地图' component={MapPage} options={{ headerShown: false }} />
       <HomeStack.Screen name='社区视野' component={Community} />
       <HomeStack.Screen name='发现图鉴' component={Daialy} />

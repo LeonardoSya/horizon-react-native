@@ -7,6 +7,7 @@ import Login from '@/pages/user/login'
 import Explore from '@/pages/explore/explore-view'
 import User from '@/pages/user/user'
 import Daialy from '@/pages/user/daialy'
+import Lake from '@/pages/explore/lake'
 
 export {
   CommunityRouter as Community,
@@ -18,4 +19,5 @@ export {
   Explore,
   User,
   Daialy,
+  Lake,
 }

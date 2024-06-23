@@ -1,6 +1,13 @@
 import { useState, useEffect, useCallback } from 'react'
 import { View, StyleSheet, Pressable, ImageBackground, SafeAreaView, Image } from 'react-native'
 import { Text } from '@rneui/themed'
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  withDelay,
+} from 'react-native-reanimated'
 import { recognizeImage } from '@/api/recognize-image'
 import { ScrollView } from 'react-native-gesture-handler'
 import AnimatedPressable from '@/components/animated-pressable'
@@ -61,14 +68,39 @@ const IdentifyResult = ({ route, navigation }) => {
     }
   }, [mediaID])
 
+  // const scale = useSharedValue(1)
+  // const translateX = useSharedValue(0)
+  // const translateY = useSharedValue(150)
+  // const animatedStyle = useAnimatedStyle(
+  //   () => ({
+  //     transform: [
+  //       { translateX: translateX.value },
+  //       { translateY: translateY.value },
+  //       { scale: scale.value },
+  //     ],
+  //   }),
+  //   [],
+  // )
+
+  // const startAnimation = useCallback(() => {
+  //   const timingConfig = {
+  //     duration: 400,
+  //     easing: Easing.bezier(0.25, 0.46, 0.45, 0.94),
+  //   }
+  //   scale.value = withDelay(50, withTiming(0.4, timingConfig))
+  //   translateX.value = withDelay(50, withTiming(-90, timingConfig))
+  //   translateY.value = withDelay(50, withTiming(-50, timingConfig))
+  // }, [scale, translateX, translateY])
+
   useEffect(() => {
+    // startAnimation()
     handleRecognize()
   }, [handleRecognize])
 
   return (
     <ImageBackground source={background} style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
-        <Pressable style={styles.searchButton} onPress={openSettings}>
+        <Pressable style={styles.searchButton} onPress={() => navigation.pop()}>
           <AntDesign name='search1' size={24} color='#ffffffd9' />
         </Pressable>
         <Text style={styles.title}>多模态物种识别</Text>
@@ -137,6 +169,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 10,
     elevation: 5,
+    // transform: [{ perspective: 500 }, { rotate: '-20deg' }],
   },
   cardImage: {
     width: 120,

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import BASE_URL from './config'
+import { BASE_URL, AUTHORIZATION } from './config'
 
 export const uploadImage = async (uri: string) => {
   try {
@@ -11,8 +11,7 @@ export const uploadImage = async (uri: string) => {
       headers: {
         'Content-Type': 'application/json',
         //! token需更改
-        Authorization:
-          'b eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4NzMzMzgsInVpZCI6Mn0.vNrQrQKahbcMx3-XjCoxZbWQpGEDzM0JvOTlUF7c36w',
+        Authorization: AUTHORIZATION,
       },
     })
 

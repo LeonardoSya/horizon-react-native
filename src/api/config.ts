@@ -1,3 +1,3 @@
-const BASE_URL = 'http://127.0.0.1:8000'
-
-export default BASE_URL
+export const BASE_URL = 'http://127.0.0.1:8000'
+export const AUTHORIZATION =
+  'b eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkxNDI2MDEsInVpZCI6Mn0.rgFSM5UPzcymob3xWDxPQ999ZeVINXa01s7GUOOmRYE'
