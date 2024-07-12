@@ -1,11 +1,11 @@
-import { Image, ImageBackground, Pressable, StyleSheet, View } from 'react-native'
+import { Dimensions, Image, ImageBackground, Pressable, StyleSheet, View } from 'react-native'
 import { Text } from '@rneui/themed'
 import { Feather } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
 import * as Sharing from 'expo-sharing'
 import AnimatedPressable from '@/components/animated-pressable'
+import { useEffect, useState } from 'react'
 
-const background = require('../../../assets/images/home-bg.jpg')
 const img1 = require('../../../assets/images/東方白鸛.jpg')
 const img2 = require('../../../assets/images/白尾海雕.jpg')
 
@@ -27,6 +27,25 @@ const dailyPostItems = [
 ]
 
 const Home = ({ navigation }) => {
+  const [bg, setBg] = useState(require('../../../assets/images/home-bg.jpg'))
+
+  useEffect(() => {
+    const determineDeviceType = () => {
+      const { width, height } = Dimensions.get('window')
+      const aspectRatio = height / width
+
+      aspectRatio < 1.6
+        ? setBg(require('../../../assets/images/home-bg-tablet.jpg'))
+        : setBg(require('../../../assets/images/home-bg.jpg'))
+    }
+
+    determineDeviceType()
+
+    const subscription = Dimensions.addEventListener('change', determineDeviceType)
+
+    return () => subscription?.remove()
+  }, [])
+
   const handleSharing = async () => {
     try {
       if (!(await Sharing.isAvailableAsync())) {
@@ -42,7 +61,7 @@ const Home = ({ navigation }) => {
   }
 
   return (
-    <ImageBackground source={background} style={styles.background}>
+    <ImageBackground source={bg} style={styles.background}>
       <View style={styles.container}>
         {/* header */}
         <Text
