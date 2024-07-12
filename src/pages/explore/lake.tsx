@@ -6,7 +6,7 @@ const Lake = () => {
   const video = useRef(null)
 
   return (
-    <View style={{ justifyContent: 'center', alignItem: 'center' }}>
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <Video
         ref={video}
         style={{ width: 300, height: 500 }}
