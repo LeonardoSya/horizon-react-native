@@ -103,7 +103,7 @@ const Home = ({ navigation }) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginTop: RFValue(180), //
+              marginTop: RFValue(260),
             }}
           >
             {[

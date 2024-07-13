@@ -8,6 +8,7 @@ import { MaterialIcons, FontAwesome5, Entypo, Fontisto } from '@expo/vector-icon
 import AnimatedWrapper from '@/components/animated-wrapper'
 import { MySearchBar as SearchBar } from '@/components/search-bar'
 import { uploadImage as uploadToServer } from '@/api/upload-image-service'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 const IdentifyHome = ({ navigation }) => {
   const [status, requestPermission] = MediaLibrary.usePermissions()
@@ -32,17 +33,26 @@ const IdentifyHome = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text h3 style={{ flex: 0, left: 20, top: 30, color: '#f5f5f5', fontWeight: '500' }}>
+      <Text
+        h2
+        style={{
+          flex: 0,
+          left: RFValue(20),
+          top: RFValue(30),
+          color: '#f5f5f5',
+          fontWeight: '500',
+        }}
+      >
         多模态增强
       </Text>
       <Text
-        h3
+        h2
         style={{
           flex: 0,
-          left: 20,
-          marginTop: 37,
+          left: RFValue(20),
+          marginTop: RFValue(37),
           fontWeight: '600',
-          marginBottom: 10,
+          marginBottom: RFValue(10),
           color: '#62a09a',
         }}
       >
@@ -52,21 +62,21 @@ const IdentifyHome = ({ navigation }) => {
       <View style={styles.cards}>
         <HomeCard
           onPress={() => navigation.navigate('内置相机')}
-          icon={<FontAwesome5 name='camera-retro' size={30} color='#008077' />}
+          icon={<FontAwesome5 name='camera-retro' size={RFValue(30)} color='#008077' />}
           title='拍摄'
-          text='利用水天翼色内置相机进行拍摄与识别'
+          text='内置相机拍摄与识别'
         />
         <HomeCard
           onPress={uploadImage}
-          icon={<Fontisto name='photograph' size={30} color='#008077' />}
+          icon={<Fontisto name='photograph' size={RFValue(30)} color='#008077' />}
           title='上传影像'
-          text='多模态技术同时支持图片或视频的识别'
+          text='多模态支持图片视频'
         />
         <HomeCard
           onPress={() => {}}
-          icon={<MaterialIcons name='audio-file' size={32} color='#008077' />}
+          icon={<MaterialIcons name='audio-file' size={RFValue(32)} color='#008077' />}
           title='上传音频'
-          text='自由录制鸟鸣声精准识别分析'
+          text='录制鸟鸣声精准分析'
         />
         <HomeCard
           // !! 仅供测试
@@ -76,9 +86,9 @@ const IdentifyHome = ({ navigation }) => {
               mediaID: 24,
             })
           }
-          icon={<Entypo name='github' size={32} color='#008077' />}
+          icon={<Entypo name='github' size={RFValue(32)} color='#008077' />}
           title='敬请期待'
-          text='更快更准的模型正在研发中...'
+          text='更好的模型正在研发'
         />
       </View>
       <StatusBar style='auto' />
@@ -108,7 +118,7 @@ const HomeCard = ({ icon, title, text, onPress }) => {
       containerStyle={cardStyles.container}
       itemsStyle={cardStyles.items}
     >
-      <View style={cardStyles.icon}>{icon}</View>
+      <View>{icon}</View>
       <Text h4 style={cardStyles.title}>
         {title}
       </Text>
@@ -120,38 +130,39 @@ const HomeCard = ({ icon, title, text, onPress }) => {
 const cardStyles = StyleSheet.create({
   container: {
     width: '40%',
-    marginVertical: 18,
-    marginHorizontal: 10,
+    marginVertical: RFValue(22),
+    marginHorizontal: RFValue(10),
     justifyContent: 'space-evenly',
     alignItems: 'center',
     backgroundColor: '#1f3037',
   },
   items: {
-    height: 200,
+    height: RFValue(180),
     borderWidth: 3,
-    borderRadius: 18,
+    borderRadius: RFValue(18),
     borderColor: '#008077',
     shadowColor: '#fff',
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: RFValue(5),
     },
     shadowOpacity: 0.6,
-    shadowRadius: 5,
+    shadowRadius: RFValue(5),
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    paddingHorizontal: 12,
+    paddingHorizontal: RFValue(20),
   },
-  icon: {},
   title: {
-    marginVertical: 10,
-    fontWeight: '500',
+    marginVertical: RFValue(10),
+    fontSize: RFValue(18),
+    fontWeight: '600',
   },
   text: {
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
     fontWeight: '600',
+    fontSize: RFValue(12),
   },
 })
 
