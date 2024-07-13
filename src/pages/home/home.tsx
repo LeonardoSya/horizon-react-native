@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import * as Sharing from 'expo-sharing'
 import AnimatedPressable from '@/components/animated-pressable'
 import { useEffect, useState } from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 const img1 = require('../../../assets/images/東方白鸛.jpg')
 const img2 = require('../../../assets/images/白尾海雕.jpg')
@@ -68,7 +69,7 @@ const Home = ({ navigation }) => {
           style={{
             color: '#1a3635',
             fontWeight: 500,
-            fontSize: 20,
+            fontSize: RFValue(20),
             letterSpacing: 2,
             marginTop: 60,
           }}
@@ -76,15 +77,23 @@ const Home = ({ navigation }) => {
           你好,
         </Text>
         <View style={styles.titleContainer}>
-          <Text h1 style={{ color: '#FFFFFFD9', fontWeight: 600, letterSpacing: 3 }}>
+          <Text
+            h1
+            style={{
+              fontSize: RFValue(36),
+              color: '#FFFFFFD9',
+              fontWeight: 600,
+              letterSpacing: RFValue(2),
+            }}
+          >
             巡护员
           </Text>
-          <View style={{ flexDirection: 'row', width: '22%', justifyContent: 'space-between' }}>
-            <AnimatedPressable onPress={handleSharing} size={0.8}>
-              <Feather name='share-2' size={26} color='#000000E0' />
+          <View style={{ flexDirection: 'row', width: '25%', justifyContent: 'flex-end' }}>
+            <AnimatedPressable onPress={handleSharing} size={0.8} style={{ marginRight: 35 }}>
+              <Feather name='share-2' size={RFValue(20)} color='#000000E0' />
             </AnimatedPressable>
             <AnimatedPressable onPress={() => navigation.navigate('我的')} size={0.8}>
-              <Feather name='menu' size={26} color='#000000E0' />
+              <Feather name='menu' size={RFValue(20)} color='#000000E0' />
             </AnimatedPressable>
           </View>
         </View>
@@ -94,7 +103,7 @@ const Home = ({ navigation }) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginTop: 460,
+              marginTop: RFValue(180), //
             }}
           >
             {[
@@ -107,9 +116,9 @@ const Home = ({ navigation }) => {
                 size={0.9}
                 key={index}
                 onPress={() => navigation.navigate(button.link)}
-                style={{ padding: 15, borderRadius: 50, backgroundColor: '#315c59b9' }}
+                style={{ padding: RFValue(13), borderRadius: '50%', backgroundColor: '#315c59b9' }}
               >
-                <Feather name={button.icon as any} size={28} color='#FFFFFFD9' />
+                <Feather name={button.icon as any} size={RFValue(25)} color='#FFFFFFD9' />
               </AnimatedPressable>
             ))}
           </View>
@@ -118,19 +127,26 @@ const Home = ({ navigation }) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginHorizontal: 16,
               marginTop: 12,
               marginBottom: 8,
             }}
           >
             {['导览', '探索', '社区', '喜欢'].map(index => (
-              <Text key={index} style={{ color: '#ffffffd9' }}>
+              <Text
+                key={index}
+                style={{
+                  color: '#ffffffd9',
+                  fontSize: RFValue(12),
+                  width: RFValue(51),
+                  textAlign: 'center',
+                }}
+              >
                 {index}
               </Text>
             ))}
           </View>
           {/* 视界日帖 */}
-          <View style={{ marginVertical: 10 }}>
+          <View style={{ marginVertical: RFValue(10) }}>
             {dailyPostItems.map(item => (
               <AnimatedPressable
                 key={item.id}
@@ -174,12 +190,14 @@ const Home = ({ navigation }) => {
                       borderColor: '#8c9c99b1',
                       borderRadius: 50,
                       backgroundColor: '#1f3037a1',
-                      paddingVertical: 10,
-                      paddingHorizontal: 12,
-                      marginRight: 8,
+                      paddingVertical: RFValue(8),
+                      paddingHorizontal: RFValue(12),
+                      marginRight: RFValue(8),
                     }}
                   >
-                    <Text style={{ color: '#ffffffd9', fontWeight: 600 }}>{text}</Text>
+                    <Text style={{ color: '#ffffffd9', fontWeight: 600, fontSize: RFValue(10) }}>
+                      {text}
+                    </Text>
                   </AnimatedPressable>
                 ),
               )}
@@ -208,12 +226,14 @@ const Home = ({ navigation }) => {
                       borderColor: '#8c9c99b1',
                       borderRadius: 50,
                       backgroundColor: '#1f3037a1',
-                      paddingVertical: 10,
-                      paddingHorizontal: 12,
-                      marginRight: 8,
+                      paddingVertical: RFValue(8),
+                      paddingHorizontal: RFValue(12),
+                      marginRight: RFValue(8),
                     }}
                   >
-                    <Text style={{ color: '#ffffffd9', fontWeight: 600 }}>{text}</Text>
+                    <Text style={{ color: '#ffffffd9', fontWeight: 600, fontSize: RFValue(10) }}>
+                      {text}
+                    </Text>
                   </AnimatedPressable>
                 ),
               )}
@@ -242,44 +262,42 @@ const styles = StyleSheet.create({
   animatedPressable: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     backgroundColor: '#315c59b9',
-    borderRadius: 10,
-    padding: 10,
-    marginVertical: 6,
+    borderRadius: RFValue(8),
+    padding: RFValue(10),
+    marginVertical: RFValue(6),
   },
   image: {
-    width: 50,
-    height: 50,
-    borderRadius: 5,
+    width: RFValue(50),
+    height: RFValue(50),
+    borderRadius: RFValue(5),
   },
   textContainer: {
-    marginHorizontal: 10,
     justifyContent: 'center',
   },
   title: {
-    fontSize: 15,
-    fontWeight: '600',
+    fontSize: RFValue(14),
+    fontWeight: '500',
     color: '#ffffffd9',
   },
   description: {
-    fontSize: 10,
+    fontSize: RFValue(10),
     color: '#bfbfbf',
-    maxWidth: 200,
-    marginVertical: 5,
+    width: RFValue(150),
+    marginVertical: RFValue(5),
   },
   innerPressable: {
-    borderRadius: 30,
-    paddingHorizontal: 10,
+    borderRadius: RFValue(15),
+    paddingHorizontal: RFValue(10),
     backgroundColor: '#ffffffd9',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 25,
-    marginLeft: 10,
+    height: RFValue(30),
   },
   innerPressableText: {
     color: '#315c59',
-    fontSize: 12,
+    fontSize: RFValue(12),
     fontWeight: '600',
   },
 })
