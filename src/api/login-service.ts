@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
 import { useEffect } from 'react'
 import { Platform } from 'react-native'
-import BASE_URL from './config'
+import { BASE_URL } from './config'
 
 const isWeb = Platform.OS === 'web'
 

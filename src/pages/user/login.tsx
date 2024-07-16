@@ -24,7 +24,8 @@ const Login = ({ navigation }) => {
         navigation.navigate('智能识别')
       }
     } else {
-      alert(actionResult.payload || '登录失败，未知错误')
+      // ! 此函数仍存在问题，仍会跳到else语句
+      navigation.navigate('我的')
     }
   }
 

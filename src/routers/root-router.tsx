@@ -41,7 +41,7 @@ const UserStackScreen = () => {
   const initialRoute = IsAuthenticated ? '用户登录' : '我的'
 
   return (
-    <UserStack.Navigator initialRouteName={'我的'}>
+    <UserStack.Navigator initialRouteName={initialRoute}>
       <UserStack.Screen name='我的' component={User} options={{ headerShown: false }} />
       <UserStack.Screen
         name='用户注册'
