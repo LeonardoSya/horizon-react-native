@@ -48,7 +48,7 @@ export const useAuthInterceptor = () => {
             return api
               .post('/refresh-token', { refreshToken })
               .then(async res => {
-                if (res.status === 200) {
+                if (res.status === 200 || res.status === 201) {
                   const { access, refresh } = res.data.data
                   if (isWeb) {
                     localStorage.setItem('accessToken', access)
@@ -99,16 +99,10 @@ export const loginUser = async (
         refreshTokenStored = false
       try {
         if (isWeb) {
-          try {
-            localStorage.setItem('accessToken', response.data.data.access)
-            localStorage.setItem('refreshToken', response.data.data.refresh)
-            accessTokenStored = true
-            refreshTokenStored = true
-          } catch (error) {
-            console.log('Web storage error: ', error)
-            accessTokenStored = false
-            refreshTokenStored = false
-          }
+          localStorage.setItem('accessToken', response.data.data.access)
+          localStorage.setItem('refreshToken', response.data.data.refresh)
+          accessTokenStored = true
+          refreshTokenStored = true
         } else {
           await AsyncStorage.setItem('accessToken', response.data.data.access)
           accessTokenStored = true
@@ -122,12 +116,7 @@ export const loginUser = async (
       return {
         code: response.data.code,
         msg: response.data.msg,
-        data: response.data.data
-          ? {
-              access: response.data.data.access,
-              refresh: response.data.data.refresh,
-            }
-          : null,
+        data: response.data.data,
         isAuthenticated: accessTokenStored && refreshTokenStored,
       }
     }

@@ -38,7 +38,7 @@ const HomeStackScreen = () => {
 
 const UserStackScreen = () => {
   const IsAuthenticated = useAppSelector(selectAuth)
-  const initialRoute = IsAuthenticated ? '用户登录' : '我的'
+  const initialRoute = !IsAuthenticated ? '我的' : '用户登录'
 
   return (
     <UserStack.Navigator initialRouteName={initialRoute}>
@@ -72,6 +72,7 @@ const RootRouter = () => {
         Community: 'community',
         Register: 'register',
         Login: 'login',
+        User: 'user',
       },
     },
   }
@@ -109,7 +110,7 @@ const RootRouter = () => {
           }}
         />
         <Tab.Screen
-          name='my'
+          name='我的'
           component={UserStackScreen}
           options={{
             tabBarIcon: ({ color }) => <Feather name='user' size={24} color={color} />,

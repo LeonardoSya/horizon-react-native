@@ -150,7 +150,6 @@ const User = ({ navigation }) => {
           styles.whiteCard,
           {
             marginHorizontal: RFValue(3),
-            borderRadius: RFValue(18),
             paddingTop: RFValue(10),
             paddingBottom: RFValue(5),
           },
@@ -212,7 +211,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#141a1c',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: RFValue(15),
+    borderRadius: 15,
     padding: '5%',
     marginVertical: RFValue(5),
   },
@@ -227,8 +226,8 @@ const styles = StyleSheet.create({
   },
   whiteCard: {
     backgroundColor: '#f5f5f5',
-    justifyContent: 'space-between',
-    borderRadius: RFValue(15),
+    justifyContent: 'space-evenly',
+    borderRadius: 15,
     paddingHorizontal: RFValue(13),
     paddingVertical: RFValue(15),
     marginVertical: RFValue(10),

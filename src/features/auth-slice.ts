@@ -25,7 +25,7 @@ export const loginFeature = createAsyncThunk(
   async ({ username, password }: { username: string; password: string }, thunkAPI) => {
     try {
       const res = await loginApi(username, password)
-      if (res.code === 200) {
+      if (res.code === 200 || res.code === 201) {
         return res.data
       } else {
         return thunkAPI.rejectWithValue('用户名或密码错误')
@@ -55,14 +55,14 @@ const authSlice = createSlice({
     builder.addCase(
       loginFeature.fulfilled,
       (state, action: PayloadAction<{ access: string; refresh: string } | null>) => {
-        if (action.payload) {
-          state.isLoggedIn = true
-          state.accessToken = action.payload.access
-          state.refreshToken = action.payload.refresh
-          state.isLoading = false
-          state.error = null
-          state.isAuthenticated = true
-        }
+        state.isLoggedIn = true
+        // @ts-ignore
+        state.accessToken = action.payload.access
+        // @ts-ignore
+        state.refreshToken = action.payload.refresh
+        state.isLoading = false
+        state.error = null
+        state.isAuthenticated = true
       },
     )
     builder.addCase(loginFeature.rejected, (state, action: PayloadAction<any>) => {

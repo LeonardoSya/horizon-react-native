@@ -14,11 +14,8 @@ export const registerUser = async (userData: RegisterUserData): Promise<{ status
     method: 'post',
     url: `${BASE_URL}/user/register`,
     headers: {
-      'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
       'Content-Type': 'application/json',
       Accept: '*/*',
-      Host: BASE_URL,
-      Connection: 'keep-alive',
     },
     data: data,
   }

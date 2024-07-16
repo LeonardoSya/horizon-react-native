@@ -27,11 +27,14 @@ const Register = ({ navigation }) => {
     dispatch(registerStart())
     try {
       const res = await registerUser(values)
-      res.status === 200
+      res.status === 201
         ? dispatch(registerSuccess(values))
         : dispatch(registerFail(error as string))
+      alert('注册成功')
+      navigation.navigate('用户登录')
     } catch (error) {
       dispatch(registerFail(error as string))
+      alert('注册失败')
     } finally {
       dispatch(registerFail(error as string))
     }

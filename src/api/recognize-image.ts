@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { BASE_URL, AUTHORIZATION } from './config'
+import { BASE_URL } from './config'
+import { getAccessToken } from '@/hooks/getAccessToken'
 
 export const recognizeImage = async (mediaID: number) => {
   const data = {
@@ -9,11 +10,11 @@ export const recognizeImage = async (mediaID: number) => {
   try {
     const res = await axios.post(`${BASE_URL}/image/recognize`, data, {
       headers: {
-        Authorization: AUTHORIZATION,
+        Authorization: getAccessToken(),
       },
     })
 
-    if (res.status === 200) {
+    if (res.status === 200 || res.status === 201) {
       console.log(res.data.msg)
       return {
         name: res.data.data[0][0],

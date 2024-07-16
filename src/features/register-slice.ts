@@ -33,7 +33,6 @@ const registerSlice = createSlice({
     registerFail: (state, action: PayloadAction<string>) => {
       state.isLoading = false
       state.error = action.payload
-      alert('注册失败')
     },
   },
 })

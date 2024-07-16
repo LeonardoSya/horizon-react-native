@@ -27,7 +27,12 @@ const IdentifyHome = ({ navigation }) => {
       const uri = result.assets[0].uri
       const res = await uploadToServer(uri)
       const mediaID = res.mediaID
-      res.success ? navigation.push('物种智能识别', { image: uri, mediaID }) : alert(res.msg)
+      if (res.success) {
+        navigation.push('物种智能识别', { image: uri, mediaID })
+      } else {
+        navigation.navigate('用户登录')
+        alert('识别失败，请先登录')
+      }
     }
   }
 

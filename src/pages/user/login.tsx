@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { View, TextInput, ActivityIndicator, Platform, Pressable, StyleSheet } from 'react-native'
+import { View, TextInput, ActivityIndicator, Pressable, StyleSheet } from 'react-native'
 import { Text } from '@rneui/themed'
-import { Link } from '@react-navigation/native'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hooks'
 import { loginFeature, selectAuth } from '@/features/auth-slice'
 import { useAuthInterceptor } from '@/api/login-service'
@@ -10,22 +9,20 @@ const Login = ({ navigation }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useAppDispatch()
-  const { isLoading, isAuthenticated } = useAppSelector(selectAuth)
+  const { isLoading } = useAppSelector(selectAuth)
   useAuthInterceptor()
-
-  const isWeb = Platform.OS === 'web'
 
   const handleLogin = async () => {
     const actionResult = await dispatch(loginFeature({ username, password }))
-    if (loginFeature.fulfilled.match(actionResult) && isAuthenticated) {
-      if (isWeb) {
-        window.location.href = '/identify'
+    if (loginFeature.fulfilled.match(actionResult)) {
+      if (actionResult.payload) {
+        console.log('Access Token:', actionResult.payload.access) // 登录成功后获取 accessToken
+        navigation.navigate('我的')
       } else {
-        navigation.navigate('智能识别')
+        alert('登录失败')
       }
     } else {
-      // ! 此函数仍存在问题，仍会跳到else语句
-      navigation.navigate('我的')
+      alert('登录失败，请稍后重试')
     }
   }
 
@@ -55,11 +52,7 @@ const Login = ({ navigation }) => {
       <View style={styles.toRegisterContainer}>
         <Text style={styles.toRegisterText}>没有账号?</Text>
 
-        <Pressable
-          onPress={() =>
-            isWeb ? (window.location.href = '/user/register') : navigation.navigate('用户注册')
-          }
-        >
+        <Pressable onPress={() => navigation.navigate('用户注册')}>
           <Text style={styles.toRegisterButton}>去注册</Text>
         </Pressable>
       </View>

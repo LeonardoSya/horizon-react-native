@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { BASE_URL, AUTHORIZATION } from './config'
+import { BASE_URL } from './config'
+import { getAccessToken } from '@/hooks/getAccessToken'
 
 export const uploadImage = async (uri: string) => {
   try {
@@ -10,12 +11,11 @@ export const uploadImage = async (uri: string) => {
     const res = await axios.post(`${BASE_URL}/image`, data, {
       headers: {
         'Content-Type': 'application/json',
-        //! token需更改
-        Authorization: AUTHORIZATION,
+        Authorization: getAccessToken(),
       },
     })
 
-    if (res.status === 200) {
+    if (res.status === 200 || res.status === 201) {
       console.log(`Upload successful, mediaID:${res.data.data.mediaID} `, res.data)
       return { success: true, mediaID: res.data.data.mediaID }
     } else {

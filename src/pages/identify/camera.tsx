@@ -8,6 +8,7 @@ import { captureRef } from 'react-native-view-shot'
 import AnimatedWrapper from '@/components/animated-wrapper'
 import { uploadImage as uploadToServer } from '@/api/upload-image-service'
 import openSettings from '@/utils/open-settings'
+import { getAccessToken } from '@/hooks/getAccessToken'
 
 export const CameraPage = ({ navigation }) => {
   const cameraRef = useRef<CameraViewRef>(null)
@@ -44,9 +45,13 @@ export const CameraPage = ({ navigation }) => {
       try {
         const res = await uploadToServer(capturedImage)
         const mediaID = res.mediaID
-        res.success
-          ? navigation.push('物种智能识别', { image: capturedImage, mediaID })
-          : alert(res.msg)
+        console.log('Access Token:', getAccessToken())
+        if (res.success) {
+          navigation.push('物种智能识别', { image: capturedImage, mediaID })
+        } else {
+          navigation.navigate('用户登录')
+          alert('识别失败，请先登录')
+        }
       } catch (error) {
         console.error('Failed to upload image', error)
       }
