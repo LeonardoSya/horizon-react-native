@@ -48,7 +48,7 @@ const IdentifyHome = ({ navigation }) => {
           fontWeight: '500',
         }}
       >
-        多模态增强
+        多模态技术
       </Text>
       <Text
         h2
@@ -68,7 +68,7 @@ const IdentifyHome = ({ navigation }) => {
         <HomeCard
           onPress={() => navigation.navigate('内置相机')}
           icon={<FontAwesome5 name='camera-retro' size={RFValue(30)} color='#008077' />}
-          title='拍摄'
+          title='立即拍摄'
           text='内置相机拍摄与识别'
         />
         <HomeCard

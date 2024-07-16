@@ -28,7 +28,7 @@ const dailyPostItems = [
 ]
 
 const Home = ({ navigation }) => {
-  const [bg, setBg] = useState(require('../../../assets/images/home-bg.jpg'))
+  const [bg, setBg] = useState(require('../../../assets/home-bg.jpg'))
 
   useEffect(() => {
     const determineDeviceType = () => {
@@ -36,8 +36,8 @@ const Home = ({ navigation }) => {
       const aspectRatio = height / width
 
       aspectRatio < 1.6
-        ? setBg(require('../../../assets/images/home-bg-tablet.jpg'))
-        : setBg(require('../../../assets/images/home-bg.jpg'))
+        ? setBg(require('../../../assets/home-bg-tablet.jpg'))
+        : setBg(require('../../../assets/home-bg.jpg'))
     }
 
     determineDeviceType()

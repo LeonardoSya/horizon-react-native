@@ -46,7 +46,7 @@ const User = ({ navigation }) => {
           </Text>
         </View>
         <Image
-          source={require('../../../assets/images/avatar.png')}
+          source={require('../../../assets/avatar.png')}
           style={{ width: RFValue(80), height: RFValue(80), borderRadius: 500 }}
         />
       </View>

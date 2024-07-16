@@ -15,7 +15,7 @@ import convertTimestamp from '@/utils/convert-timestamp'
 import { AntDesign, Feather } from '@expo/vector-icons'
 import openSettings from '@/utils/open-settings'
 
-const background = require('../../../assets/images/identify-bg.png')
+const background = require('../../../assets/identify-bg.png')
 
 const images = [
   require('../../../assets/images/小天鹅.jpg'),
