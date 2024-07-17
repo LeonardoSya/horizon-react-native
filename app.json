@@ -52,6 +52,9 @@
       ]
     ],
     "ios": {
+      "infoPlist": {
+        "UIBackgroundModes": [ "audio" ]
+      },
       "supportsTablet": true,
       "config": {
         "usesNonExemptEncryption": false

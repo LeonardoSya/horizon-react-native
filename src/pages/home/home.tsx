@@ -152,7 +152,7 @@ const Home = ({ navigation }) => {
                 key={item.id}
                 size={0.95}
                 style={styles.animatedPressable}
-                onPress={() => navigation.navigate('发现图鉴')}
+                onPress={() => navigation.push('发现图鉴')}
               >
                 <Image source={item.imgSrc} style={styles.image} />
                 <View style={styles.textContainer}>

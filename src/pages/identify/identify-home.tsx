@@ -66,7 +66,7 @@ const IdentifyHome = ({ navigation }) => {
       <SearchBar placeholder={'Identifying with AI'} />
       <View style={styles.cards}>
         <HomeCard
-          onPress={() => navigation.navigate('内置相机')}
+          onPress={() => navigation.push('内置相机')}
           icon={<FontAwesome5 name='camera-retro' size={RFValue(30)} color='#008077' />}
           title='立即拍摄'
           text='内置相机拍摄与识别'
@@ -78,7 +78,7 @@ const IdentifyHome = ({ navigation }) => {
           text='多模态支持图片视频'
         />
         <HomeCard
-          onPress={() => {}}
+          onPress={() => navigation.push('音频识别')}
           icon={<MaterialIcons name='audio-file' size={RFValue(32)} color='#008077' />}
           title='上传音频'
           text='录制鸟鸣声精准分析'
