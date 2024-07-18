@@ -1,10 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
-import { View, StyleSheet, Pressable, Image } from 'react-native'
+import { View, StyleSheet, Dimensions } from 'react-native'
 import { Audio } from 'expo-av'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Text } from '@rneui/base'
-import { Entypo, FontAwesome } from '@expo/vector-icons'
-import AnimatedPressable from '@/components/animated-pressable'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -13,6 +11,11 @@ import Animated, {
   Easing,
   cancelAnimation,
 } from 'react-native-reanimated'
+import Svg, { Rect } from 'react-native-svg'
+import { Entypo, FontAwesome } from '@expo/vector-icons'
+import AnimatedPressable from '@/components/animated-pressable'
+
+const AnimatedRect = Animated.createAnimatedComponent(Rect)
 
 const AudioView = () => {
   const [recording, setRecording] = useState<Audio.Recording | undefined>()
@@ -24,6 +27,11 @@ const AudioView = () => {
   const [soundPosition, setSoundPosition] = useState<number>(0)
   const rotation = useSharedValue(0)
   const currentRotation = useSharedValue(0)
+  const animateIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const bars = Array.from({ length: RFValue(20) }, () =>
+    useSharedValue(Math.random() * 50 + RFValue(10)),
+  )
 
   const startRecording = async () => {
     try {
@@ -42,14 +50,34 @@ const AudioView = () => {
       )
       setRecording(recording)
 
-      const recordingInterval = setInterval(() => {
+      if (animateIntervalRef.current) {
+        clearInterval(animateIntervalRef.current)
+      }
+
+      recordingIntervalRef.current = setInterval(() => {
         setRecordingDuration(prev => prev + 1)
       }, 1000)
+
+      animateIntervalRef.current = setInterval(() => {
+        bars.forEach(bar => {
+          bar.value = withTiming(Math.random() * 50 + RFValue(10), {
+            duration: 300,
+            easing: Easing.linear,
+          })
+        })
+      }, 300)
+
       recording.setOnRecordingStatusUpdate(status => {
         if (!status.isRecording) {
-          clearInterval(recordingInterval)
+          // @ts-ignore
+
+          clearInterval(recordingIntervalRef.current)
+          // @ts-ignore
+
+          clearInterval(animateIntervalRef.current)
         }
       })
+
       startImageRotation()
       console.log('Recording started')
     } catch (error) {
@@ -68,6 +96,10 @@ const AudioView = () => {
       const uri = recording.getURI()
       setUri(uri || '')
       stopImageRotation()
+      // @ts-ignore
+      clearInterval(recordingIntervalRef.current)
+      // @ts-ignore
+      clearInterval(animateIntervalRef.current)
       console.log('Recording stopped and stored at ', uri)
     }
   }
@@ -77,6 +109,20 @@ const AudioView = () => {
       console.log('Loading sound..')
       const { sound } = await Audio.Sound.createAsync({ uri })
       setSound(sound)
+
+      if (animateIntervalRef.current) {
+        clearInterval(animateIntervalRef.current)
+      }
+
+      animateIntervalRef.current = setInterval(() => {
+        bars.forEach(bar => {
+          bar.value = withTiming(Math.random() * 50 + RFValue(10), {
+            duration: 500,
+            easing: Easing.linear,
+          })
+        })
+      }, 500)
+
       sound.setOnPlaybackStatusUpdate(status => {
         if (status.isLoaded) {
           updateStatus({
@@ -105,6 +151,9 @@ const AudioView = () => {
       setSound(null)
       setSoundPosition(0)
       stopImageRotation()
+      // @ts-ignore
+
+      clearInterval(animateIntervalRef.current)
     }
   }
 
@@ -113,6 +162,9 @@ const AudioView = () => {
       setSound(null)
       setSoundPosition(0)
       stopImageRotation()
+      // @ts-ignore
+
+      clearInterval(animateIntervalRef.current)
     } else {
       setSoundPosition(status.positionMillis || 0)
     }
@@ -124,6 +176,10 @@ const AudioView = () => {
           console.log('Unloading Sound..')
           sound.unloadAsync()
           recording?.stopAndUnloadAsync()
+          // @ts-ignore
+          clearInterval(animateIntervalRef.current)
+          // @ts-ignore
+          clearInterval(recordingIntervalRef.current)
         }
       : undefined
   }, [sound])
@@ -162,8 +218,8 @@ const AudioView = () => {
           {
             width: RFValue(300),
             height: RFValue(300),
-            shadowColor: 'rgb(124,145,146)',
-            shadowRadius: 16,
+            shadowColor: 'rgb(184,211,215)',
+            shadowRadius: 20,
             shadowOffset: { width: 0, height: 0 },
             shadowOpacity: 0.6,
           },
@@ -171,6 +227,23 @@ const AudioView = () => {
         ]}
         source={require('../../../assets/audio-player.png')}
       />
+
+      <Svg
+        width={RFValue(280)}
+        style={{ justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}
+      >
+        {bars.map((bar, i) => (
+          <AnimatedRect
+            key={i}
+            x={i * 15}
+            y={50 - bar.value / 2}
+            width={10}
+            height={bar.value}
+            fill='#ffffffd9'
+          />
+        ))}
+      </Svg>
+
       <View style={{ flexDirection: 'row', gap: RFValue(46) }}>
         <View style={{ justifyContent: 'center', alignItems: 'center', gap: RFValue(6) }}>
           <AnimatedPressable
@@ -230,7 +303,7 @@ const AudioView = () => {
             <Entypo size={RFValue(28)} name='controller-play' color={sound ? '#407f79' : '#fff'} />
           </AnimatedPressable>
           <Text style={{ fontSize: RFValue(10), color: '#ffffffd9' }}>
-            {sound ? formatTime(soundPosition - soundDuration) : '播放'}
+            {sound ? formatTime(soundDuration - soundPosition) : '播放'}
           </Text>
         </View>
       </View>

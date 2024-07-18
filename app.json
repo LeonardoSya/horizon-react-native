@@ -4,7 +4,7 @@
     "slug": "horizon",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/favicon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash-bg2.png",
@@ -32,7 +32,8 @@
           "recordAudioAndroid": true
         }
       ],
-      [ "expo-secure-store",
+      [
+        "expo-secure-store",
         {
           "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
         }
@@ -53,7 +54,9 @@
     ],
     "ios": {
       "infoPlist": {
-        "UIBackgroundModes": [ "audio" ]
+        "UIBackgroundModes": [
+          "audio"
+        ]
       },
       "supportsTablet": true,
       "config": {
@@ -63,14 +66,16 @@
         "NSPrivacyAccessedAPITypes": [
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
-            "NSPrivacyAccessedAPITypeReasons": [ "CA92.1" ]
+            "NSPrivacyAccessedAPITypeReasons": [
+              "CA92.1"
+            ]
           }
         ]
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/favicon.png",
         "backgroundColor": "#ffffff"
       }
     },
