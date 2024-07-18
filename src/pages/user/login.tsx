@@ -4,6 +4,7 @@ import { Text } from '@rneui/themed'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hooks'
 import { loginFeature, selectAuth } from '@/features/auth-slice'
 import { useAuthInterceptor } from '@/api/login-service'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState('')
@@ -65,11 +66,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 6,
+    padding: '6%',
     maxHeight: '100%',
   },
   title: {
-    fontSize: 24,
+    fontSize: RFValue(24),
     fontWeight: '600',
     color: '#fff',
     marginBottom: '15%',
@@ -77,30 +78,30 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: '80%',
-    height: 50,
-    borderBottomWidth: 1,
+    height: RFValue(50),
+    borderBottomWidth: RFValue(1),
     borderColor: 'rgb(124,145,146)',
-    margin: 10,
-    padding: 5,
-    borderRadius: 5,
+    margin: RFValue(10),
+    padding: RFValue(5),
+    borderRadius: RFValue(5),
     color: '#fff',
-    fontSize: 20,
+    fontSize: RFValue(20),
   },
   button: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 17,
-    margin: 20,
+    paddingVertical: RFValue(18),
+    margin: RFValue(20),
     width: '80%',
     backgroundColor: 'rgb(124,145,146)',
-    borderRadius: 8,
+    borderRadius: RFValue(8),
   },
   loginText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: RFValue(18),
     fontWeight: '600',
-    letterSpacing: 1,
+    letterSpacing: RFValue(1),
   },
   toRegisterContainer: {
     flexDirection: 'row',
@@ -109,12 +110,12 @@ const styles = StyleSheet.create({
   },
   toRegisterText: {
     color: 'rgb(124,145,146)',
-    fontSize: 18,
+    fontSize: RFValue(18),
   },
   toRegisterButton: {
     color: '#fff',
-    fontSize: 18,
-    marginLeft: 8,
+    fontSize: RFValue(18),
+    marginLeft: RFValue(8),
   },
 })
 
