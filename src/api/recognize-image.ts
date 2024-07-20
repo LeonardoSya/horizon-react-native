@@ -15,10 +15,12 @@ export const recognizeImage = async (mediaID: number) => {
     })
 
     if (res.status === 200 || res.status === 201) {
-      console.log(res.data.msg)
+      // console.log(res.data)
       return {
-        name: res.data.data[0][0],
-        prediction: res.data.data[0][1],
+        name: res.data.data[0].class_name,
+        name_cn: res.data.data[0].class_name_cn,
+        confidence: res.data.data[0].confidence,
+        details: res.data.data[0].details,
         time: res.data.time,
       }
     } else {

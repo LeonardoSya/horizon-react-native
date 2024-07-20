@@ -84,13 +84,7 @@ const IdentifyHome = ({ navigation }) => {
           text='录制鸟鸣声精准分析'
         />
         <HomeCard
-          // !! 仅供测试
-          onPress={() =>
-            navigation.push('物种智能识别', {
-              image: require('../../../assets/images/小天鹅.jpg'),
-              mediaID: 24,
-            })
-          }
+          onPress={() => {}}
           icon={<Entypo name='github' size={RFValue(32)} color='#008077' />}
           title='敬请期待'
           text='更好的模型正在研发'

@@ -3,6 +3,7 @@ import IdentifyHome from '@/pages/identify/identify-home'
 import IdentifyResult from '@/pages/identify/identify-result'
 import { CameraPage as Camera } from '@/pages/identify/camera'
 import AudioView from '@/pages/identify/audio-view'
+import AudioIdentifyResult from '@/pages/identify/audio-identify-result'
 
 const Stack = createNativeStackNavigator()
 
@@ -17,6 +18,11 @@ const IdentifyRouter = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen component={AudioView} name='音频识别' />
+      <Stack.Screen
+        name='音频智能识别'
+        component={AudioIdentifyResult}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   )
 }
