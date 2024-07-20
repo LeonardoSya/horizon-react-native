@@ -23,7 +23,7 @@ const Login = ({ navigation }) => {
         alert('登录失败')
       }
     } else {
-      alert('登录失败，请稍后重试')
+      alert('用户名或密码错误')
     }
   }
 

@@ -161,7 +161,10 @@ const Home = ({ navigation }) => {
                     {item.description}
                   </Text>
                 </View>
-                <Pressable style={styles.innerPressable}>
+                <Pressable
+                  style={styles.innerPressable}
+                  onPress={() => navigation.push('发现图鉴')}
+                >
                   <Text style={styles.innerPressableText}>查看</Text>
                 </Pressable>
               </AnimatedPressable>
