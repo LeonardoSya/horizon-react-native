@@ -7,7 +7,7 @@ import { StatusBar } from 'expo-status-bar'
 import { MaterialIcons, FontAwesome5, Entypo, Fontisto } from '@expo/vector-icons'
 import AnimatedWrapper from '@/components/animated-wrapper'
 import { MySearchBar as SearchBar } from '@/components/search-bar'
-import { uploadImage as uploadToServer } from '@/api/upload-image-service'
+import { uploadImage as uploadToServer } from '@/api/upload-image'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 const IdentifyHome = ({ navigation }) => {

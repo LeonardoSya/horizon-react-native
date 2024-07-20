@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
-import { View, StyleSheet, Dimensions } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { Audio } from 'expo-av'
+import * as DocumentPicker from 'expo-document-picker'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Text } from '@rneui/base'
 import Animated, {
@@ -14,93 +15,114 @@ import Animated, {
 import Svg, { Rect } from 'react-native-svg'
 import { Entypo, FontAwesome } from '@expo/vector-icons'
 import AnimatedPressable from '@/components/animated-pressable'
+import { uploadAudio as uploadAudioService } from '@/api/upload-audio'
+import { recognizeAudio } from '@/api/recognize-audio'
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect)
 
 const AudioView = () => {
-  const [recording, setRecording] = useState<Audio.Recording | undefined>()
-  const [permissionResponse, requestPermission] = Audio.usePermissions()
+  // const [recording, setRecording] = useState<Audio.Recording | undefined>()
+  // const [permissionResponse, requestPermission] = Audio.usePermissions()
   const [uri, setUri] = useState<string>('')
   const [sound, setSound] = useState<Audio.Sound | null>(null)
-  const [recordingDuration, setRecordingDuration] = useState<number>(0)
+  // const [recordingDuration, setRecordingDuration] = useState<number>(0)
   const [soundDuration, setSoundDuration] = useState<number>(0)
   const [soundPosition, setSoundPosition] = useState<number>(0)
   const rotation = useSharedValue(0)
   const currentRotation = useSharedValue(0)
   const animateIntervalRef = useRef<NodeJS.Timeout | null>(null)
-  const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  // const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const [uploadRes, setUploadRes] = useState(null)
   const bars = Array.from({ length: RFValue(20) }, () =>
     useSharedValue(Math.random() * 50 + RFValue(10)),
   )
 
-  const startRecording = async () => {
+  // const startRecording = async () => {
+  //   try {
+  //     if (permissionResponse?.status !== 'granted') {
+  //       console.log('Requesting permission..')
+  //       await requestPermission()
+  //     }
+  //     await Audio.setAudioModeAsync({
+  //       allowsRecordingIOS: true,
+  //       playsInSilentModeIOS: true,
+  //     })
+
+  //     console.log('Starting recording..')
+  //     const { recording } = await Audio.Recording.createAsync(
+  //       Audio.RecordingOptionsPresets.HIGH_QUALITY,
+  //     )
+  //     setRecording(recording)
+
+  //     if (animateIntervalRef.current) {
+  //       clearInterval(animateIntervalRef.current)
+  //     }
+
+  //     recordingIntervalRef.current = setInterval(() => {
+  //       setRecordingDuration(prev => prev + 1)
+  //     }, 1000)
+
+  //     animateIntervalRef.current = setInterval(() => {
+  //       bars.forEach(bar => {
+  //         bar.value = withTiming(Math.random() * 50 + RFValue(10), {
+  //           duration: 300,
+  //           easing: Easing.linear,
+  //         })
+  //       })
+  //     }, 300)
+
+  //     recording.setOnRecordingStatusUpdate(status => {
+  //       if (!status.isRecording) {
+  //         // @ts-ignore
+
+  //         clearInterval(recordingIntervalRef.current)
+  //         // @ts-ignore
+
+  //         clearInterval(animateIntervalRef.current)
+  //       }
+  //     })
+
+  //     startImageRotation()
+  //     console.log('Recording started')
+  //   } catch (error) {
+  //     console.error('Failed to start recording', error)
+  //     alert('音频录制失败，请检查应用权限')
+  //   }
+  // }
+
+  // const stopRecording = async () => {
+  //   if (recording) {
+  //     console.log('Stopping recording..')
+  //     setRecording(undefined)
+  //     setRecordingDuration(0)
+  //     await recording.stopAndUnloadAsync()
+  //     await Audio.setAudioModeAsync({ allowsRecordingIOS: false })
+  //     const uri = recording.getURI()
+  //     setUri(uri || '')
+  //     stopImageRotation()
+  //     // @ts-ignore
+  //     clearInterval(recordingIntervalRef.current)
+  //     // @ts-ignore
+  //     clearInterval(animateIntervalRef.current)
+  //     console.log('Recording stopped and stored at ', uri)
+  //   }
+  // }
+
+  const pickAudio = async () => {
     try {
-      if (permissionResponse?.status !== 'granted') {
-        console.log('Requesting permission..')
-        await requestPermission()
-      }
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
+      const result = await DocumentPicker.getDocumentAsync({
+        type: 'audio/*',
+        copyToCacheDirectory: true,
       })
-
-      console.log('Starting recording..')
-      const { recording } = await Audio.Recording.createAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY,
-      )
-      setRecording(recording)
-
-      if (animateIntervalRef.current) {
-        clearInterval(animateIntervalRef.current)
+      if (result.assets && result.assets.length > 0) {
+        setUri(result.assets[0].uri)
+        console.log('Audio file picked:', result.assets[0].uri)
+      } else {
+        console.log('Audio file picking canceled or failed')
       }
-
-      recordingIntervalRef.current = setInterval(() => {
-        setRecordingDuration(prev => prev + 1)
-      }, 1000)
-
-      animateIntervalRef.current = setInterval(() => {
-        bars.forEach(bar => {
-          bar.value = withTiming(Math.random() * 50 + RFValue(10), {
-            duration: 300,
-            easing: Easing.linear,
-          })
-        })
-      }, 300)
-
-      recording.setOnRecordingStatusUpdate(status => {
-        if (!status.isRecording) {
-          // @ts-ignore
-
-          clearInterval(recordingIntervalRef.current)
-          // @ts-ignore
-
-          clearInterval(animateIntervalRef.current)
-        }
-      })
-
-      startImageRotation()
-      console.log('Recording started')
     } catch (error) {
-      console.error('Failed to start recording', error)
-      alert('音频录制失败，请检查应用权限')
-    }
-  }
-
-  const stopRecording = async () => {
-    if (recording) {
-      console.log('Stopping recording..')
-      setRecording(undefined)
-      setRecordingDuration(0)
-      await recording.stopAndUnloadAsync()
-      await Audio.setAudioModeAsync({ allowsRecordingIOS: false })
-      const uri = recording.getURI()
-      setUri(uri || '')
-      stopImageRotation()
-      // @ts-ignore
-      clearInterval(recordingIntervalRef.current)
-      // @ts-ignore
-      clearInterval(animateIntervalRef.current)
-      console.log('Recording stopped and stored at ', uri)
+      console.error('Failed to pick audio, ', error)
+      alert('音频上传失败，请检查系统权限')
     }
   }
 
@@ -175,11 +197,11 @@ const AudioView = () => {
       ? () => {
           console.log('Unloading Sound..')
           sound.unloadAsync()
-          recording?.stopAndUnloadAsync()
+          // recording?.stopAndUnloadAsync()
           // @ts-ignore
           clearInterval(animateIntervalRef.current)
           // @ts-ignore
-          clearInterval(recordingIntervalRef.current)
+          // clearInterval(recordingIntervalRef.current)
         }
       : undefined
   }, [sound])
@@ -210,6 +232,26 @@ const AudioView = () => {
       transform: [{ rotate: `${rotation.value}deg` }],
     }
   })
+
+  const uploadAudio = async () => {
+    if (uri) {
+      console.log('Uploading audio file:', uri)
+
+      try {
+        const data = await uploadAudioService(uri)
+        console.log('Upload audio path:', data.mediaPath)
+        console.log('Upload audio id:', data.mediaID)
+
+        const res = await recognizeAudio(data)
+        console.log('Recognize audio result:', res)
+      } catch (error) {
+        alert('上传音频失败，请先登录')
+        console.error('Error uploading audio:', error)
+      }
+    } else {
+      alert('请先录制音频')
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -247,31 +289,35 @@ const AudioView = () => {
       <View style={{ flexDirection: 'row', gap: RFValue(46) }}>
         <View style={{ justifyContent: 'center', alignItems: 'center', gap: RFValue(6) }}>
           <AnimatedPressable
-            onPress={recording ? stopRecording : startRecording}
+            // onPress={uri ? stopRecording : startRecording}
+            onPress={pickAudio}
             size={0.9}
             style={[
               styles.button,
               {
                 width: RFValue(40),
                 height: RFValue(40),
-                backgroundColor: recording ? '#fff' : 'rgba(0,0,0,0)',
+                // backgroundColor: recording ? '##fff' : 'rgba(0,0,0,0)',
+                backgroundColor: uri ? '#fff' : 'rgba(0,0,0,0)',
               },
             ]}
           >
             <FontAwesome
               size={RFValue(22)}
               name='microphone'
-              color={recording ? '#407f79' : '#fff'}
+              // color={recording ? '#407f79' : '#fff'}
+              color={uri ? '#407f79' : '#fff'}
             />
           </AnimatedPressable>
           <Text style={{ fontSize: RFValue(10), color: '#ffffffd9' }}>
-            {recording ? formatTime(recordingDuration * 1000) : '录音'}
+            {/* {recording ? formatTime(recordingDuration * 1000) : '录音'} */}
+            {uri ? '已选择音频' : ' '}
           </Text>
         </View>
 
         <View style={{ justifyContent: 'center', alignItems: 'center', gap: RFValue(6) }}>
           <AnimatedPressable
-            onPress={() => {}}
+            onPress={uploadAudio}
             size={0.9}
             style={[
               styles.button,

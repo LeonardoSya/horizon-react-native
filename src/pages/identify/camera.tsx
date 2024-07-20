@@ -6,7 +6,7 @@ import { Camera, CameraView, useCameraPermissions, CameraViewRef } from 'expo-ca
 import { Entypo, AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons'
 import { captureRef } from 'react-native-view-shot'
 import AnimatedWrapper from '@/components/animated-wrapper'
-import { uploadImage as uploadToServer } from '@/api/upload-image-service'
+import { uploadImage as uploadToServer } from '@/api/upload-image'
 import openSettings from '@/utils/open-settings'
 import { getAccessToken } from '@/hooks/getAccessToken'
 
