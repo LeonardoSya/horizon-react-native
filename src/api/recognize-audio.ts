@@ -2,17 +2,15 @@ import axios from 'axios'
 import { BASE_URL } from './config'
 import { getAccessToken } from '@/hooks/getAccessToken'
 
-export const recognizeAudio = async (data: { mediaID: number; mediaPath: string }) => {
-  const formData = new FormData()
-
-  formData.append('file', {
-    mediaID: data.mediaID,
-    mediaPath: data.mediaPath,
-    prediction: null,
-  } as any)
-
+export const recognizeAudio = async (form: { mediaID: number; mediaPath: string }) => {
   try {
-    const res = await axios.post(`${BASE_URL}/audio/recognize`, formData, {
+    const data = {
+      mediaID: form.mediaID,
+      mediaPath: form.mediaPath,
+      prediction: null,
+    }
+
+    const res = await axios.post(`${BASE_URL}/audio/recognize`, data, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: getAccessToken(),

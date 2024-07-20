@@ -11,7 +11,7 @@ export const uploadAudio = async (uri: string) => {
 
     const res = await axios.post(`${BASE_URL}/audio`, data, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
         Authorization: getAccessToken(),
       },
     })

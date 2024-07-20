@@ -20,7 +20,7 @@ import { recognizeAudio } from '@/api/recognize-audio'
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect)
 
-const AudioView = () => {
+const AudioView = ({ navigation }) => {
   // const [recording, setRecording] = useState<Audio.Recording | undefined>()
   // const [permissionResponse, requestPermission] = Audio.usePermissions()
   const [uri, setUri] = useState<string>('')
@@ -236,16 +236,11 @@ const AudioView = () => {
   const uploadAudio = async () => {
     if (uri) {
       console.log('Uploading audio file:', uri)
-
       try {
         const data = await uploadAudioService(uri)
-        console.log('Upload audio path:', data.mediaPath)
-        console.log('Upload audio id:', data.mediaID)
-
-        const res = await recognizeAudio(data)
-        console.log('Recognize audio result:', res)
+        navigation.push('音频智能识别', { data: data })
       } catch (error) {
-        alert('上传音频失败，请先登录')
+        alert('音频识别失败，请先登录')
         console.error('Error uploading audio:', error)
       }
     } else {
@@ -311,7 +306,7 @@ const AudioView = () => {
           </AnimatedPressable>
           <Text style={{ fontSize: RFValue(10), color: '#ffffffd9' }}>
             {/* {recording ? formatTime(recordingDuration * 1000) : '录音'} */}
-            {uri ? '已选择音频' : ' '}
+            {uri ? '已选择音频' : '选择音频'}
           </Text>
         </View>
 
@@ -349,7 +344,7 @@ const AudioView = () => {
             <Entypo size={RFValue(28)} name='controller-play' color={sound ? '#407f79' : '#fff'} />
           </AnimatedPressable>
           <Text style={{ fontSize: RFValue(10), color: '#ffffffd9' }}>
-            {sound ? formatTime(soundDuration - soundPosition) : '播放'}
+            {sound ? formatTime(soundPosition - soundDuration) : '播放'}
           </Text>
         </View>
       </View>
